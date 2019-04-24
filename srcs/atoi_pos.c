@@ -6,15 +6,11 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:38:01 by apion             #+#    #+#             */
-/*   Updated: 2019/04/24 16:40:37 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/24 17:38:38 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-#ifndef INT_MIN
-# define INT_MIN 0xffffffff
-#endif
 
 static int	jump_spaces(char **str)
 {
@@ -28,25 +24,23 @@ static int	jump_spaces(char **str)
 
 int			atoi_pos(char **str, int *n)
 {
-	int		sign;
-
 	*n = 0;
-	sign = 1;
 	jump_spaces(str);
 	if (!**str)
-		return (0);
-	if (**str == '+' || **str == '-')
-		sign = *((*str)++) == '-' ? -1 : 1;
+		return (ERR_ATOI_EMPTY);
+	if (**str == '-')
+		return (ERR_ATOI_NEG);
+	if (**str == '+')
+		++(*str);
 	if (!**str || (**str && !ft_isdigit(**str)))
-		return (0);
+		return (ERR_ATOI_EMPTY);
 	while (ft_isdigit(**str))
 	{
 		*n = 10 * (*n) + (*((*str)++) - '0');
-		if ((*n < 0 && *n != INT_MIN) || (sign > 0 && *n == INT_MIN))
-			return (0);
+		if (*n < 0)
+			return (ERR_ATOI_OVERFLOW);
 	}
 	if (!**str || !(jump_spaces(str) && !**str))
-		return (0);
-	*n *= sign;
-	return (1);
+		return (ERR_ATOI_INVALID_CHAR);
+	return (SUCCESS);
 }
