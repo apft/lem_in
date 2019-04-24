@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/04/24 15:51:51 by apion            ###   ########.fr        #
+#    Updated: 2019/04/24 16:42:05 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,10 @@ endif
 CINCLUDES	= $(addprefix -I, $(H_DIR))
 CPPFLAGS	= -MMD -MP -MF $(O_DIR)/$*.d
 
-LIB_PATH	:= .
-LIB			:= $(LIB_PATH)/lib.a
+LIBFT_PATH		:= libft
+LIBFT			:= $(LIBFT_PATH)/libft.a
+FT_PRINTF_PATH	:= ft_printf
+FT_PRINTF		:= $(FT_PRINTF_PATH)/ft_printf.a
 
 NAME		:= lem-in
 C_DIR		:= srcs
@@ -36,11 +38,15 @@ O_TREE		= $(shell find $(O_DIR) -type d -print 2> /dev/null | tail -r)
 .PHONY: all
 all: $(NAME)
 
-$(LIB): .FORCE
+$(LIBFT): .FORCE
 	@echo "Compiling lib $@..."
 	@$(MAKE) -C $(@D)
 
-$(NAME): $(addprefix $(O_DIR)/, $(O_FILES)) $(LIB)
+$(FT_PRINTF): .FORCE
+	@echo "Compiling lib $@..."
+	@$(MAKE) -C $(@D)
+
+$(NAME): $(addprefix $(O_DIR)/, $(O_FILES)) $(LIBFT) $(FT_PRINTF)
 	@echo "Compiling executable $@..."
 	@$(CC) $(CFLAGS) $(CINCLUDES) -o $@ $^
 	@echo "Done."
