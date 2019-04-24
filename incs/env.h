@@ -13,11 +13,11 @@
 #ifndef ENV_H
 # define ENV_H
 
-# include "list.h"
+# include "list_line.h"
 
 typedef struct s_env	t_env;
 struct	s_env
 {
-	int		ants;
-	t_list	*map;
+	int			nb_ants;
+	t_list_line	*map;
 };
