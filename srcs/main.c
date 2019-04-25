@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/24 16:13:42 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/25 12:17:25 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		main(int argc, char **argv)
 {
-	t_env	env;
-	int		status;
+	static t_env	env;
+	int				status;
 
 	status = parser(&env);
 	if (status < 0)
