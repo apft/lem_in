@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:03:28 by apion             #+#    #+#             */
-/*   Updated: 2019/04/25 15:01:27 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/25 18:14:08 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ struct	s_env
 	int			nb_ants;
 	t_list_line	*lines;
 	t_list		*map;
+	t_room		**rooms_array;
 	int			nb_room;
 	t_room		*start;
 	t_room		*end;
