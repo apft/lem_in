@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/12 11:27:18 by jkettani          #+#    #+#             */
-/*   Updated: 2019/04/25 16:13:58 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/04/25 18:09:23 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct		s_bigint{
 
 void				ft_arraymergesort(int *array, size_t array_size);
 void				ft_strarraymergesort(char **array, size_t array_size);
+void				*ft_bsearch(void *ref, void *array, size_t array_size,
+						int (*cmp)());
 
 /*
 ** Bigint

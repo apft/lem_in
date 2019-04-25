@@ -6,7 +6,7 @@
 #    By: jkettani <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 14:15:50 by jkettani          #+#    #+#              #
-#    Updated: 2019/04/25 16:14:23 by jkettani         ###   ########.fr        #
+#    Updated: 2019/04/25 17:57:56 by jkettani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CPPFLAGS =      -I$(INCLUDE_PATH)
 DEPFLAGS =      -MT $@ -MMD -MP -MF $(OBJ_PATH)/$*.d
 COMPILE.c =     $(CC) $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) -c
 POSTCOMPILE =   touch $@
-SRC_ARRAY =     ft_arraymergesort ft_strarraymergesort
+SRC_ARRAY =     ft_arraymergesort ft_strarraymergesort ft_strbsearch
 SRC_BIGINT =    ft_bigint_comp ft_bigint_add ft_bigint_subst ft_bigint_order \
 				ft_bigint_size ft_uimax_to_bigint ft_bigint_shiftleft \
 				ft_bigint_multiply_uint ft_bigint_cpy ft_bigint_multiply \
