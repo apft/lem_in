@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/04/25 12:39:57 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/04/25 14:57:24 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ enum	e_error
 	ERR_L_BEGIN,
 	ERR_INVALID_ROOM_NB_ARG,
 	ERR_INVALID_Y_COORD,
+	ERR_INVALID_X_COORD,
+	ERR_INVALID_ROOM_NAME,
+	ERR_INVALID_TUBE,
 	ERR_NULL_POINTER,
 	ERR_ANTS
 };
