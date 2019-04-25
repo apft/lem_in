@@ -6,41 +6,48 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:38:01 by apion             #+#    #+#             */
-/*   Updated: 2019/04/24 17:38:38 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/25 13:15:47 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "atoi_pos.h"
 #include "libft.h"
 
-static int	jump_spaces(char **str)
+static int	jump_spaces(char *str)
 {
 	int		has_jumped;
 
 	has_jumped = 0;
-	while (ft_isspace(**str) && (has_jumped = 1))
-		++(*str);
+	while (ft_isspace(*str) && (has_jumped = 1))
+		++str;
 	return (has_jumped);
 }
 
-int			atoi_pos(char **str, int *n)
+static int	is_valid_part_after_nb(char *str, unsigned int context)
+{
+	return (((context == ATOI_NBR_AND_SPACES_ONLY) && jump_spaces(str) && !*str)
+			|| ((context == ATOI_NBR_IN_STR) && ft_isspace(*str)));
+}
+
+int			atoi_pos(char *str, int *n, unsigned int context)
 {
 	*n = 0;
 	jump_spaces(str);
-	if (!**str)
+	if (!*str)
 		return (ERR_ATOI_EMPTY);
-	if (**str == '-')
+	if (*str == '-')
 		return (ERR_ATOI_NEG);
-	if (**str == '+')
-		++(*str);
-	if (!**str || (**str && !ft_isdigit(**str)))
-		return (ERR_ATOI_EMPTY);
-	while (ft_isdigit(**str))
+	if (*str == '+')
+		++str;
+	if (!*str || (*str && !ft_isdigit(*str)))
+		return (ERR_ATOI_NO_DIGITS);
+	while (ft_isdigit(*str))
 	{
-		*n = 10 * (*n) + (*((*str)++) - '0');
+		*n = 10 * (*n) + *str++ - '0';
 		if (*n < 0)
 			return (ERR_ATOI_OVERFLOW);
 	}
-	if (!**str || !(jump_spaces(str) && !**str))
+	if (!*str || !is_valid_part_after_nb(str, context))
 		return (ERR_ATOI_INVALID_CHAR);
 	return (SUCCESS);
 }
