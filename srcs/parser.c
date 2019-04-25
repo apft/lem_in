@@ -6,15 +6,15 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/04/25 13:22:40 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/04/25 15:29:11 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "atoi_pos.h"
 #include "get_next_line.h"
-#include "env.h"
 #include "error.h"
+#include "parser.h"
 
 #define CMD_UNDEF 0x0
 #define CMD_START 0x1
