@@ -6,7 +6,7 @@
 #    By: jkettani <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 14:15:50 by jkettani          #+#    #+#              #
-#    Updated: 2019/04/25 14:25:05 by jkettani         ###   ########.fr        #
+#    Updated: 2019/04/25 16:14:23 by jkettani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CPPFLAGS =      -I$(INCLUDE_PATH)
 DEPFLAGS =      -MT $@ -MMD -MP -MF $(OBJ_PATH)/$*.d
 COMPILE.c =     $(CC) $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) -c
 POSTCOMPILE =   touch $@
-SRC_ARRAY =     ft_arraymergesort
+SRC_ARRAY =     ft_arraymergesort ft_strarraymergesort
 SRC_BIGINT =    ft_bigint_comp ft_bigint_add ft_bigint_subst ft_bigint_order \
 				ft_bigint_size ft_uimax_to_bigint ft_bigint_shiftleft \
 				ft_bigint_multiply_uint ft_bigint_cpy ft_bigint_multiply \
@@ -53,7 +53,7 @@ SRC_LIST =      ft_lstadd ft_lstdel ft_lstdelone ft_lstiter ft_lstmap \
 				ft_lstnew ft_lstrev ft_lstsplithalf ft_lstmergesort \
 				ft_lsthasdup ft_lstissorted ft_lstcountif ft_lstget \
 				ft_lstfindfirst ft_lstfindlast ft_lstsize \
-				ft_lsttointarray ft_lstmedian
+				ft_lsttointarray ft_lstmedian ft_lsttostrarray
 SRC_MATH =      ft_power ft_min ft_max ft_exponent ft_abs
 SRC_MEM =       ft_bzero ft_memalloc ft_memchr ft_memcmp ft_memcpy \
 				ft_memccpy ft_memdel ft_memmove ft_memset ft_memcat \
