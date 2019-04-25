@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/04/24 18:06:37 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/25 12:39:57 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,15 @@ enum	e_error
 	ERR_READ = -1000,
 	ERR_ATOI,
 	ERR_ATOI_EMPTY,
+	ERR_ATOI_NO_DIGITS,
 	ERR_ATOI_NEG,
 	ERR_ATOI_OVERFLOW,
 	ERR_ATOI_INVALID_CHAR,
 	ERR_EOF_NO_NEWLINE,
+	ERR_EMPTY_LINE,
+	ERR_L_BEGIN,
+	ERR_INVALID_ROOM_NB_ARG,
+	ERR_INVALID_Y_COORD,
 	ERR_NULL_POINTER,
 	ERR_ANTS
 };
