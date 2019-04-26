@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/04/25 15:51:51 by jkettani         ###   ########.fr        #
+#    Updated: 2019/04/26 10:43:50 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,13 +22,22 @@ CPPFLAGS	= -MMD -MP -MF $(O_DIR)/$*.d
 LIBFT_PATH		:= libft
 LIBFT			:= $(LIBFT_PATH)/libft.a
 FT_PRINTF_PATH	:= ft_printf
-FT_PRINTF		:= $(FT_PRINTF_PATH)/ft_printf.a
+FT_PRINTF		:= $(FT_PRINTF_PATH)/libftprintf.a
 
 NAME		:= lem-in
 C_DIR		:= srcs
-H_DIR		:= incs
+H_DIR		:= incs $(LIBFT_PATH)/includes $(FT_PRINTF_PATH)
 O_DIR		:= .obj
-C_FILES		:= 
+C_FILES		:= \
+	srcs/atoi_pos.c \
+	srcs/error.c \
+	srcs/ft_nchar.c \
+	srcs/get_next_line.c \
+	srcs/list_line.c \
+	srcs/main.c \
+	srcs/parser.c \
+	srcs/parser_room.c \
+	srcs/parser_tube.c
 O_FILES		:= $(C_FILES:%.c=%.o)
 D_FILES		:= $(C_FILES:%.c=%.d)
 O_TREE		= $(shell find $(O_DIR) -type d -print 2> /dev/null | tail -r)

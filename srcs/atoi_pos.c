@@ -6,12 +6,13 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:38:01 by apion             #+#    #+#             */
-/*   Updated: 2019/04/25 13:15:47 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:13:48 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "atoi_pos.h"
 #include "libft.h"
+#include "error.h"
 
 static int	jump_spaces(char *str)
 {

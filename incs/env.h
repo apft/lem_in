@@ -6,13 +6,14 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:03:28 by apion             #+#    #+#             */
-/*   Updated: 2019/04/25 18:14:08 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:21:58 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
+# include "libft.h"
 # include "list_line.h"
 # include "room.h"
 
@@ -27,3 +28,5 @@ struct	s_env
 	t_room		*start;
 	t_room		*end;
 };
+
+#endif

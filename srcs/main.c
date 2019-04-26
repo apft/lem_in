@@ -6,13 +6,14 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/25 12:17:25 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:25:05 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "parser.h"
 
-int		main(int argc, char **argv)
+int		main(void)
 {
 	static t_env	env;
 	int				status;

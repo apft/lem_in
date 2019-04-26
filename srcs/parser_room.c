@@ -6,12 +6,15 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/04/25 15:22:01 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/26 10:39:42 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parser.h"
+#include "env.h"
+#include "atoi_pos.h"
 #include "error.h"
+int		ft_nchar(char *str, char c);
 
 static int	extract_coord(char **str_end, int *coord)
 {
@@ -54,7 +57,7 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 	if (extract_coord(&end, &room.x) != SUCCESS)
 		return (ERR_INVALID_X_COORD);
 	i = 0;
-	while (line[i] != end)
+	while (&line[i] != end)
 		if (!ft_isprint(line[i]))
 			return (ERR_INVALID_ROOM_NAME);
 	room.name = ft_strndup(line, i);
@@ -62,11 +65,10 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 		return (ft_strdel_ret(&room.name, ERR_ROOM_DUPLICATED));
 	if (!room.name)
 		return (errno);
-	node = ft_lstnew((void *)room, sizeof(room));
+	node = ft_lstnew((void *)&room, sizeof(room));
 	if (!node)
 		return (errno);
 	ft_lstadd(&env->map, node);
 	++env->nb_room;
 	return (SUCCESS);
 }
-

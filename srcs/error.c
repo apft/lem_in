@@ -6,23 +6,28 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/04/24 18:18:50 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/26 10:18:52 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlinb.h>
+#include <unistd.h>
+#include <string.h>
 #include "error.h"
+#include "ft_printf.h"
+
+#define OPTION_ERROR	1
 
 static void	custom_print_error(char *error_msg)
 {
-	ft_dprintf("ERROR");
+	ft_dprintf(STDERR_FILENO, "ERROR");
 	if (OPTION_ERROR)
-		ft_dprintf(STDERR_FILEN0, ": %s", error_msg);
-	ft_dprintf("\n");
+		ft_dprintf(STDERR_FILENO, ": %s", error_msg);
+	ft_dprintf(STDERR_FILENO, "\n");
 }
 
 static char	*custom_strerror(int error)
 {
+	(void)error;
 	return ("your error message here");
 }
 

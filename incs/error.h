@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/04/25 14:57:24 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/26 10:35:37 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ enum	e_error
 	ERR_INVALID_ROOM_NAME,
 	ERR_INVALID_TUBE,
 	ERR_NULL_POINTER,
+	ERR_LST_TO_ARRAY_FAILED,
+	ERR_ROOM_DUPLICATED,
 	ERR_ANTS
 };
 

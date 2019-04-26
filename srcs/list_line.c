@@ -6,15 +6,16 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 12:15:58 by apion             #+#    #+#             */
-/*   Updated: 2019/04/24 18:06:30 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/26 10:20:49 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "line.h"
+#include <stdlib.h>
+#include "list_line.h"
 #include "ft_printf.h"
 #include "error.h"
 
-static t_list_line	*create_list_line(const char *line)
+static t_list_line	*create_list_line(char *line)
 {
 	t_list_line	*node;
 
@@ -26,13 +27,13 @@ static t_list_line	*create_list_line(const char *line)
 	return (node);
 }
 
-int				list_line_add_first(t_list_line **head, const char *line)
+int				list_line_add_first(t_list_line **head, char *line)
 {
 	t_list_line	*node;
 
 	if (!head)
 		return (ERR_NULL_POINTER);
-	node = create_line(line);
+	node = create_list_line(line);
 	if (!node)
 		return (errno);
 	node->next = *head;
