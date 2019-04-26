@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/04/26 10:43:50 by apion            ###   ########.fr        #
+#    Updated: 2019/04/26 17:10:11 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,9 @@ RM			:= /bin/rm
 CC			:= gcc
 ifndef NOERR
 CFLAGS		:= -Wall -Wextra -Werror
+endif
+ifdef LLDB
+CC			+= -g
 endif
 CINCLUDES	= $(addprefix -I, $(H_DIR))
 CPPFLAGS	= -MMD -MP -MF $(O_DIR)/$*.d
