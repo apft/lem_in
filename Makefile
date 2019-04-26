@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/04/26 17:10:11 by apion            ###   ########.fr        #
+#    Updated: 2019/04/26 22:07:18 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ C_FILES		:= \
 	srcs/get_next_line.c \
 	srcs/list_line.c \
 	srcs/main.c \
+	srcs/merge_sort.c \
 	srcs/parser.c \
 	srcs/parser_room.c \
 	srcs/parser_tube.c
