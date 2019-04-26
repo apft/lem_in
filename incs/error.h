@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 17:03:52 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/26 21:19:35 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ enum	e_error
 	ERR_ROOM_DUPLICATED,
 	ERR_ROOM_START_ALREADY_DEFINED,
 	ERR_ROOM_END_ALREADY_DEFINED,
+	ERR_EMPTY_MAP,
+	ERR_EMPTY_START,
+	ERR_EMPTY_END,
 	ERR_ANTS
 };
 

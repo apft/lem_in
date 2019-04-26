@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 10:32:27 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/26 21:19:25 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,15 @@ static int	get_number_ants(t_env *env)
 static int	handle_room_or_tube(char *line, t_env *env, unsigned int *cmd_flag)
 {
 	if (ft_strchr(line, '-'))
+	{
+		if (!env->map)
+			return (ERR_EMPTY_MAP);
+		if (!env->start)
+			return (ERR_EMPTY_START);
+		if (!env->end)
+			return (ERR_EMPTY_END);
 		return (handle_tube(line, env, cmd_flag));
+	}
 	else
 		return (handle_room(line, env, cmd_flag));
 }
