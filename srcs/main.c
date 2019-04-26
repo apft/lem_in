@@ -6,13 +6,21 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 20:34:30 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/26 22:16:02 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "env.h"
 #include "parser.h"
 #include "error.h"
+
+static int	free_mem(t_env *env)
+{
+	// TODO: free all memory
+	free((void **)env->rooms_array);
+	return (0);
+}
 
 int		main(void)
 {
@@ -21,6 +29,6 @@ int		main(void)
 
 	status = parser(&env);
 	if (status != SUCCESS)
-		return (print_error_and_return(status));
-	return (0);
+		return (free_mem(&env) + print_error_and_return(status));
+	return (free_mem(&env));
 }
