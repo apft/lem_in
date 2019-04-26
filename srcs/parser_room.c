@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 10:39:42 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/26 20:55:35 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 	t_room	room;
 	t_list	*node;
 
+	room.is_empty = 0;
 	if (*cmd_flag & BLK_TUBE)
 		return (ERR_INVALID_TUBE);
 	if (ft_nchar(line, ' ') < 2)
@@ -54,21 +55,36 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 	end = ft_strchr(line, '\0') - 1;
 	if (extract_coord(&end, &room.y) != SUCCESS)
 		return (ERR_INVALID_Y_COORD);
+	--end;
 	if (extract_coord(&end, &room.x) != SUCCESS)
 		return (ERR_INVALID_X_COORD);
 	i = 0;
 	while (&line[i] != end)
-		if (!ft_isprint(line[i]))
+		if (!ft_isprint(line[i++]))
 			return (ERR_INVALID_ROOM_NAME);
 	room.name = ft_strndup(line, i);
-	if (is_room_duplicate(room.name, env))
-		return (ft_strdel_ret(&room.name, ERR_ROOM_DUPLICATED));
 	if (!room.name)
 		return (errno);
+	if (is_room_duplicate(room.name, env))
+		return (ft_strdel_ret(&room.name, ERR_ROOM_DUPLICATED));
 	node = ft_lstnew((void *)&room, sizeof(room));
 	if (!node)
 		return (errno);
 	ft_lstadd(&env->map, node);
 	++env->nb_room;
+	if (env->start && *cmd_flag & CMD_START)
+		return (ERR_ROOM_START_ALREADY_DEFINED);
+	if (env->end && *cmd_flag & CMD_END)
+		return (ERR_ROOM_END_ALREADY_DEFINED);
+	if (*cmd_flag & CMD_START)
+	{
+		env->start = (t_room *)(env->map->content);
+		*cmd_flag ^= CMD_START;
+	}
+	else if (*cmd_flag & CMD_END)
+	{
+		env->end = (t_room *)(env->map->content);
+		*cmd_flag ^= CMD_END;
+	}
 	return (SUCCESS);
 }
