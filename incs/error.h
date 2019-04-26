@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 10:35:37 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/26 17:03:52 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,8 @@ enum	e_error
 	ERR_ROOM_DUPLICATED,
 	ERR_ANTS
 };
+
+void	print_error(int error);
+int		print_error_and_return(int error);
 
 #endif
