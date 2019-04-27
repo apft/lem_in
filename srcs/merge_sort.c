@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 20:06:34 by jkettani          #+#    #+#             */
-/*   Updated: 2019/04/26 22:10:26 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/27 18:27:37 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ static int	merge(t_room **array, int left, int mid, int right)
 	pos = 0;
 	lpos = left;
 	rpos = mid + 1;
-	tmp_array = (t_room **)malloc(sizeof(t_room *) * (right - left + 1));
-	if (!tmp_array)
+	if (!(tmp_array = (t_room **)malloc(sizeof(t_room *) * (right - left + 1))))
 		return (errno);
 	while (lpos <= mid && rpos <= right)
 	{
@@ -58,7 +57,7 @@ static int	merge_sort(t_room **array, int left, int right)
 		return (SUCCESS);
 	mid = (left + right) / 2;
 	return (merge_sort(array, left, mid) != SUCCESS
-		   	|| merge_sort(array, mid + 1, right) != SUCCESS
+			|| merge_sort(array, mid + 1, right) != SUCCESS
 			|| merge(array, left, mid, right) != SUCCESS);
 }
 

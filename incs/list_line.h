@@ -6,12 +6,12 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 11:58:24 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 10:20:37 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/27 18:29:35 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_H
-# define LIST_H
+#ifndef LIST_LINE_H
+# define LIST_LINE_H
 
 typedef struct s_list_line	t_list_line;
 
