@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 21:19:35 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/27 18:15:49 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ enum	e_error
 	ERR_EMPTY_MAP,
 	ERR_EMPTY_START,
 	ERR_EMPTY_END,
+	ERR_INVALID_TUBE_DEFINITION,
 	ERR_ANTS
 };
 
