@@ -79,8 +79,9 @@ int			parser(t_env *env)
 			return (ERR_L_BEGIN);
 		if (line[0] == '#' && line[1] == '#')
 			cmd_flag |= get_cmd(line + 2);
-		else if (line[0] != '#')
-			handle_room_or_tube(line, env, &cmd_flag);
+		if (line[0] != '#' && SUCCESS !=
+				(status = handle_room_or_tube(line, env, &cmd_flag)))
+			return (status);
 		list_line_add_first(&env->lines, line);
 	}
 	if (!eol_had_newline)
