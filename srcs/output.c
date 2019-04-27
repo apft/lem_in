@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   output.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 22:16:02 by apion            ###   ########.fr       */
+/*   Created: 2019/04/27 18:06:53 by apion             #+#    #+#             */
+/*   Updated: 2019/04/27 18:13:03 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "env.h"
-#include "parser.h"
-#include "error.h"
-#include "output.h"
+#include "libft.h"
 
-static int	free_mem(t_env *env)
+static void	print_room_names(t_env *env)
 {
-	// TODO: free all memory
-	free((void **)env->rooms_array);
-	return (SUCCESS);
+	t_list	*map;
+
+	map = env->map;
+	while (map)
+	{
+		ft_putendl(((t_room *)map->content)->name);
+		map = map->next;
+	}
 }
 
-int		main(void)
+void		print_output(t_env *env)
 {
-	static t_env	env;
-	int				status;
-
-	status = parser(&env);
-	if (status != SUCCESS)
-		return (free_mem(&env) + print_error_and_return(status));
-	print_output(&env);
-	return (free_mem(&env));
+	print_lines(env->lines);
+	ft_putchar('\n');
+	print_room_names(env);
 }
