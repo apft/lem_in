@@ -19,7 +19,7 @@
 
 enum	e_error
 {
-	ERR_READ = -1000,
+	ERR_READ = -255,
 	ERR_ATOI,
 	ERR_ATOI_EMPTY,
 	ERR_ATOI_NO_DIGITS,
