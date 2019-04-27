@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/04/27 18:15:49 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/27 20:55:29 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include <errno.h>
 
 # define SUCCESS	0
+
+typedef struct s_error	t_error;
+struct	s_error
+{
+	int		value;
+	char	*msg;
+};
 
 enum	e_error
 {
