@@ -19,7 +19,7 @@ static char	*get_room_name(t_list *node)
 	return (((t_room *)node->content)->name);
 }
 
-int			handle_tube(char *line, t_env *env, unsigned int *cmd_flag)
+int			handle_tube(char *line, t_env *env)
 {
 	(void)line;
 	(void)cmd_flag;
