@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 21:19:25 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/27 18:05:25 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ int			parser(t_env *env)
 	int				status;
 	unsigned int	cmd_flag;
 
-	cmd_flag = CMD_UNDEF;
-	cmd_flag |= BLK_ROOM;
+	cmd_flag = CMD_UNDEF | BLK_ROOM;
 	if ((status = get_number_ants(env)) != SUCCESS)
 		return (status);
 	while ((len = get_next_line(STDIN_FILENO, &line, &eol_had_newline)) >= 0)

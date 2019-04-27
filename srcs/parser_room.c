@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 20:55:35 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/27 18:01:45 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,16 @@ static int	is_room_duplicate(char *name, t_env *env)
 	return (0);
 }
 
+static int	is_print_str(char *str, char *end)
+{
+	while (str != end)
+		if (!ft_isprint(*str++))
+			return (0);
+	return (1);
+}
+
 int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 {
-	int		i;
 	char	*end;
 	t_room	room;
 	t_list	*node;
@@ -58,11 +65,9 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 	--end;
 	if (extract_coord(&end, &room.x) != SUCCESS)
 		return (ERR_INVALID_X_COORD);
-	i = 0;
-	while (&line[i] != end)
-		if (!ft_isprint(line[i++]))
-			return (ERR_INVALID_ROOM_NAME);
-	room.name = ft_strndup(line, i);
+	if (!is_print_str(line, end))
+		return (ERR_INVALID_ROOM_NAME);
+	room.name = ft_strndup(line, end - line);
 	if (!room.name)
 		return (errno);
 	if (is_room_duplicate(room.name, env))
