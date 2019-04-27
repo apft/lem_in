@@ -33,6 +33,7 @@ H_DIR		:= incs $(LIBFT_PATH)/includes $(FT_PRINTF_PATH)
 O_DIR		:= .obj
 C_FILES		:= \
 	srcs/atoi_pos.c \
+	srcs/bakery.c \
 	srcs/error.c \
 	srcs/ft_nchar.c \
 	srcs/get_next_line.c \

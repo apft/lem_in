@@ -46,14 +46,13 @@ static int	get_number_ants(t_env *env)
 
 static int	handle_room_or_tube(char *line, t_env *env, unsigned int *cmd_flag)
 {
+	int		status;
+
 	if (ft_strchr(line, '-'))
 	{
-		if (!env->map)
-			return (ERR_EMPTY_MAP);
-		if (!env->start)
-			return (ERR_EMPTY_START);
-		if (!env->end)
-			return (ERR_EMPTY_END);
+		if ((*cmd_flag & BLK_ROOM)
+				&& (status = bake_environment(env, cmd_flag)) != SUCCESS)
+			return (status);
 		return (handle_tube(line, env, cmd_flag));
 	}
 	else
