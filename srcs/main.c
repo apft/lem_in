@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/26 22:16:02 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/28 15:22:43 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include "parser.h"
 #include "error.h"
 #include "output.h"
+#include "cleaner.h"
 
 static int	free_mem(t_env *env)
 {
-	// TODO: free all memory
-	free((void **)env->rooms_array);
+	cleaner(env);
 	return (SUCCESS);
 }
 

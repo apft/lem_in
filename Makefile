@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/04/27 19:43:54 by apion            ###   ########.fr        #
+#    Updated: 2019/04/28 15:08:44 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ O_DIR		:= .obj
 C_FILES		:= \
 	srcs/atoi_pos.c \
 	srcs/bakery.c \
+	srcs/cleaner.c \
 	srcs/error.c \
 	srcs/ft_bsearch_id.c \
 	srcs/ft_nchar.c \
