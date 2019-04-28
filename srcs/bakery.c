@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:47:01 by apion             #+#    #+#             */
-/*   Updated: 2019/04/27 18:26:04 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/28 14:11:19 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "env.h"
 #include "parser.h"
 #include "error.h"
+#include "libft.h"
 
 /*
 ** can also be called "factory"
@@ -57,7 +58,7 @@ static int	create_adjacency_matrix(t_env *env)
 	i = 0;
 	while (i < env->nb_room)
 	{
-		(env->matrix)[i] = (int *)malloc(sizeof(int) * env->nb_room);
+		(env->matrix)[i] = (int *)ft_memalloc(sizeof(int) * env->nb_room);
 		if (!(env->matrix)[i])
 			return (free_unfully_malloced_matrix_and_return(&(env->matrix), i));
 		++i;
