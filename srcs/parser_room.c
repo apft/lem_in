@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/04/27 18:01:45 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/28 14:51:52 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,25 @@ static int	is_print_str(char *str, char *end)
 	return (1);
 }
 
+static int	extract_start_or_end(t_room *room, t_env *env, unsigned int *cmd_flag)
+{
+	if (env->start && (*cmd_flag & CMD_START))
+		return (ERR_ROOM_START_ALREADY_DEFINED);
+	if (env->end && (*cmd_flag & CMD_END))
+		return (ERR_ROOM_END_ALREADY_DEFINED);
+	if (*cmd_flag & CMD_START)
+	{
+		env->start = room;
+		*cmd_flag ^= CMD_START;
+	}
+	else if (*cmd_flag & CMD_END)
+	{
+		env->end = room;
+		*cmd_flag ^= CMD_END;
+	}
+	return (SUCCESS);
+}
+
 int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 {
 	char	*end;
@@ -77,19 +96,7 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 		return (errno);
 	ft_lstadd(&env->map, node);
 	++env->nb_room;
-	if (env->start && *cmd_flag & CMD_START)
-		return (ERR_ROOM_START_ALREADY_DEFINED);
-	if (env->end && *cmd_flag & CMD_END)
-		return (ERR_ROOM_END_ALREADY_DEFINED);
-	if (*cmd_flag & CMD_START)
-	{
-		env->start = (t_room *)(env->map->content);
-		*cmd_flag ^= CMD_START;
-	}
-	else if (*cmd_flag & CMD_END)
-	{
-		env->end = (t_room *)(env->map->content);
-		*cmd_flag ^= CMD_END;
-	}
+	if (*cmd_flag & (CMD_START | CMD_END))
+		return (extract_start_or_end(env->map->content, env, cmd_flag));
 	return (SUCCESS);
 }

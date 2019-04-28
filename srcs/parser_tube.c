@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 11:24:44 by jkettani          #+#    #+#             */
-/*   Updated: 2019/04/28 14:19:53 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/28 14:21:50 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 #include "error.h"
 #include "libft.h"
 #include "customlibft.h"
-
-static char	*get_room_name(t_list *node)
-{
-	return (((t_room *)node->content)->name);
-}
 
 static int	cmp_room1(char *str, t_room **room)
 {
@@ -52,7 +47,5 @@ int			handle_tube(char *line, t_env *env)
 		return (ERR_ROOM_DOES_NOT_EXIST);
 	env->matrix[id_room1][id_room2] += 1;
 	env->matrix[id_room2][id_room1] += 1;
-
-	get_room_name(env->map);
 	return (SUCCESS);
 }
