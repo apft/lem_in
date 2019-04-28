@@ -6,34 +6,34 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:36:56 by jkettani          #+#    #+#             */
-/*   Updated: 2019/04/27 20:45:59 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/28 12:41:57 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "room.h"
+#include "customlibft.h"
+#include <unistd.h>
 
-int		ft_bsearch_id(void *ref, t_room **array, size_t array_size, int (*cmp)())
+ssize_t		ft_bsearch_id(void *ref, t_array_args *args, int (*cmp)())
 {
-	int		pivot;
-	int		result;
+	size_t		pivot;
+	size_t		offset;
+	int			result;
 
-	pivot = array_size >> 1;
-	while (array_size > 0)
+	offset = 0u;
+	while (args->nb_elmt > 0)
 	{
-		result = (*cmp)(ref, array[pivot]);
+		pivot = args->nb_elmt >> 1;
+		result = (*cmp)(ref, args->array + (pivot * args->size_elmt));
 		if (result == 0)
-			return (pivot);
+			return (pivot + offset);
 		if (result > 0)
 		{
-			++pivot;
-			--array_size;
+			offset = pivot + 1;
+			args->array += offset * args->size_elmt;
+			--args->nb_elmt;
 		}
-		array_size >>= 1;
-		if (result > 0)
-			pivot = pivot + (array_size >> 1);
-		else
-			pivot = pivot - (array_size >> 1);
+		args->nb_elmt >>= 1;
 	}
 	return (-1);
 }
