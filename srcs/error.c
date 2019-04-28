@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/04/27 20:55:13 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/28 14:14:44 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_error		g_error[] =
 	{ERR_ATOI_INVALID_CHAR, "[atoi] invalid char"},
 	{ERR_EOF_NO_NEWLINE, "[read] no newline at end of file"},
 	{ERR_EMPTY_LINE, "[read] empty line"},
-	{ERR_L_BEGIN, "[room] start with 'L'"},
+	{ERR_L_BEGIN, "line start with 'L'"},
 	{ERR_INVALID_ROOM_NB_ARG, "[room] invalid number of arguments"},
 	{ERR_INVALID_Y_COORD, "[room] invalid Y coord"},
 	{ERR_INVALID_X_COORD, "[room] invalid X coord"},
