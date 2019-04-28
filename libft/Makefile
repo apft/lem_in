@@ -6,7 +6,7 @@
 #    By: jkettani <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 14:15:50 by jkettani          #+#    #+#              #
-#    Updated: 2019/04/26 10:43:20 by apion            ###   ########.fr        #
+#    Updated: 2019/04/28 14:15:16 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,10 @@ OBJ_TREE =      $(shell find $(OBJ_PATH) -type d -print | sort -r \
 all: $(NAME)
 
 .PRECIOUS: $(OBJ_PATH)%/. $(OBJ_PATH)/. 
-$(OBJ_PATH)/. $(OBJ_PATH)%/.: 
+$(OBJ_PATH)/.:
+	$(ECHO) "Making directory $(WARN_COLOR)$@$(NC)..."
+	$(QUIET) mkdir -p $@
+$(OBJ_PATH)%/.:
 	$(ECHO) "Making directory $(WARN_COLOR)$@$(NC)..."
 	$(QUIET) mkdir -p $@
 
