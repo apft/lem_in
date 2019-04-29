@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 16:34:41 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 18:39:35 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "atoi_pos.h"
 #include "error.h"
 #include "customlibft.h"
+#include <limits.h>
 
 static int	extract_coord(char **str_end, int *coord)
 {
@@ -73,8 +74,7 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 	t_room	room;
 	t_list	*node;
 
-	room.id = -1;
-	room.is_empty = 1;
+	room = (t_room){0, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE, -1, 1, INT_MAX};
 	if (*cmd_flag & BLK_TUBE)
 		return (ERR_INVALID_TUBE);
 	if (ft_nchar(line, ' ') < 2)
