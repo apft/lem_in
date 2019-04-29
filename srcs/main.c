@@ -17,6 +17,12 @@
 #include "output.h"
 #include "cleaner.h"
 
+/*
+** Discussion:
+**	- start == end
+**	- invalid number of args in room (not detected -> goes into room name)
+*/
+
 int			main(void)
 {
 	static t_env	env;
