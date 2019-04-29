@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 16:52:00 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 18:25:34 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 **	- invalid number of args in room (not detected -> goes into room name)
 */
 
+void		dijkstra(t_env *env);
 int			main(void)
 {
 	static t_env	env;
@@ -35,6 +36,7 @@ int			main(void)
 	matrix_filter(&env);
 	if ((status = check_map(&env)) != SUCCESS)
 		return (status);
+	dijkstra(&env);
 	print_output(&env);
 	return (free_mem(&env));
 }
