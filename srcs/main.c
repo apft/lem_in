@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/28 15:22:43 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 12:35:47 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,7 @@
 #include "output.h"
 #include "cleaner.h"
 
-static int	free_mem(t_env *env)
-{
-	cleaner(env);
-	return (SUCCESS);
-}
-
-int		main(void)
+int			main(void)
 {
 	static t_env	env;
 	int				status;

@@ -6,13 +6,14 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 14:31:17 by apion             #+#    #+#             */
-/*   Updated: 2019/04/28 15:16:18 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 12:36:28 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "env.h"
 #include "libft.h"
+#include "error.h"
 
 static void	free_room(void *room, size_t size)
 {
@@ -29,7 +30,7 @@ static void	free_matrix(int ***matrix, size_t size)
 	*matrix = 0;
 }
 
-void		cleaner(t_env *env)
+int			free_mem(t_env *env)
 {
 	if (env->lines)
 		list_line_del_all(&env->lines);
@@ -39,4 +40,5 @@ void		cleaner(t_env *env)
 		ft_memdel((void **)&env->rooms_array);
 	if (env->matrix)
 		free_matrix(&env->matrix, env->nb_room);
+	return (SUCCESS);
 }

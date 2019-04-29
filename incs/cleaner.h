@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 14:49:03 by apion             #+#    #+#             */
-/*   Updated: 2019/04/28 14:49:40 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 12:36:10 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "env.h"
 
-void	cleaner(t_env *env);
+int		free_mem(t_env *env);
 
 #endif

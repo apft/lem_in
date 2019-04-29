@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/04/28 14:51:52 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 12:40:44 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "env.h"
 #include "atoi_pos.h"
 #include "error.h"
-int		ft_nchar(char *str, char c);
+#include "customlibft.h"
 
 static int	extract_coord(char **str_end, int *coord)
 {
