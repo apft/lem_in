@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/04/28 16:17:52 by apion            ###   ########.fr        #
+#    Updated: 2019/04/29 14:59:58 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ C_FILES		:= \
 	srcs/parser.c \
 	srcs/parser_room.c \
 	srcs/parser_tube.c \
+	srcs/room.c \
 	srcs/output/print_matrix.c \
 	srcs/output/output.c
 O_FILES		:= $(C_FILES:%.c=%.o)

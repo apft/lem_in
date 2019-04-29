@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:03:28 by apion             #+#    #+#             */
-/*   Updated: 2019/04/27 17:30:26 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 13:56:04 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 # include "libft.h"
 # include "list_line.h"
-# include "room.h"
 
 typedef struct s_env	t_env;
+
+# include "room.h"
+
 struct	s_env
 {
 	int			nb_ants;
