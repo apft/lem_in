@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 14:59:01 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 15:02:09 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 16:50:28 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	cmp_first_room_name_in_tube(char *str, t_room **room)
 	return (ft_strncmp(str, (*room)->name, id_dash));
 }
 
-int			get_room_id(char *str, t_env *env, int context)
+int			get_room_id_by_name(char *str, t_env *env, int context)
 {
 	t_array_args	array_args;
 	int				(*cmp)();

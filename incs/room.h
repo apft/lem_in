@@ -29,6 +29,6 @@ struct	s_room
 	int		is_empty;
 };
 
-int		get_room_id(char *str, t_env *env, int context);
+int		get_room_id_by_name(char *str, t_env *env, int context);
 
 #endif
