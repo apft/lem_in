@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:36:56 by jkettani          #+#    #+#             */
-/*   Updated: 2019/04/28 12:41:57 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 13:36:50 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ ssize_t		ft_bsearch_id(void *ref, t_array_args *args, int (*cmp)())
 			return (pivot + offset);
 		if (result > 0)
 		{
-			offset = pivot + 1;
-			args->array += offset * args->size_elmt;
+			args->array += (pivot + 1) * args->size_elmt;
+			offset += pivot + 1;
 			--args->nb_elmt;
 		}
 		args->nb_elmt >>= 1;
