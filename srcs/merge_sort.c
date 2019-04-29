@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 20:06:34 by jkettani          #+#    #+#             */
-/*   Updated: 2019/04/27 18:27:37 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 16:39:11 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,9 @@ static int	merge_sort(t_room **array, int left, int right)
 
 int			array_room_merge_sort(t_room **array, size_t array_size)
 {
-	return (merge_sort(array, 0, array_size - 1));
+	if (merge_sort(array, 0, array_size - 1) != SUCCESS)
+		return (errno);
+	while (array_size--)
+		array[array_size]->id = array_size;
+	return (SUCCESS);
 }
