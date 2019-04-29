@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:03:28 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 13:56:04 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 15:19:22 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ struct	s_env
 	t_room		*end;
 	int			**matrix;
 };
+
+void	matrix_filter(t_env *env);
 
 #endif

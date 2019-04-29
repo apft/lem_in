@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 12:35:47 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 15:25:20 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int			main(void)
 	status = parser(&env);
 	if (status != SUCCESS)
 		return (free_mem(&env) + print_error_and_return(status));
+	print_matrix(&env);
+	matrix_filter(&env);
 	print_output(&env);
 	return (free_mem(&env));
 }
