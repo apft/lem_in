@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 16:14:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 17:05:46 by apion            ###   ########.fr       */
+/*   Updated: 2019/04/29 18:38:24 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int			check_map(t_env *env)
 	return (SUCCESS);
 }
 
+static void	remove_dead_end(t_env *env)
+{
+	(void)env;
+}
+
 void		matrix_filter(t_env *env)
 {
 	int		i;
@@ -54,4 +59,5 @@ void		matrix_filter(t_env *env)
 		env->matrix[env->end->id][i] = 0;
 		++i;
 	}
+	remove_dead_end(env);
 }
