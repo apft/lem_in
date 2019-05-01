@@ -34,8 +34,8 @@ O_DIR		:= .obj
 C_FILES		:= \
 	srcs/atoi_pos.c \
 	srcs/bakery.c \
+	srcs/bfs.c \
 	srcs/cleaner.c \
-	srcs/dijkstra.c \
 	srcs/error.c \
 	srcs/get_next_line.c \
 	srcs/list_line.c \
