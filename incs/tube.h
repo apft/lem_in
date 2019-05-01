@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   room.h                                             :+:      :+:    :+:   */
+/*   tube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/05/01 10:28:55 by apion            ###   ########.fr       */
+/*   Created: 2019/05/01 11:16:28 by apion             #+#    #+#             */
+/*   Updated: 2019/05/01 12:03:41 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ROOM_H
-# define ROOM_H
+#ifndef TUBE_H
+# define TUBE_H
 
-# define ROOM_UNDEF_VALUE	-1
-
-# define ROOM_NAME_ONLY		0x1
-# define ROOM_NAME_IN_TUBE	0x2
-
-typedef struct s_room	t_room;
-
-# include "env.h"
-
-struct	s_room
-{
-	char	*name;
-	int		x;
-	int		y;
-	int		id;
-	int		visited;
-	int		nb_neighbour;
-	int		dst_min_to_start;
-	t_room	*parent;
-};
-
-int		get_room_id_by_name(char *str, t_env *env, int context);
+int		is_dead_end(t_env *env, int index, int index_parent);
+void	remove_oriented_tube_between_rooms(t_env *env,
+				t_room *room_a, t_room *room_b);
+void	remove_tube_between_rooms(t_env *env, t_room *room_a, t_room *room_b);
+void	remove_oriented_tubes_back_to_start_or_from_end(t_env *env);
+void	remove_dead_end_path(t_room *dead_end, t_env *env);
 
 #endif
