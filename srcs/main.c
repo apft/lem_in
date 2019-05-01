@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 18:25:34 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/01 11:11:21 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int			main(void)
 	matrix_filter(&env);
 	if ((status = check_map(&env)) != SUCCESS)
 		return (status);
-	dijkstra(&env);
 	print_output(&env);
 	return (free_mem(&env));
 }

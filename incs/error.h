@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 16:26:12 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/01 11:57:39 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ enum	e_error
 	ERR_EMPTY_END,
 	ERR_INVALID_TUBE_DEFINITION,
 	ERR_ROOM_DOES_NOT_EXIST,
-	ERR_NO_TUBE_FROM_START_AND_TO_END,
+	ERR_NO_PATH_FROM_START_TO_END,
 	ERR_NO_PATH_START_TO_END,
 	ERR_ANTS
 };
