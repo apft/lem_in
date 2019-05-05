@@ -1,0 +1,57 @@
+Coucou Jalil. Passe un bon moment en Espagne ?
+Comme je savais plus trop si l'on se croiserait, je t'ai fait un petit recap de
+mon avancement.
+
+Formatage du parser:
+- nombre de fourmis:
+	doit etre positif, inferieur a INT_MAX, peut commencer et finir
+	par des espaces
+- salle:
+	les coordonnees X et Y sont des entiers positifs (a changer, peuvent etre
+	negatifs), espace comme separateur, pas d'espace accepte en fin de ligne
+	le nom de la salle peut comporter des espaces, caracteres non imprimables
+	refuses, ne doit pas commencer par 'L', refus des doublons
+- commandes
+	##start et ##end seulement, toute autre commande est traitee comme
+	commentaire, il ne peut y avoir qu'une salle start et qu'une salle end
+- commentaire
+	toute ligne commencant par '#'
+- tube
+	tiret '-' comme separateur, il ne doit y en avoir qu'un, erreur si une des
+	salles n'existe pas
+
+Operations qui ont lieu pendant la lecture de l'entree standard:
+- recuperation du nombre de fourmis
+- creation d'une liste chainee de chaque ligne passee (pour la sortie)
+- creation d'une liste chainee de salles (pourrait etre amelioree avec un arbre
+	binaire de type Rouge Noir)
+- lorsque l'on commence a lire les tubes, verifie qu'un debut et une fin ont
+	bien ete renseignee, creation d'un tableau de salle triees par ordre ASCII
+	et d'une matrice d'adjacence
+- remplissage de la matrice d'adjacence de maniere symetrique
+
+Une fois l'entree standard lue, la matrice d'adjacence est modifiee pour
+supprimer les chemins inutilisables
+- suppression des tubes entre une meme salle (diagonale)
+- suppression des culs de sac (traverse la map en partant du start en BFS)
+- suppression des chemins qui retournent a l'entree
+- suppression des chemins qui partent de la fin
+
+J'ai voulu m'atteler a Dijkstra, je me suis finalement rabattu sur un BFS pour
+eviter de parcourir tout le temps notre matrice d'adjacence. Meme si ici il y a
+deja pleins de parcours...
+
+Un BFS basique nous donne la longueur minimale start-end
+
+Pour developper notre algo de type max-flow, j'ai l'impression qu'il nous faut
+utiliser des ensembles (au sens mathematiques de l'ensemble de donnees) afin de
+gagner en performance.
+Deux solutions : tables de hash ou arbre binaire
+J'ai opte pour les arbres binaires et me suis lance dans la journee 13 de la
+Piscine (jusqu'a l'exo 08 inclus, la suppression est plus coriace que ce que je
+pensais).
+L'utilisation d'arbres binaires (et meme d'arbre rouge et noir) peut servir
+comme base pour stocker un ensemble de donnees.
+Un arbre rouge noir peut aussi nous faire gagner en performance lorsque l'on
+verifie qu'une salle n'est pas deja dupliquee (evite de parcourir N fois notre
+liste actuelle)
