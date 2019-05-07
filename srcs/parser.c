@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/04/27 19:15:09 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/07 13:24:03 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static int	get_number_ants(t_env *env)
 	if (len == GNL_ERROR)
 		return (ERR_READ);
 	status = atoi_pos(line, &(env->nb_ants), ATOI_NBR_AND_SPACES_ONLY);
+	if (env->nb_ants < 0)
+		return (ERR_NEG_NB_ANTS);
 	if (status == SUCCESS)
 		if (list_line_add_first(&env->lines, line))
 			return (errno);

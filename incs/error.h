@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/05/01 11:57:39 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/07 13:24:36 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ enum	e_error
 	ERR_ATOI_INVALID_CHAR,
 	ERR_EOF_NO_NEWLINE,
 	ERR_EMPTY_LINE,
+	ERR_NEG_NB_ANTS,
 	ERR_L_BEGIN,
 	ERR_INVALID_ROOM_NB_ARG,
 	ERR_INVALID_Y_COORD,
