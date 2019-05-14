@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/05/14 15:10:54 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/05/14 16:23:31 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_error		g_error[] =
 	{ERR_ATOI_OVERFLOW, "[atoi] input too large (overflow)"},
 	{ERR_ATOI_INVALID_CHAR, "[atoi] invalid char"},
 	{ERR_EOF_NO_NEWLINE, "[read] no newline at end of file"},
+	{ERR_NEG_NB_ANTS, "[ants] negative number of ants"},
 	{ERR_EMPTY_LINE, "[read] empty line"},
 	{ERR_L_BEGIN, "line start with 'L'"},
 	{ERR_INVALID_ROOM_NB_ARG, "[room] invalid number of arguments (room x y)"},

@@ -1,3 +1,10 @@
+TO DO:
+- Vérifier si l'utilisation de STDIN_FILEN0, STDERR_FILNE0 est à la norme
+- Ne pas prendre en compte les chemins qui mènent uniquement à start dans la
+	matrice d'adjacence (voir exemple sujet 3)
+- Renommer la fonction atoi_pos
+- '\n' apres le nombre de fourmis
+
 Coucou Jalil. Passe un bon moment en Espagne ?
 Comme je savais plus trop si l'on se croiserait, je t'ai fait un petit recap de
 mon avancement.

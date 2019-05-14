@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/05/14 14:33:14 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/05/14 16:13:59 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,16 @@ static int	get_number_ants(t_env *env)
 	len = get_next_line(STDIN_FILENO, &line, &eol_had_newline);
 	if (len == GNL_ERROR)
 		return (ERR_READ);
+	if (!eol_had_newline)
+		return (ERR_EOF_NO_NEWLINE);
 	status = atoi_pos(line, &(env->nb_ants), ATOI_NBR_AND_SPACES_ONLY);
+	if (status != SUCCESS)
+		return (status);
 	if (env->nb_ants < 0)
 		return (ERR_NEG_NB_ANTS);
-	if (status == SUCCESS)
-		if (list_line_add_first(&env->lines, line))
-			return (errno);
-	return (status);
+	if (list_line_add_first(&env->lines, line))
+		return (errno);
+	return (SUCCESS);
 }
 
 static int	handle_room_or_tube(char *line, t_env *env, unsigned int *cmd_flag)
@@ -69,9 +72,9 @@ int			parser(t_env *env)
 	int				status;
 	unsigned int	cmd_flag;
 
-	cmd_flag = CMD_UNDEF | BLK_ROOM;
 	if ((status = get_number_ants(env)) != SUCCESS)
 		return (status);
+	cmd_flag = CMD_UNDEF | BLK_ROOM;
 	while ((len = get_next_line(STDIN_FILENO, &line, &eol_had_newline)) >= 0)
 	{
 		if (!*line)
