@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/04/28 14:14:44 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/14 14:23:32 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_error		g_error[] =
 	{ERR_EOF_NO_NEWLINE, "[read] no newline at end of file"},
 	{ERR_EMPTY_LINE, "[read] empty line"},
 	{ERR_L_BEGIN, "line start with 'L'"},
-	{ERR_INVALID_ROOM_NB_ARG, "[room] invalid number of arguments"},
+	{ERR_INVALID_ROOM_NB_ARG, "[room] invalid number of arguments (room x y)"},
 	{ERR_INVALID_Y_COORD, "[room] invalid Y coord"},
 	{ERR_INVALID_X_COORD, "[room] invalid X coord"},
 	{ERR_INVALID_ROOM_NAME, "[room] invalid room name"},
