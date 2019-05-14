@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/05/14 14:23:32 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/05/14 15:10:54 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ t_error		g_error[] =
 	{ERR_EMPTY_END, "empty end"},
 	{ERR_INVALID_TUBE_DEFINITION, "[tube] too many dash"},
 	{ERR_ROOM_DOES_NOT_EXIST, "[tube] room name does not exist"},
-	{ERR_ANTS, "invalid number of ants"}
+	{ERR_ANTS, "invalid number of ants"},
+	{ERR_NO_PATH_FROM_START_TO_END, "no path start-end"}
 };
 
 static void	custom_print_error(int error, char *error_msg)
