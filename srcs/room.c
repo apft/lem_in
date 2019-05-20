@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 14:59:01 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 16:50:28 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/20 18:09:00 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,16 @@ static int	cmp_room_name(char *str, t_room **room)
 static int	cmp_first_room_name_in_tube(char *str, t_room **room)
 {
 	int		id_dash;
+	int		res;
 
 	id_dash = 0;
 	while (str[id_dash] != '-')
 		++id_dash;
-	return (ft_strncmp(str, (*room)->name, id_dash));
+	res = ft_strncmp(str, (*room)->name, id_dash);
+	if (res == 0)
+		return (res - (*room)->name[id_dash]);
+	else
+		return (res);
 }
 
 int			get_room_id_by_name(char *str, t_env *env, int context)
