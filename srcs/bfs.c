@@ -6,15 +6,22 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:51:36 by apion             #+#    #+#             */
-/*   Updated: 2019/05/01 12:02:29 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/20 14:49:12 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "customlibft.h"
 #include "tube.h"
+#include "error.h"
 
-static int	rewind_dst_to_start(t_room *current)
+static void	clear_queue(t_queue *queue)
+{
+	while (dequeue(queue) || queue->head)
+		;
+}
+
+static int	rewind_dst_to_start_and_clear_queue(t_room *current, t_queue *queue)
 {
 	int		i;
 
@@ -24,6 +31,7 @@ static int	rewind_dst_to_start(t_room *current)
 		++i;
 		current = current->parent;
 	}
+	clear_queue(queue);
 	return (i);
 }
 
@@ -50,7 +58,7 @@ int			bfs(t_env *env)
 	{
 		current = (t_room *)dequeue(&queue);
 		if (current == env->end)
-			return (rewind_dst_to_start(env->end));
+			return (rewind_dst_to_start_and_clear_queue(env->end, &queue));
 		i = 0;
 		while (i < env->nb_room)
 		{
