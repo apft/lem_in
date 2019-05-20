@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/05/14 15:18:51 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/05/20 13:45:02 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int			main(void)
 	matrix_filter(&env);
 	if ((status = check_map(&env)) != SUCCESS)
 		return (print_error_and_return(status));
+	solver(&env);
 	print_output(&env);
 	return (free_mem(&env));
 }

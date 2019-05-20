@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/05/01 10:28:55 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/20 13:54:51 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,24 @@
 # define ROOM_NAME_ONLY		0x1
 # define ROOM_NAME_IN_TUBE	0x2
 
+# define FL_CLOSE_PATH		0x1
+
 typedef struct s_room	t_room;
 
 # include "env.h"
 
 struct	s_room
 {
-	char	*name;
-	int		x;
-	int		y;
-	int		id;
-	int		visited;
-	int		nb_neighbour;
-	int		dst_min_to_start;
-	t_room	*parent;
+	char			*name;
+	int				x;
+	int				y;
+	int				id;
+	int				visited;
+	int				nb_neighbour;
+	int				dst_min_to_start;
+	t_room			*parent;
+	t_room			*next;
+	unsigned int	flag;
 };
 
 int		get_room_id_by_name(char *str, t_env *env, int context);
