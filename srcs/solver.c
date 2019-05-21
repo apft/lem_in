@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/21 10:41:07 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/05/21 15:53:36 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,47 @@
 #include "output.h"
 #include "ft_printf.h"
 
+static int	is_closed_path(t_room *room)
+{
+	return (room->flag & FL_CLOSE_PATH);
+}
+
 static void	clear_queue(t_queue *queue)
 {
 	while (dequeue(queue) || queue->head)
 		;
 }
 
-static int save_path_and_clear_queue(t_room *end, t_queue *queue)
+static void reopen_path(t_room *room)
+{
+	room->parent = 0;
+	room->next = 0;
+}
+
+static void	reopen_between_switched_nodes(t_room *first_switch, t_room *second_switch)
+{
+	t_room *current;
+	t_room *tmp;
+
+	current = first_switch->next;
+	while (current != second_switch)
+	{
+		tmp = current->next;
+		reopen_path(current);
+		current = tmp;
+	}
+}
+
+
+static int save_path_and_clear_queue(t_room *end, t_queue *queue, t_room *switch_room)
 {
 	t_room	*current;
 
 	current = end;
 	while (current->parent)
 	{
+		if (current != end && is_closed_path(current))
+			reopen_between_switched_nodes(current, switch_room);
 		current->flag |= FL_CLOSE_PATH;
 		current->parent->next = current;
 		current = current->parent;
@@ -37,10 +65,29 @@ static int save_path_and_clear_queue(t_room *end, t_queue *queue)
 	return (SUCCESS);
 }
 
-static int	bfs_max_flow(t_env *env, t_room *start)
+static t_room	*toggle_path_to_start(t_room *current, t_env *env)
+{
+	while (current->parent != env->start)
+	{
+		current = current->parent;
+		current->flag ^= FL_CLOSE_PATH;
+	}
+	return (current);
+}
+
+static int has_path_and_not_visited_or_is_closed(t_env *env, t_room *current, int i)
+{
+	return (env->matrix[current->id][i]
+			&& !env->rooms_array[i]->visited
+			&& !(env->rooms_array[i]->parent == env->start
+				&& is_closed_path(env->rooms_array[i])));
+}
+
+static int	bfs_max_flow(t_env *env, t_room *start, t_room *switch_room)
 {
 	t_queue	queue;
 	t_room	*current;
+	t_room	*child;
 	int		i;
 
 	queue = (t_queue){0, 0};
@@ -50,24 +97,28 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 	{
 		current = (t_room *)dequeue(&queue);
 		if (current == env->end)
-			return (save_path_and_clear_queue(current, &queue));
+			return (save_path_and_clear_queue(current, &queue, switch_room));
 		i = 0;
 		while (i < env->nb_room)
 		{
-			if (env->matrix[current->id][i] && !env->rooms_array[i]->visited
-					&& !(env->rooms_array[i]->parent == env->start && (env->rooms_array[i]->flag & FL_CLOSE_PATH)))
+			if (has_path_and_not_visited_or_is_closed(env, current, i))
 			{
-				ft_printf("%s > ", env->rooms_array[i]->name);
-				env->rooms_array[i]->visited = 1;
-				if ((env->rooms_array[i]->flag & FL_CLOSE_PATH)
-					&& bfs_max_flow(env, env->rooms_array[i]->parent) == SUCCESS)
+				child = env->rooms_array[i];
+				ft_printf("%s > ", child->name);
+				child->visited = 1;
+				if (is_closed_path(child))
 				{
-					env->rooms_array[i]->parent = current;
-					current->next = env->rooms_array[i];
-					return (save_path_and_clear_queue(current, &queue));
+					if (bfs_max_flow(env, toggle_path_to_start(child, env), child) == SUCCESS)
+					{
+						child->parent = current;
+						current->next = child;
+						return (save_path_and_clear_queue(current, &queue, switch_room));
+					}
+					else
+						toggle_path_to_start(child, env);
 				}
-				env->rooms_array[i]->parent = current;
-				enqueue(&queue, (void *)env->rooms_array[i]);
+				child->parent = current;
+				enqueue(&queue, (void *)child);
 			}
 			++i;
 		}
@@ -82,7 +133,7 @@ static int	has_augmenting_path(t_env *env)
 	i = 0;
 	while (i < env->nb_room)
 		env->rooms_array[i++]->visited = 0;
-	return (bfs_max_flow(env, env->start));
+	return (bfs_max_flow(env, env->start, 0));
 }
 
 int		solver(t_env *env)
