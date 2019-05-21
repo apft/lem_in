@@ -55,7 +55,7 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 		while (i < env->nb_room)
 		{
 			if (env->matrix[current->id][i] && !env->rooms_array[i]->visited
-					&& !(current == start && (env->rooms_array[i]->flag & FL_CLOSE_PATH)))
+					&& !(env->rooms_array[i]->parent == env->start && (env->rooms_array[i]->flag & FL_CLOSE_PATH)))
 			{
 				ft_printf("%s > ", env->rooms_array[i]->name);
 				env->rooms_array[i]->visited = 1;
