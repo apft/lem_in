@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/21 16:29:06 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/21 18:21:36 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,11 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 					else
 						toggle_path_to_start(child, env);
 				}
-				child->parent = current;
-				enqueue(&queue, (void *)child);
+				else
+				{
+					child->parent = current;
+					enqueue(&queue, (void *)child);
+				}
 			}
 			++i;
 		}
