@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/21 18:21:36 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/21 19:44:47 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,25 @@ static int save_path_and_clear_queue(t_room *end, t_queue *queue, t_env *env)
 	return (SUCCESS);
 }
 
-static t_room	*toggle_path_to_start(t_room *current, t_env *env)
+static t_room	*open_path_to_start(t_room *current, t_env *env)
 {
 	while (current->parent != env->start)
 	{
 		current = current->parent;
-		current->flag ^= FL_CLOSE_PATH;
+		current->next = 0;
+		if (is_closed_path(current))
+			current->flag ^= FL_CLOSE_PATH;
+	}
+	return (current);
+}
+
+static t_room	*close_path_to_start(t_room *current, t_env *env)
+{
+	while (current->parent != env->start)
+	{
+		current->parent->next = current;
+		current = current->parent;
+		current->flag |= FL_CLOSE_PATH;
 	}
 	return (current);
 }
@@ -86,14 +99,14 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 				child->visited = 1;
 				if (is_closed_path(child))
 				{
-					if (bfs_max_flow(env, toggle_path_to_start(child, env)) == SUCCESS)
+					if (bfs_max_flow(env, open_path_to_start(child, env)) == SUCCESS)
 					{
 						child->parent = current;
 						current->next = child;
 						return (save_path_and_clear_queue(current, &queue, env));
 					}
 					else
-						toggle_path_to_start(child, env);
+						close_path_to_start(child, env);
 				}
 				else
 				{
