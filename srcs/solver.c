@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/21 16:27:16 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/21 16:29:06 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 			if (has_path_and_not_visited_or_is_closed(env, current, i))
 			{
 				child = env->rooms_array[i];
-				ft_printf("%s > ", child->name);
+				//ft_printf("%s > ", child->name);
 				child->visited = 1;
 				if (is_closed_path(child))
 				{
@@ -121,9 +121,9 @@ int		solver(t_env *env)
 	i = 0;
 	while (has_augmenting_path(env) == SUCCESS)
 	{
-		ft_printf("\n");
-		ft_printf("Loop %d:\n", i++);
-		print_paths(env);
+	//	ft_printf("\n");
+	//	ft_printf("Loop %d:\n", i++);
+	//	print_paths(env);
 	}
 	ft_printf("\n");
 	return (SUCCESS);
