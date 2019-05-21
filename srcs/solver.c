@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/21 15:53:36 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/21 16:27:16 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,37 +27,15 @@ static void	clear_queue(t_queue *queue)
 		;
 }
 
-static void reopen_path(t_room *room)
-{
-	room->parent = 0;
-	room->next = 0;
-}
-
-static void	reopen_between_switched_nodes(t_room *first_switch, t_room *second_switch)
-{
-	t_room *current;
-	t_room *tmp;
-
-	current = first_switch->next;
-	while (current != second_switch)
-	{
-		tmp = current->next;
-		reopen_path(current);
-		current = tmp;
-	}
-}
-
-
-static int save_path_and_clear_queue(t_room *end, t_queue *queue, t_room *switch_room)
+static int save_path_and_clear_queue(t_room *end, t_queue *queue, t_env *env)
 {
 	t_room	*current;
 
 	current = end;
 	while (current->parent)
 	{
-		if (current != end && is_closed_path(current))
-			reopen_between_switched_nodes(current, switch_room);
-		current->flag |= FL_CLOSE_PATH;
+		if (current != env->end)
+			current->flag |= FL_CLOSE_PATH;
 		current->parent->next = current;
 		current = current->parent;
 	}
@@ -83,7 +61,7 @@ static int has_path_and_not_visited_or_is_closed(t_env *env, t_room *current, in
 				&& is_closed_path(env->rooms_array[i])));
 }
 
-static int	bfs_max_flow(t_env *env, t_room *start, t_room *switch_room)
+static int	bfs_max_flow(t_env *env, t_room *start)
 {
 	t_queue	queue;
 	t_room	*current;
@@ -97,7 +75,7 @@ static int	bfs_max_flow(t_env *env, t_room *start, t_room *switch_room)
 	{
 		current = (t_room *)dequeue(&queue);
 		if (current == env->end)
-			return (save_path_and_clear_queue(current, &queue, switch_room));
+			return (save_path_and_clear_queue(current, &queue, env));
 		i = 0;
 		while (i < env->nb_room)
 		{
@@ -108,11 +86,11 @@ static int	bfs_max_flow(t_env *env, t_room *start, t_room *switch_room)
 				child->visited = 1;
 				if (is_closed_path(child))
 				{
-					if (bfs_max_flow(env, toggle_path_to_start(child, env), child) == SUCCESS)
+					if (bfs_max_flow(env, toggle_path_to_start(child, env)) == SUCCESS)
 					{
 						child->parent = current;
 						current->next = child;
-						return (save_path_and_clear_queue(current, &queue, switch_room));
+						return (save_path_and_clear_queue(current, &queue, env));
 					}
 					else
 						toggle_path_to_start(child, env);
@@ -133,7 +111,7 @@ static int	has_augmenting_path(t_env *env)
 	i = 0;
 	while (i < env->nb_room)
 		env->rooms_array[i++]->visited = 0;
-	return (bfs_max_flow(env, env->start, 0));
+	return (bfs_max_flow(env, env->start));
 }
 
 int		solver(t_env *env)
