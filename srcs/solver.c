@@ -6,13 +6,15 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/20 15:34:22 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/21 10:41:07 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "customlibft.h"
 #include "error.h"
+#include "output.h"
+#include "ft_printf.h"
 
 static void	clear_queue(t_queue *queue)
 {
@@ -55,6 +57,7 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 			if (env->matrix[current->id][i] && !env->rooms_array[i]->visited
 					&& !(current == start && (env->rooms_array[i]->flag & FL_CLOSE_PATH)))
 			{
+				ft_printf("%s > ", env->rooms_array[i]->name);
 				env->rooms_array[i]->visited = 1;
 				if ((env->rooms_array[i]->flag & FL_CLOSE_PATH)
 					&& bfs_max_flow(env, env->rooms_array[i]->parent) == SUCCESS)
@@ -84,7 +87,15 @@ static int	has_augmenting_path(t_env *env)
 
 int		solver(t_env *env)
 {
+	int	i;
+
+	i = 0;
 	while (has_augmenting_path(env) == SUCCESS)
-		;
+	{
+		ft_printf("\n");
+		ft_printf("Loop %d:\n", i++);
+		print_paths(env);
+	}
+	ft_printf("\n");
 	return (SUCCESS);
 }
