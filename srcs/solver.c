@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/21 19:44:47 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/22 10:13:04 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,21 @@ static t_room	*close_path_to_start(t_room *current, t_env *env)
 	return (current);
 }
 
-static int has_path_and_not_visited_or_is_closed(t_env *env, t_room *current, int i)
+static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
 {
-	return (env->matrix[current->id][i]
-			&& !env->rooms_array[i]->visited
-			&& !(env->rooms_array[i]->parent == env->start
-				&& is_closed_path(env->rooms_array[i])));
+	return (env->matrix[id_room_a][id_room_b]);
+}
+
+static int	is_room_already_visited(t_room *room)
+{
+	return (room->visited);
 }
 
 static int	bfs_max_flow(t_env *env, t_room *start)
 {
 	t_queue	queue;
 	t_room	*current;
-	t_room	*child;
+	t_room	*neighbour;
 	int		i;
 
 	queue = (t_queue){0, 0};
@@ -87,31 +89,36 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 	while (queue.head)
 	{
 		current = (t_room *)dequeue(&queue);
-		if (current == env->end)
-			return (save_path_and_clear_queue(current, &queue, env));
 		i = 0;
 		while (i < env->nb_room)
 		{
-			if (has_path_and_not_visited_or_is_closed(env, current, i))
+			if (has_oriented_tube_between_rooms(current->id, i, env)
+					&& !is_room_already_visited(env->rooms_array[i]))
 			{
-				child = env->rooms_array[i];
-				//ft_printf("%s > ", child->name);
-				child->visited = 1;
-				if (is_closed_path(child))
+				neighbour = env->rooms_array[i];
+				if (!is_closed_path(neighbour) || (neighbour->parent != start))
 				{
-					if (bfs_max_flow(env, open_path_to_start(child, env)) == SUCCESS)
+					neighbour->visited = 1;
+					if (is_closed_path(neighbour))
 					{
-						child->parent = current;
-						current->next = child;
-						return (save_path_and_clear_queue(current, &queue, env));
+						if (bfs_max_flow(env, open_path_to_start(neighbour, env)) == SUCCESS)
+						{
+							neighbour->parent = current;
+							current->next = neighbour;
+							return (save_path_and_clear_queue(current, &queue, env));
+						}
+						else
+						{
+							close_path_to_start(neighbour, env);
+						}
 					}
 					else
-						close_path_to_start(child, env);
-				}
-				else
-				{
-					child->parent = current;
-					enqueue(&queue, (void *)child);
+					{
+						neighbour->parent = current;
+						if (neighbour == env->end)
+							return (save_path_and_clear_queue(neighbour, &queue, env));
+						enqueue(&queue, (void *)neighbour);
+					}
 				}
 			}
 			++i;
