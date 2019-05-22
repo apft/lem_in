@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:51:36 by apion             #+#    #+#             */
-/*   Updated: 2019/05/20 14:49:12 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/22 10:20:09 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ static int	rewind_dst_to_start_and_clear_queue(t_room *current, t_queue *queue)
 	int		i;
 
 	i = 0;
-	while (current->parent)
+	while (current->from)
 	{
 		++i;
-		current = current->parent;
+		current = current->from;
 	}
 	clear_queue(queue);
 	return (i);
@@ -65,7 +65,7 @@ int			bfs(t_env *env)
 			if (env->matrix[current->id][i] && !env->rooms_array[i]->visited)
 			{
 				env->rooms_array[i]->visited = 1;
-				env->rooms_array[i]->parent = current;
+				env->rooms_array[i]->from = current;
 				enqueue(&queue, (void *)env->rooms_array[i]);
 			}
 			++i;
@@ -92,7 +92,7 @@ void		bfs_remove_dead_end_path(t_env *env)
 				if (!env->rooms_array[i]->visited && env->rooms_array[i] != env->end)
 				{
 					env->rooms_array[i]->visited = 1;
-					env->rooms_array[i]->parent = current;
+					env->rooms_array[i]->from = current;
 					if (is_dead_end(env, i, current->id))
 						remove_dead_end_path(env->rooms_array[i], env);
 					else

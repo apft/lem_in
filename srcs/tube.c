@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 11:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/05/01 12:03:03 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/22 10:20:33 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,16 @@ void	remove_oriented_tubes_back_to_start_or_from_end(t_env *env)
 
 void	remove_dead_end_path(t_room *dead_end, t_env *env)
 {
-	t_room	*parent;
+	t_room	*from;
 
-	parent = dead_end->parent;
-	while (dead_end && parent)
+	from = dead_end->from;
+	while (dead_end && from)
 	{
-		remove_tube_between_rooms(env, dead_end, parent);
-		if (parent->nb_neighbour == 1)
+		remove_tube_between_rooms(env, dead_end, from);
+		if (from->nb_neighbour == 1)
 		{
-			dead_end = parent;
-			parent = dead_end->parent;
+			dead_end = from;
+			from = dead_end->from;
 		}
 		else
 			return ;
