@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/22 10:19:54 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/22 12:28:27 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,44 +27,44 @@ static void	clear_queue(t_queue *queue)
 		;
 }
 
-static int save_path_and_clear_queue(t_room *end, t_queue *queue, t_env *env)
+static void	open_path(t_room **room_from)
 {
 	t_room	*current;
 
-	ft_printf("]} ");
+	current = (*room_from)->from;
+	if (!current->from)
+		return ;
+	while (is_closed_path(current->from))
+	{
+		current->flag ^= FL_CLOSE_PATH;
+		current->next = 0;
+		current = current->from;
+	}
+	*room_from = current;
+}
+
+static int save_path_and_clear_queue(t_room *end, t_queue *queue, t_env *env)
+{
+	t_room	*current;
+	t_room	*next;
+
 	current = end;
+	next = 0;
 	while (current->from)
 	{
+		current->next = next;
 		if (current != env->end)
-			current->flag |= FL_CLOSE_PATH;
-		current->from->next = current;
+		{
+			if (!is_closed_path(current))
+				current->flag |= FL_CLOSE_PATH;
+			else
+				open_path(&current);
+		}
+		next = current;
 		current = current->from;
 	}
 	clear_queue(queue);
 	return (SUCCESS);
-}
-
-static t_room	*open_path_to_start(t_room *current, t_env *env)
-{
-	while (current->from != env->start)
-	{
-		current = current->from;
-		current->next = 0;
-		if (is_closed_path(current))
-			current->flag ^= FL_CLOSE_PATH;
-	}
-	return (current);
-}
-
-static t_room	*close_path_to_start(t_room *current, t_env *env)
-{
-	while (current->from != env->start)
-	{
-		current->from->next = current;
-		current = current->from;
-		current->flag |= FL_CLOSE_PATH;
-	}
-	return (current);
 }
 
 static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
@@ -75,6 +75,11 @@ static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *
 static int	is_room_already_visited(t_room *room)
 {
 	return (room->visited);
+}
+
+static int	is_from_start_and_closed(t_room *current, t_room *neighbour, t_env *env)
+{
+	return (current == env->start && is_closed_path(neighbour));
 }
 
 static int	bfs_max_flow(t_env *env, t_room *start)
@@ -98,33 +103,14 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 					&& !is_room_already_visited(env->rooms_array[i]))
 			{
 				neighbour = env->rooms_array[i];
-				if (!is_closed_path(neighbour) || (neighbour->from != start))
+				if (neighbour != current->next && !is_from_start_and_closed(current, neighbour, env))
 				{
-					ft_printf("%s", neighbour->name);
+					ft_printf("%s ", neighbour->name);
 					neighbour->visited = 1;
-					if (is_closed_path(neighbour))
-					{
-						ft_printf("* [");
-						if (bfs_max_flow(env, open_path_to_start(neighbour, env)) == SUCCESS)
-						{
-							neighbour->from = current;
-							current->next = neighbour;
-							return (save_path_and_clear_queue(current, &queue, env));
-						}
-						else
-						{
-							close_path_to_start(neighbour, env);
-							ft_printf("].");
-						}
-					}
-					else
-					{
-						neighbour->from = current;
-						if (neighbour == env->end)
-							return (save_path_and_clear_queue(neighbour, &queue, env));
-						enqueue(&queue, (void *)neighbour);
-						ft_printf(" ");
-					}
+					neighbour->from = current;
+					if (neighbour == env->end)
+						return (save_path_and_clear_queue(neighbour, &queue, env));
+					enqueue(&queue, (void *)neighbour);
 				}
 			}
 			++i;
