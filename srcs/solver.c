@@ -31,6 +31,7 @@ static int save_path_and_clear_queue(t_room *end, t_queue *queue, t_env *env)
 {
 	t_room	*current;
 
+	ft_printf("]} ");
 	current = end;
 	while (current->parent)
 	{
@@ -89,6 +90,7 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 	while (queue.head)
 	{
 		current = (t_room *)dequeue(&queue);
+		ft_printf("%s->{", current->name);
 		i = 0;
 		while (i < env->nb_room)
 		{
@@ -98,9 +100,11 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 				neighbour = env->rooms_array[i];
 				if (!is_closed_path(neighbour) || (neighbour->parent != start))
 				{
+					ft_printf("%s", neighbour->name);
 					neighbour->visited = 1;
 					if (is_closed_path(neighbour))
 					{
+						ft_printf("* [");
 						if (bfs_max_flow(env, open_path_to_start(neighbour, env)) == SUCCESS)
 						{
 							neighbour->parent = current;
@@ -110,6 +114,7 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 						else
 						{
 							close_path_to_start(neighbour, env);
+							ft_printf("].");
 						}
 					}
 					else
@@ -118,11 +123,13 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 						if (neighbour == env->end)
 							return (save_path_and_clear_queue(neighbour, &queue, env));
 						enqueue(&queue, (void *)neighbour);
+						ft_printf(" ");
 					}
 				}
 			}
 			++i;
 		}
+		ft_printf("} > ");
 	}
 	return (ERROR);
 }
@@ -144,9 +151,9 @@ int		solver(t_env *env)
 	i = 0;
 	while (has_augmenting_path(env) == SUCCESS)
 	{
-	//	ft_printf("\n");
-	//	ft_printf("Loop %d:\n", i++);
-	//	print_paths(env);
+		ft_printf("\n");
+		ft_printf("Loop %d:\n", i++);
+		print_paths(env);
 	}
 	ft_printf("\n");
 	return (SUCCESS);
