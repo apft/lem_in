@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/22 12:28:27 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/23 14:36:21 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ static void	open_path(t_room **room_from)
 	*room_from = current;
 }
 
-static int save_path_and_clear_queue(t_room *end, t_queue *queue, t_env *env)
+static int	save_path(t_env *env)
 {
 	t_room	*current;
 	t_room	*next;
 
-	current = end;
+	current = env->end;
 	next = 0;
 	while (current->from)
 	{
@@ -63,7 +63,6 @@ static int save_path_and_clear_queue(t_room *end, t_queue *queue, t_env *env)
 		next = current;
 		current = current->from;
 	}
-	clear_queue(queue);
 	return (SUCCESS);
 }
 
@@ -109,7 +108,10 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 					neighbour->visited = 1;
 					neighbour->from = current;
 					if (neighbour == env->end)
-						return (save_path_and_clear_queue(neighbour, &queue, env));
+					{
+						clear_queue(&queue);
+						return (SUCCESS);
+					}
 					enqueue(&queue, (void *)neighbour);
 				}
 			}
@@ -123,11 +125,15 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 static int	has_augmenting_path(t_env *env)
 {
 	int		i;
+	int		status;
 
 	i = 0;
 	while (i < env->nb_room)
 		env->rooms_array[i++]->visited = 0;
-	return (bfs_max_flow(env, env->start));
+	status = bfs_max_flow(env, env->start);
+	if (status == SUCCESS)
+		save_path(env);
+	return (status);
 }
 
 int		solver(t_env *env)
