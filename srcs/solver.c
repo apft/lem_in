@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/23 15:16:28 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/23 16:42:36 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	open_path(t_room **room_from)
 		current->next = 0;
 		current = current->from;
 	}
+	current->dst = current->from->dst + 1;
 	*room_from = current;
 }
 
@@ -79,7 +80,8 @@ static int	is_room_already_visited(t_room *room)
 
 static int	is_from_start_and_closed(t_room *current, t_room *neighbour, t_env *env)
 {
-	return (current == env->start && is_closed_path(neighbour));
+	return ((current == env->start && is_closed_path(neighbour))
+			|| (is_closed_path(neighbour) && neighbour->from == env->start && !is_closed_path(current)));
 }
 
 static void	bfs_max_flow(t_env *env, t_queue *queue)
