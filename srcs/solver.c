@@ -6,10 +6,11 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/23 14:36:21 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/23 15:16:28 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "env.h"
 #include "customlibft.h"
 #include "error.h"
@@ -81,19 +82,17 @@ static int	is_from_start_and_closed(t_room *current, t_room *neighbour, t_env *e
 	return (current == env->start && is_closed_path(neighbour));
 }
 
-static int	bfs_max_flow(t_env *env, t_room *start)
+static void	bfs_max_flow(t_env *env, t_queue *queue)
 {
-	t_queue	queue;
 	t_room	*current;
 	t_room	*neighbour;
 	int		i;
 
-	queue = (t_queue){0, 0};
-	enqueue(&queue, (void *)start);
-	start->visited = 1;
-	while (queue.head)
+	while (queue->head)
 	{
-		current = (t_room *)dequeue(&queue);
+		current = (t_room *)dequeue(queue);
+		if (current->dst >= env->end->dst)
+			continue ;
 		ft_printf("%s->{", current->name);
 		i = 0;
 		while (i < env->nb_room)
@@ -105,35 +104,38 @@ static int	bfs_max_flow(t_env *env, t_room *start)
 				if (neighbour != current->next && !is_from_start_and_closed(current, neighbour, env))
 				{
 					ft_printf("%s ", neighbour->name);
-					neighbour->visited = 1;
+					if (neighbour != env->end)
+						neighbour->visited = 1;
 					neighbour->from = current;
-					if (neighbour == env->end)
-					{
-						clear_queue(&queue);
-						return (SUCCESS);
-					}
-					enqueue(&queue, (void *)neighbour);
+					if (!is_closed_path(neighbour))
+						neighbour->dst = neighbour->from->dst + 1;
+					enqueue(queue, (void *)neighbour);
 				}
 			}
 			++i;
 		}
 		ft_printf("} > ");
 	}
-	return (ERROR);
 }
 
 static int	has_augmenting_path(t_env *env)
 {
+	t_queue	queue;
 	int		i;
-	int		status;
 
 	i = 0;
 	while (i < env->nb_room)
 		env->rooms_array[i++]->visited = 0;
-	status = bfs_max_flow(env, env->start);
-	if (status == SUCCESS)
-		save_path(env);
-	return (status);
+	queue = (t_queue){0, 0};
+	enqueue(&queue, (void *)env->start);
+	env->end->dst = INT_MAX;
+	env->start->visited = 1;
+	bfs_max_flow(env, &queue);
+	if (env->end->dst == INT_MAX)
+		return (ERROR);
+	save_path(env);
+	clear_queue(&queue);
+	return (SUCCESS);
 }
 
 int		solver(t_env *env)
