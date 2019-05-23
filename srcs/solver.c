@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/23 16:42:36 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/23 21:57:14 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,32 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 	}
 }
 
+static void	reset_from_path(t_env *env, t_room *current)
+{
+	t_room	*from;
+
+	from = env->start;
+	while (current != env->end)
+	{
+		current->from = from;
+		from = current;
+		current = current->next;
+	}
+}
+
+static void	reset_from_paths(t_env *env)
+{
+	int		i;
+
+	i = 0;
+	while (i < env->nb_room)
+	{
+		if (env->matrix[env->start->id][i] && (env->rooms_array[i]->flag & FL_CLOSE_PATH))
+			reset_from_path(env, env->rooms_array[i]);
+		++i;
+	}
+}
+
 static int	has_augmenting_path(t_env *env)
 {
 	t_queue	queue;
@@ -132,6 +158,7 @@ static int	has_augmenting_path(t_env *env)
 	enqueue(&queue, (void *)env->start);
 	env->end->dst = INT_MAX;
 	env->start->visited = 1;
+	reset_from_paths(env);
 	bfs_max_flow(env, &queue);
 	if (env->end->dst == INT_MAX)
 		return (ERROR);
