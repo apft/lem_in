@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 16:14:31 by apion             #+#    #+#             */
-/*   Updated: 2019/05/01 13:08:00 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/23 14:48:38 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 
 int			check_map(t_env *env)
 {
-	env->end->dst_min_to_start = bfs(env);
-	if (env->end->dst_min_to_start < 1)
-		return (ERR_NO_PATH_FROM_START_TO_END);
+	(void)env;
+	//env->end->dst_min_to_start = bfs(env);
+//	if (env->end->dst_min_to_start < 1)
+//		return (ERR_NO_PATH_FROM_START_TO_END);
 	return (SUCCESS);
 }
 

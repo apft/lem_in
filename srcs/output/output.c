@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 18:06:53 by apion             #+#    #+#             */
-/*   Updated: 2019/05/21 16:23:41 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/23 14:49:41 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void		print_paths(t_env *env)
 
 void		print_output(t_env *env)
 {
-	print_lines(env->lines);
+//	print_lines(env->lines);
 	ft_putchar('\n');
 	//print_matrix(env);
-	ft_printf("length of shortest path start->end: %d\n", env->end->dst_min_to_start);
+	//ft_printf("length of shortest path start->end: %d\n", env->end->dst_min_to_start);
 	ft_printf("\nPaths:\n");
 	print_paths(env);
 }
