@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/23 21:57:14 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/23 22:03:49 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,6 @@ static int	is_room_already_visited(t_room *room)
 	return (room->visited);
 }
 
-static int	is_from_start_and_closed(t_room *current, t_room *neighbour, t_env *env)
-{
-	return ((current == env->start && is_closed_path(neighbour))
-			|| (is_closed_path(neighbour) && neighbour->from == env->start && !is_closed_path(current)));
-}
-
 static void	bfs_max_flow(t_env *env, t_queue *queue)
 {
 	t_room	*current;
@@ -95,24 +89,63 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 		current = (t_room *)dequeue(queue);
 		if (current->dst >= env->end->dst)
 			continue ;
-		ft_printf("%s->{", current->name);
+		ft_printf("%s(%s)->{", current->name, current->from ? current->from->name : ".");
 		i = 0;
 		while (i < env->nb_room)
 		{
-			if (has_oriented_tube_between_rooms(current->id, i, env)
-					&& !is_room_already_visited(env->rooms_array[i]))
+			if (has_oriented_tube_between_rooms(current->id, i, env))
 			{
 				neighbour = env->rooms_array[i];
-				if (neighbour != current->next && !is_from_start_and_closed(current, neighbour, env))
+				if (is_room_already_visited(neighbour) && neighbour->next != current)
 				{
-					ft_printf("%s ", neighbour->name);
-					if (neighbour != env->end)
-						neighbour->visited = 1;
-					neighbour->from = current;
-					if (!is_closed_path(neighbour))
-						neighbour->dst = neighbour->from->dst + 1;
-					enqueue(queue, (void *)neighbour);
+					++i;
+					continue ;
 				}
+				if (current == env->start && is_closed_path(neighbour))
+				{
+					++i;
+					continue ;
+				}
+				if (is_closed_path(current))
+				{
+					if (neighbour == current->next)
+					{
+						++i;
+						continue ;
+					}
+					if (!is_closed_path(current->from))
+					{
+						if (neighbour->next != current)
+						{
+							++i;
+							continue ;
+						}
+					}
+					else
+					{
+						if (current->next != current->from)
+						{
+							++i;
+							continue ;
+						}
+					}
+				}
+				else
+				{
+					if (is_closed_path(neighbour) && neighbour->from == env->start)
+					{
+						++i;
+						continue ;
+					}
+				}
+				ft_printf("%s(%s) ", neighbour->name, neighbour->from ? neighbour->from->name : ".");
+
+				if (neighbour != env->end)
+					neighbour->visited = 1;
+				neighbour->from = current;
+				if (!is_closed_path(neighbour))
+					neighbour->dst = neighbour->from->dst + 1;
+				enqueue(queue, (void *)neighbour);
 			}
 			++i;
 		}
