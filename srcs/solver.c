@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/24 08:35:01 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/24 08:37:56 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,6 @@ static void	apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data
 		}
 		++i;
 	}
-}
-
-static void	clear_queue(t_queue *queue)
-{
-	while (dequeue(queue) || queue->head)
-		;
 }
 
 static void	open_path(t_room **room_from)
@@ -180,7 +174,6 @@ static int	has_augmenting_path(t_env *env)
 	if (env->end->dst == INT_MAX)
 		return (ERROR);
 	save_path(env);
-	clear_queue(&queue);
 	return (SUCCESS);
 }
 
