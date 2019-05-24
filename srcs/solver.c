@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/24 08:37:56 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/24 13:58:41 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 static int	is_closed_path(t_room *room)
 {
 	return (room->flag & FL_CLOSE_PATH);
+}
+
+static int	is_junction(t_room *room)
+{
+	return ((long)room->from_junction);
 }
 
 static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
@@ -43,7 +48,7 @@ static void	apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data
 		if (has_oriented_tube_between_rooms(ref->id, i, env))
 		{
 			neighbour = env->rooms_array[i];
-			fct(ref, env->rooms_array[i], env, data);
+			fct(ref, neighbour, env, data);
 		}
 		++i;
 	}
@@ -52,18 +57,22 @@ static void	apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data
 static void	open_path(t_room **room_from)
 {
 	t_room	*current;
+	t_room	*next;
 
 	current = (*room_from)->from;
 	if (!current->from)
 		return ;
-	while (is_closed_path(current->from))
+	while (!is_junction(current))
 	{
 		current->flag ^= FL_CLOSE_PATH;
+		next = current->next;
 		current->next = 0;
-		current = current->from;
+		current = next;
 	}
-	current->dst = current->from->dst + 1;
-	*room_from = current;
+	current->dst = current->from_junction->dst + 1;
+	*room_from = current->from_junction;
+	(*room_from)->next = current;
+	(*room_from)->flag |= FL_CLOSE_PATH;
 }
 
 static int	save_path(t_env *env)
@@ -89,6 +98,13 @@ static int	save_path(t_env *env)
 	return (SUCCESS);
 }
 
+static int	is_linked_on_same_path(t_room *room_a, t_room *room_b)
+{
+	if (!is_closed_path(room_a) || !is_closed_path(room_b))
+		return (0);
+	return (room_a->next == room_b || room_b->next == room_a);
+}
+
 static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env *env, t_queue *queue)
 {
 	if (is_room_already_visited(neighbour) && neighbour->next != current)
@@ -99,14 +115,19 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 	{
 		if (neighbour == current->next)
 			return ;
-		if (!is_closed_path(current->from))
+		if (is_linked_on_same_path(current, current->from))
+		{
+			if (neighbour == current->next)
+				return ;
+		}
+		else if (is_junction(current))
 		{
 			if (neighbour->next != current)
 				return ;
 		}
 		else
 		{
-			if (current->next != current->from)
+			if (current->next == neighbour)
 				return ;
 		}
 	}
@@ -115,12 +136,14 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		if (is_closed_path(neighbour) && neighbour->from == env->start)
 			return ;
 	}
-	ft_printf("%s(%s) ", neighbour->name, neighbour->from ? neighbour->from->name : ".");
+	ft_printf("%s%s(%s) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".");
 	if (neighbour != env->end)
 		neighbour->visited = 1;
 	neighbour->from = current;
 	if (!is_closed_path(neighbour))
 		neighbour->dst = neighbour->from->dst + 1;
+	if (is_closed_path(neighbour) && !is_linked_on_same_path(current, neighbour))
+		neighbour->from_junction = current;
 	enqueue(queue, (void *)neighbour);
 }
 
@@ -133,7 +156,7 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 		current = (t_room *)dequeue(queue);
 		if (current->dst >= env->end->dst)
 			continue ;
-		ft_printf("%s(%s)->{", current->name, current->from ? current->from->name : ".");
+		ft_printf("%s(%s)%s->{", current->name, current->from ? current->from->name : ".", is_junction(current) ? "*" : "");
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
 		ft_printf("} > ");
 	}
@@ -157,7 +180,11 @@ static void	initialize(t_env *env, t_queue *queue)
 
 	i = 0;
 	while (i < env->nb_room)
-		env->rooms_array[i++]->visited = 0;
+	{
+		env->rooms_array[i]->visited = 0;
+		env->rooms_array[i]->from_junction = 0;
+		++i;
+	}
 	*queue = (t_queue){0, 0};
 	enqueue(queue, (void *)env->start);
 	env->end->dst = INT_MAX;

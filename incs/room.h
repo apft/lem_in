@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/05/23 15:17:02 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/24 11:42:19 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ struct	s_room
 	int				nb_neighbour;
 	int				dst;
 	t_room			*from;
+	t_room			*from_junction;
 	t_room			*next;
 	unsigned int	flag;
 };
