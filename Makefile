@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/05/20 15:33:48 by apion            ###   ########.fr        #
+#    Updated: 2019/05/24 09:28:11 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ C_FILES		:= \
 	srcs/customlibft/ft_bsearch_id.c \
 	srcs/customlibft/ft_nchar.c \
 	srcs/customlibft/ft_queue.c \
+	srcs/output/print_ants.c \
 	srcs/output/print_matrix.c \
 	srcs/output/output.c
 O_FILES		:= $(C_FILES:%.c=%.o)
