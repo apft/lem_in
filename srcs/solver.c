@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/24 13:58:41 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/24 17:21:10 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ static int	is_linked_on_same_path(t_room *room_a, t_room *room_b)
 
 static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env *env, t_queue *queue)
 {
+//	if ((current->dst >= neighbour->dst - 1) && is_room_already_visited(neighbour) && neighbour->next != current)
 	if (is_room_already_visited(neighbour) && neighbour->next != current)
 		return ;
 	if (current == env->start && is_closed_path(neighbour))
@@ -154,7 +155,7 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 	while (queue->head)
 	{
 		current = (t_room *)dequeue(queue);
-		if (current->dst >= env->end->dst)
+		if (current->dst >= (env->end->dst - 1))
 			continue ;
 		ft_printf("%s(%s)%s->{", current->name, current->from ? current->from->name : ".", is_junction(current) ? "*" : "");
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
