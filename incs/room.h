@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 12:56:45 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/31 16:29:45 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ struct	s_room
 	int			cost[2]; // [0]: external cost, [1]: internal cost
 	int			flag;
 	int			dst;
+	int			ant;
 };
 
 
