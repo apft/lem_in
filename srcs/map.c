@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 16:14:31 by apion             #+#    #+#             */
-/*   Updated: 2019/05/23 14:48:38 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/28 19:28:34 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,7 @@ int			check_map(t_env *env)
 	return (SUCCESS);
 }
 
-static void	compute_nb_neighbour(t_room *room, int **matrix, int size)
-{
-	while (size--)
-		if (matrix[room->id][size])
-			room->nb_neighbour += 1;
-}
-
-static void	remove_self_loop_and_compute_nb_neighbour(t_env *env)
+static void	remove_self_loop(t_env *env)
 {
 	int		i;
 
@@ -41,14 +34,13 @@ static void	remove_self_loop_and_compute_nb_neighbour(t_env *env)
 	while (i < env->nb_room)
 	{
 		env->matrix[i][i] = 0;
-		compute_nb_neighbour(env->rooms_array[i], env->matrix, env->nb_room);
 		++i;
 	}
 }
 
 void		matrix_filter(t_env *env)
 {
-	remove_self_loop_and_compute_nb_neighbour(env);
+	remove_self_loop(env);
 	bfs_remove_dead_end_path(env);
 	remove_oriented_tubes_back_to_start_or_from_end(env);
 }
