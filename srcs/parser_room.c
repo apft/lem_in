@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/05/24 11:42:37 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/28 19:27:33 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 	t_room	room;
 	t_list	*node;
 
-	room = (t_room){0, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE, -1, 0, 0, 0, 0, 0, 0, 0u};
+	room = (t_room){0, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE,
+				(void *)0, (void *)0, (void *)0, VISITED_EMPTY, {0, 0}, 0};
 	if (*cmd_flag & BLK_TUBE)
 		return (ERR_INVALID_TUBE);
 	if (ft_nchar(line, ' ') != 2)
