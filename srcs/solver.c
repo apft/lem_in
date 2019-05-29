@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/29 16:07:33 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/05/29 20:57:14 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,18 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 	{
 		if (is_linked_on_same_path(current, neighbour))
 		{
-			if (internal_cost(neighbour) <= (cost(current) - 1))
-				return ;
-			neighbour->cost[1] = cost(current) - 1;
+			if (is_linked_on_same_path(current, current->from))
+			{
+				if (internal_cost(neighbour) <= (internal_cost(current) - 1))
+					return ;
+				neighbour->cost[1] = internal_cost(current) - 1;
+			}
+			else
+			{
+				if (internal_cost(neighbour) <= (external_cost(current) - 1))
+					return ;
+				neighbour->cost[1] = external_cost(current) - 1;
+			}
 		}
 		else
 		{
@@ -158,11 +167,27 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 	}
 	else
 	{
-		if (external_cost(neighbour) <= (cost(current) + 1))
-			return ;
-		neighbour->cost[0] = cost(current) + 1;
+		if (is_closed_path(current))
+		{
+			if (is_linked_on_same_path(current, current->from))
+			{
+				if (external_cost(neighbour) <= (internal_cost(current) + 1))
+					return ;
+				neighbour->cost[0] = internal_cost(current) + 1;
+			}
+			else
+			{
+				// impossible: current est une jonction
+			}
+		}
+		else
+		{
+			if (external_cost(neighbour) <= (external_cost(current) + 1))
+				return ;
+			neighbour->cost[0] = external_cost(current) + 1;
+		}
 	}
-	ft_printf("%s%s(%s) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".");
+	ft_printf("%s%s(%s:%d) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".", neighbour->visited);
 	neighbour->from = current;
 	if (neighbour->visited == VISITED_EMPTY)
 	{

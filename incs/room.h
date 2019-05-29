@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/05/28 19:31:47 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/29 19:49:50 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # define ROOM_NAME_ONLY		0x1
 # define ROOM_NAME_IN_TUBE	0x2
 
-# define VISITED_EMPTY			0x0
+# define VISITED_EMPTY			0x2
 # define VISITED_AS_NEIGHBOUR	0x1
-# define VISITED_AS_CURRENT		0x2
+# define VISITED_AS_CURRENT		0x0
 
 # define FL_CLOSE_PATH		0x1
 
