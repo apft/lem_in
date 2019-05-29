@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/28 20:52:31 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/29 14:12:44 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@
 #include "output.h"
 #include "ft_printf.h"
 
-static int	cost(t_room *room)
-{
-	return (ft_min(room->cost[0], room->cost[1]));
-}
-
 static int	external_cost(t_room *room)
 {
 	return (room->cost[0]);
@@ -30,6 +25,11 @@ static int	external_cost(t_room *room)
 static int	internal_cost(t_room *room)
 {
 	return (room->cost[1]);
+}
+
+static int	cost(t_room *room)
+{
+	return (ft_min(external_cost(room), internal_cost(room)));
 }
 
 static int	is_closed_path(t_room *room)
@@ -124,53 +124,41 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 	{
 		if (neighbour == current->next)
 			return ;
-		if (is_linked_on_same_path(current, current->from))
-		{
-			if (neighbour == current->next)
-				return ;
-		}
-		else if (is_junction(current))
-		{
-			if (neighbour->next != current)
-				return ;
-		}
-		else
-		{
-			if (current->next == neighbour)
-				return ;
-		}
-		if (is_linked_on_same_path(current, neighbour))
-		{
-			if (internal_cost(neighbour) <= (cost(current) - 1))
-				return ;
-		}
-		else
-		{
-			if (external_cost(neighbour) <= (cost(current) + 1))
-				return ;
-		}
+		else if (!is_linked_on_same_path(current, current->from)
+				&& !is_linked_on_same_path(current, neighbour))
+			return ;
 	}
 	else
 	{
 		if (is_closed_path(neighbour) && neighbour->from == env->start)
 			return ;
-		if (external_cost(neighbour) <= (cost(current) + 1))
-			return ;
 	}
-	ft_printf("%s%s(%s) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".");
-	neighbour->from = current;
 	if (is_closed_path(neighbour))
 	{
 		if (is_linked_on_same_path(current, neighbour))
+		{
+			if (internal_cost(neighbour) <= (cost(current) - 1))
+				return ;
 			neighbour->cost[1] = cost(current) - 1;
+		}
 		else
 		{
+			if (external_cost(neighbour) <= (cost(current) + 1))
+				return ;
+			if (internal_cost(neighbour) <= (cost(current) + 1))
+				return ;
 			neighbour->cost[0] = cost(current) + 1;
 			neighbour->from_junction = current;
 		}
 	}
 	else
+	{
+		if (external_cost(neighbour) <= (cost(current) + 1))
+			return ;
 		neighbour->cost[0] = cost(current) + 1;
+	}
+//	ft_printf("%s%s(%s) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".");
+	neighbour->from = current;
 	if (neighbour->visited == VISITED_EMPTY)
 	{
 		neighbour->visited = VISITED_AS_NEIGHBOUR;
@@ -191,9 +179,9 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 	{
 		current = (t_room *)dequeue(queue);
 		current->visited = VISITED_AS_CURRENT;
-		ft_printf("%s(%s:%s-%s)%s->{", current->name, current->from ? current->from->name : ".", external_cost(current) == INT_MAX ? "inf" : ft_itoa(external_cost(current)), internal_cost(current) == INT_MAX ? "inf" : ft_itoa(internal_cost(current)), is_junction(current) ? "*" : (is_closed_path(current) ? "~" : ""));
+//		ft_printf("%s(%s:%s-%s)%s->{", current->name, current->from ? current->from->name : ".", external_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(external_cost(current)), internal_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(internal_cost(current)), is_junction(current) ? "*" : (is_closed_path(current) ? "~" : ""));
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
-		ft_printf("} > ");
+//		ft_printf("} > ");
 	}
 }
 
@@ -218,8 +206,8 @@ static void	initialize(t_env *env, t_queue *queue)
 	{
 		env->rooms_array[i]->visited = VISITED_EMPTY;
 		env->rooms_array[i]->from_junction = (void *)0;
-		env->rooms_array[i]->cost[0] = INT_MAX;
-		env->rooms_array[i]->cost[1] = INT_MAX;
+		env->rooms_array[i]->cost[0] = INT_MAX - 1;
+		env->rooms_array[i]->cost[1] = INT_MAX - 1;
 		++i;
 	}
 	env->start->cost[0] = 0;
@@ -234,7 +222,7 @@ static int	has_augmenting_path(t_env *env)
 
 	initialize(env, &queue);
 	bfs_max_flow(env, &queue);
-	if (env->end->cost[0] == INT_MAX)
+	if (env->end->cost[0] == INT_MAX - 1)
 		return (ERROR);
 	save_path(env);
 	return (SUCCESS);
