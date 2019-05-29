@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/29 20:57:14 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/29 20:58:23 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,15 +260,18 @@ static int	has_augmenting_path(t_env *env)
 
 int		solver(t_env *env)
 {
-	int	i;
+	int		flow;
+	int		i;
 
+	flow = 0;
 	i = 0;
 	while (has_augmenting_path(env) == SUCCESS)
 	{
+		flow += env->end->cost[0] - 1;
 		ft_printf("\n");
 		ft_printf("Loop %d:\n", i++);
 		print_paths(env);
 	}
-	ft_printf("\n");
+	ft_printf("\n\nflow= %d", flow);
 	return (SUCCESS);
 }
