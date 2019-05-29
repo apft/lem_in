@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/29 20:58:23 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/29 21:15:29 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,23 @@
 #include "error.h"
 #include "output.h"
 #include "ft_printf.h"
+
+static int	is_closed_path(t_room *room)
+{
+	return (room->flag & FL_CLOSE_PATH);
+}
+
+static int	is_junction(t_room *room)
+{
+	return ((long)room->from_junction);
+}
+
+static int	is_linked_on_same_path(t_room *room_a, t_room *room_b)
+{
+	if (!is_closed_path(room_a) || !is_closed_path(room_b))
+		return (0);
+	return (room_a->next == room_b || room_b->next == room_a);
+}
 
 static int	external_cost(t_room *room)
 {
@@ -27,19 +44,24 @@ static int	internal_cost(t_room *room)
 	return (room->cost[1]);
 }
 
+/**
+ * Je suis finalement plus tres convaincu par cette fonction de cout...
+ * si current et current_from sur le meme chemin solution alors retourner internal_cost(current)
+ * sinon retourner external_cost(current)
+ * 
+ * cela implique que 'from' n'a pas ete modifie entre temps (sauf dans le cas
+ * ou current est revisite et neighbour ajoute en tete de file)
+ * 
+ * de plus 'from' est utilise pour s'assurer que le current->from est sur le
+ * meme chemin que current. Donc m'est avis que l'on doit tout faire pour
+ * conserver 'from' le plus coherent possible
+*/
 static int	cost(t_room *room)
 {
-	return (ft_min(external_cost(room), internal_cost(room)));
-}
-
-static int	is_closed_path(t_room *room)
-{
-	return (room->flag & FL_CLOSE_PATH);
-}
-
-static int	is_junction(t_room *room)
-{
-	return ((long)room->from_junction);
+	if (is_linked_on_same_path(room, room->from))
+		return (internal_cost(room));
+	return (external_cost(room));
+	//return (ft_min(external_cost(room), internal_cost(room)));
 }
 
 static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
@@ -112,15 +134,10 @@ static int	save_path(t_env *env)
 	return (SUCCESS);
 }
 
-static int	is_linked_on_same_path(t_room *room_a, t_room *room_b)
-{
-	if (!is_closed_path(room_a) || !is_closed_path(room_b))
-		return (0);
-	return (room_a->next == room_b || room_b->next == room_a);
-}
-
 static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env *env, t_queue *queue)
 {
+	if (neighbour->visited == VISITED_AS_NEIGHBOUR)
+		return ;
 	if (neighbour == current->from)
 		return ;
 	if (current == env->start && is_closed_path(neighbour))
@@ -142,18 +159,9 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 	{
 		if (is_linked_on_same_path(current, neighbour))
 		{
-			if (is_linked_on_same_path(current, current->from))
-			{
-				if (internal_cost(neighbour) <= (internal_cost(current) - 1))
-					return ;
-				neighbour->cost[1] = internal_cost(current) - 1;
-			}
-			else
-			{
-				if (internal_cost(neighbour) <= (external_cost(current) - 1))
-					return ;
-				neighbour->cost[1] = external_cost(current) - 1;
-			}
+			if (internal_cost(neighbour) <= (cost(current) - 1))
+				return ;
+			neighbour->cost[1] = cost(current) - 1;
 		}
 		else
 		{
@@ -188,14 +196,15 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		}
 	}
 	ft_printf("%s%s(%s:%d) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".", neighbour->visited);
-	neighbour->from = current;
 	if (neighbour->visited == VISITED_EMPTY)
 	{
+		neighbour->from = current;
 		neighbour->visited = VISITED_AS_NEIGHBOUR;
 		enqueue(queue, (void *)neighbour);
 	}
 	else if (neighbour->visited == VISITED_AS_CURRENT)
 	{
+		neighbour->from = current;
 		neighbour->visited = VISITED_AS_NEIGHBOUR;
 		prequeue(queue, (void *)neighbour);
 	}
