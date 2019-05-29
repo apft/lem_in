@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/29 14:12:44 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/05/29 16:07:33 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,13 @@ static void	apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data
 	}
 }
 
-static void	open_path(t_room **room_from)
+static void	open_path(t_room **room_from, t_room *first_next)
 {
 	t_room	*current;
 	t_room	*next;
 
-	current = (*room_from)->from;
-	if (!current->from)
-		return ;
+	current = (*room_from)->next;
+	(*room_from)->next = first_next;
 	while (!is_junction(current))
 	{
 		current->flag ^= FL_CLOSE_PATH;
@@ -80,6 +79,8 @@ static void	open_path(t_room **room_from)
 		current = next;
 	}
 	*room_from = current->from_junction;
+	if (is_closed_path(*room_from))
+		open_path(room_from, current);
 	(*room_from)->next = current;
 	(*room_from)->flag |= FL_CLOSE_PATH;
 }
@@ -93,14 +94,18 @@ static int	save_path(t_env *env)
 	next = 0;
 	while (current->from)
 	{
-		current->next = next;
 		if (current != env->end)
 		{
 			if (!is_closed_path(current))
+			{
 				current->flag |= FL_CLOSE_PATH;
+				current->next = next;
+			}
 			else
-				open_path(&current);
+				open_path(&current, next);
 		}
+		else
+			current->next = next;
 		next = current;
 		current = current->from;
 	}
@@ -157,7 +162,7 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			return ;
 		neighbour->cost[0] = cost(current) + 1;
 	}
-//	ft_printf("%s%s(%s) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".");
+	ft_printf("%s%s(%s) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".");
 	neighbour->from = current;
 	if (neighbour->visited == VISITED_EMPTY)
 	{
@@ -179,9 +184,9 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 	{
 		current = (t_room *)dequeue(queue);
 		current->visited = VISITED_AS_CURRENT;
-//		ft_printf("%s(%s:%s-%s)%s->{", current->name, current->from ? current->from->name : ".", external_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(external_cost(current)), internal_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(internal_cost(current)), is_junction(current) ? "*" : (is_closed_path(current) ? "~" : ""));
+		ft_printf("%s(%s:%s-%s)%s->{", current->name, current->from ? current->from->name : ".", external_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(external_cost(current)), internal_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(internal_cost(current)), is_junction(current) ? "*" : (is_closed_path(current) ? "~" : ""));
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
-//		ft_printf("} > ");
+		ft_printf("} > ");
 	}
 }
 
