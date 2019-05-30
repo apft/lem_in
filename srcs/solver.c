@@ -201,6 +201,7 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 	}
 }
 
+#include <stdlib.h>
 static void	bfs_max_flow(t_env *env, t_queue *queue)
 {
 	t_room	*current;
@@ -210,8 +211,10 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 		current = (t_room *)dequeue(queue);
 		current->visited = VISITED_AS_CURRENT;
 		ft_printf("%s(%s:%s-%s)%s->{", current->name, current->from ? current->from->name : ".", external_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(external_cost(current)), internal_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(internal_cost(current)), is_junction(current) ? "*" : (is_closed_path(current) ? "~" : ""));
+		if (internal_cost(current) < 0 || external_cost(current) < 0)
+			exit(1);
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
-		ft_printf("} > ");
+		ft_printf("}\n");
 	}
 }
 
