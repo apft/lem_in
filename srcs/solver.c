@@ -236,6 +236,11 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 		current->visited = VISITED_AS_CURRENT;
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
 		ft_printf("}\n");
+		if (internal_cost(current) < 0 || external_cost(current) < 0)
+		{
+			ft_printf("error");
+			exit(1);
+		}
 	}
 }
 
