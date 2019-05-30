@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/30 15:55:43 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/30 19:09:06 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,6 @@ static int	external_cost(t_room *room)
 static int	internal_cost(t_room *room)
 {
 	return (room->cost[1]);
-}
-
-/**
- * Je suis finalement plus tres convaincu par cette fonction de cout...
- * si current et current_from sur le meme chemin solution alors retourner internal_cost(current)
- * sinon retourner external_cost(current)
- * 
- * cela implique que 'from' n'a pas ete modifie entre temps (sauf dans le cas
- * ou current est revisite et neighbour ajoute en tete de file)
- * 
- * de plus 'from' est utilise pour s'assurer que le current->from est sur le
- * meme chemin que current. Donc m'est avis que l'on doit tout faire pour
- * conserver 'from' le plus coherent possible
-*/
-static int	cost(t_room *room)
-{
-	if (is_linked_on_same_path(room, room->from))
-		return (internal_cost(room));
-	return (external_cost(room));
-	//return (ft_min(external_cost(room), internal_cost(room)));
 }
 
 static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
@@ -136,6 +116,20 @@ static int	save_path(t_env *env)
 	return (SUCCESS);
 }
 
+static int	closed_room_seen_from_ext_only(t_room *current)
+{
+	if (!is_closed_path(current))
+		return (0);
+	return (current->from_junction && (internal_cost(current) == INT_MAX - 1));
+}
+
+static int	closed_room_seen_from_int_only(t_room *current)
+{
+	if (!is_closed_path(current))
+		return (0);
+	return (!is_junction(current));
+}
+
 static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env *env, t_queue *queue)
 {
 	if (neighbour == current->from)
@@ -146,55 +140,53 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 	{
 		if (neighbour == current->next)
 			return ;
-		else if (!is_linked_on_same_path(current, current->from)
-				&& !is_linked_on_same_path(current, neighbour))
-			return ;
-	}
-	else
-	{
-		if (is_closed_path(neighbour) && neighbour->from == env->start)
-			return ;
-	}
-	if (is_closed_path(neighbour))
-	{
-		if (is_linked_on_same_path(current, neighbour))
+		if (closed_room_seen_from_ext_only(current))
 		{
-			if (internal_cost(neighbour) <= (cost(current) - 1))
+			if (!is_linked_on_same_path(current, neighbour))
 				return ;
-			neighbour->cost[1] = cost(current) - 1;
+			if (internal_cost(neighbour) <= (external_cost(current) - 1))
+				return ;
+			neighbour->cost[1] = (external_cost(current) - 1);
 		}
-		else
+		else if (closed_room_seen_from_int_only(current))
 		{
-			if (external_cost(neighbour) <= (cost(current) + 1))
-				return ;
-			if (internal_cost(neighbour) <= (cost(current) + 1))
-				return ;
-			neighbour->cost[0] = cost(current) + 1;
-			neighbour->from_junction = current;
-		}
-	}
-	else
-	{
-		if (is_closed_path(current))
-		{
-			if (is_linked_on_same_path(current, current->from))
+			if (is_linked_on_same_path(current, neighbour))
+			{
+				if (internal_cost(neighbour) <= (internal_cost(current) - 1))
+					return ;
+				neighbour->cost[1] = (internal_cost(current) - 1);
+			}
+			else
 			{
 				if (external_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
 				neighbour->cost[0] = internal_cost(current) + 1;
 			}
-			else
-			{
-				// impossible: current est une jonction
-			}
 		}
 		else
 		{
-			if (external_cost(neighbour) <= (external_cost(current) + 1))
-				return ;
-			neighbour->cost[0] = external_cost(current) + 1;
+			if (is_linked_on_same_path(current, neighbour))
+			{
+				if (internal_cost(neighbour) <= (ft_min(external_cost(current), internal_cost(current)) - 1))
+					return ;
+				 neighbour->cost[1] = (ft_min(external_cost(current), internal_cost(current)) - 1);
+			}
+			else
+			{
+				if (external_cost(neighbour) <= (internal_cost(current) + 1))
+					return ;
+				neighbour->cost[0] = internal_cost(current) + 1;
+			}
 		}
 	}
+	else
+	{
+		if (external_cost(neighbour) <= (external_cost(current) + 1))
+			return ;
+		neighbour->cost[0] = (external_cost(current) + 1);
+	}
+	if (is_closed_path(neighbour) && !is_linked_on_same_path(current, neighbour))
+		neighbour->from_junction = current;
 	ft_printf("%s%s(%s:%d) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".", neighbour->visited);
 	neighbour->from = current;
 	if (neighbour->visited == VISITED_EMPTY)
