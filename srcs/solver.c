@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/30 23:27:22 by pion             ###   ########.fr       */
+/*   Updated: 2019/05/30 23:30:12 by pion             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,8 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 	}
 	else
 	{
+		if (is_closed_path(neighbour) && env->matrix[env->start->id][neighbour->id])
+			return ;
 		if (external_cost(neighbour) <= (external_cost(current) + 1))
 			return ;
 		neighbour->cost[0] = (external_cost(current) + 1);
