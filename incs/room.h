@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/05/29 19:49:50 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/31 00:09:36 by pion             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ struct	s_room
 	int			visited;
 	int			cost[2]; // [0]: external cost, [1]: internal cost
 	int			flag;
+	int			dst;
 };
 
 int		get_room_id_by_name(char *str, t_env *env, int context);

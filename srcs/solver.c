@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/30 23:30:12 by pion             ###   ########.fr       */
+/*   Updated: 2019/05/31 00:29:29 by pion             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,37 @@ static int	internal_cost(t_room *room)
 
 static void	print_room(t_room *room, char *after)
 {
-		ft_printf("%s%s(%s:%d:%s-%s)%s",
+		ft_printf("%s%s(%s:%d:%s-%s:%d)%s",
 			is_junction(room) ? "*" : (is_closed_path(room) ? "~" : ""),
 			room->name,
 			room->from ? room->from->name : ".",
 			room->visited,
 			external_cost(room) == INT_MAX - 1 ? "inf" : ft_itoa(external_cost(room)),
 			internal_cost(room) == INT_MAX - 1 ? "inf" : ft_itoa(internal_cost(room)),
+			room->dst,
 			after);
 }
 
 static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
 {
 	return (env->matrix[id_room_a][id_room_b]);
+}
+
+static void	set_room_dst(t_room *start, t_room *current, t_env *env, int *dst)
+{
+	int		i;
+
+	(void)start;
+	(void)dst;
+	i = 1;
+	if (!is_closed_path(current))
+		return ;
+	while (current != env->end)
+	{
+		current->dst = i;
+		++i;
+		current = current->next;
+	}
 }
 
 static void	apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data, void (*fct)())
@@ -177,6 +195,8 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			{
 				if (external_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
+				if (is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
+					return ;
 				neighbour->cost[0] = internal_cost(current) + 1;
 			}
 		}
@@ -194,6 +214,8 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 					return ;
 				if (internal_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
+				if (is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
+					return ;
 				neighbour->cost[0] = internal_cost(current) + 1;
 			}
 		}
@@ -205,6 +227,8 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		if (external_cost(neighbour) <= (external_cost(current) + 1))
 			return ;
 		if (internal_cost(neighbour) <= (external_cost(current) + 1))
+			return ;
+		if (is_closed_path(neighbour) && neighbour->dst >= (external_cost(current) + 1))
 			return ;
 		neighbour->cost[0] = (external_cost(current) + 1);
 	}
@@ -261,6 +285,7 @@ static void	initialize(t_env *env, t_queue *queue)
 	env->start->cost[0] = 0;
 	*queue = (t_queue){0, 0};
 	enqueue(queue, (void *)env->start);
+	apply_foreach_room_linked_to_ref(env->start, env, 0, &set_room_dst);
 }
 
 static int	has_augmenting_path(t_env *env)
