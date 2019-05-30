@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/30 19:09:06 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/30 23:27:22 by pion             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@ static int	external_cost(t_room *room)
 static int	internal_cost(t_room *room)
 {
 	return (room->cost[1]);
+}
+
+static void	print_room(t_room *room, char *after)
+{
+		ft_printf("%s%s(%s:%d:%s-%s)%s",
+			is_junction(room) ? "*" : (is_closed_path(room) ? "~" : ""),
+			room->name,
+			room->from ? room->from->name : ".",
+			room->visited,
+			external_cost(room) == INT_MAX - 1 ? "inf" : ft_itoa(external_cost(room)),
+			internal_cost(room) == INT_MAX - 1 ? "inf" : ft_itoa(internal_cost(room)),
+			after);
 }
 
 static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
@@ -187,7 +199,7 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 	}
 	if (is_closed_path(neighbour) && !is_linked_on_same_path(current, neighbour))
 		neighbour->from_junction = current;
-	ft_printf("%s%s(%s:%d) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".", neighbour->visited);
+	print_room(neighbour, " ");
 	neighbour->from = current;
 	if (neighbour->visited == VISITED_EMPTY)
 	{
@@ -209,10 +221,8 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 	while (queue->head)
 	{
 		current = (t_room *)dequeue(queue);
+		print_room(current, "->{");
 		current->visited = VISITED_AS_CURRENT;
-		ft_printf("%s(%s:%s-%s)%s->{", current->name, current->from ? current->from->name : ".", external_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(external_cost(current)), internal_cost(current) == INT_MAX - 1 ? "inf" : ft_itoa(internal_cost(current)), is_junction(current) ? "*" : (is_closed_path(current) ? "~" : ""));
-		if (internal_cost(current) < 0 || external_cost(current) < 0)
-			exit(1);
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
 		ft_printf("}\n");
 	}
