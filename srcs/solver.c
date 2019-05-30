@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/29 21:15:29 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/30 15:55:43 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	is_junction(t_room *room)
 
 static int	is_linked_on_same_path(t_room *room_a, t_room *room_b)
 {
+	if (!room_a || !room_b)
+		return (0);
 	if (!is_closed_path(room_a) || !is_closed_path(room_b))
 		return (0);
 	return (room_a->next == room_b || room_b->next == room_a);
@@ -136,8 +138,6 @@ static int	save_path(t_env *env)
 
 static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env *env, t_queue *queue)
 {
-	if (neighbour->visited == VISITED_AS_NEIGHBOUR)
-		return ;
 	if (neighbour == current->from)
 		return ;
 	if (current == env->start && is_closed_path(neighbour))
@@ -196,15 +196,14 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		}
 	}
 	ft_printf("%s%s(%s:%d) ", is_closed_path(neighbour) ? "^" : "", neighbour->name, neighbour->from ? neighbour->from->name : ".", neighbour->visited);
+	neighbour->from = current;
 	if (neighbour->visited == VISITED_EMPTY)
 	{
-		neighbour->from = current;
 		neighbour->visited = VISITED_AS_NEIGHBOUR;
 		enqueue(queue, (void *)neighbour);
 	}
 	else if (neighbour->visited == VISITED_AS_CURRENT)
 	{
-		neighbour->from = current;
 		neighbour->visited = VISITED_AS_NEIGHBOUR;
 		prequeue(queue, (void *)neighbour);
 	}
@@ -224,18 +223,6 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 	}
 }
 
-static void	reset_from_path(t_room *from, t_room *current, t_env *env)
-{
-	if (!is_closed_path(current))
-		return ;
-	while (current != env->end)
-	{
-		current->from = from;
-		from = current;
-		current = current->next;
-	}
-}
-
 static void	initialize(t_env *env, t_queue *queue)
 {
 	int		i;
@@ -245,6 +232,7 @@ static void	initialize(t_env *env, t_queue *queue)
 	{
 		env->rooms_array[i]->visited = VISITED_EMPTY;
 		env->rooms_array[i]->from_junction = (void *)0;
+		env->rooms_array[i]->from = (void *)0;
 		env->rooms_array[i]->cost[0] = INT_MAX - 1;
 		env->rooms_array[i]->cost[1] = INT_MAX - 1;
 		++i;
@@ -252,7 +240,6 @@ static void	initialize(t_env *env, t_queue *queue)
 	env->start->cost[0] = 0;
 	*queue = (t_queue){0, 0};
 	enqueue(queue, (void *)env->start);
-	apply_foreach_room_linked_to_ref(env->start, env, (void *)0, &reset_from_path);
 }
 
 static int	has_augmenting_path(t_env *env)
