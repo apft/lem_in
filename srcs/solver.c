@@ -187,6 +187,8 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			{
 				if (external_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
+				if (internal_cost(neighbour) <= (internal_cost(current) + 1))
+					return ;
 				neighbour->cost[0] = internal_cost(current) + 1;
 			}
 		}
@@ -196,6 +198,8 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		if (is_closed_path(neighbour) && env->matrix[env->start->id][neighbour->id])
 			return ;
 		if (external_cost(neighbour) <= (external_cost(current) + 1))
+			return ;
+		if (internal_cost(neighbour) <= (external_cost(current) + 1))
 			return ;
 		neighbour->cost[0] = (external_cost(current) + 1);
 	}
