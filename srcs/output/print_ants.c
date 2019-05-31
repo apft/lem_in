@@ -6,18 +6,13 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 07:53:30 by apion             #+#    #+#             */
-/*   Updated: 2019/05/24 10:37:03 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/31 18:40:31 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "error.h"
 #include "ft_printf.h"
-
-static int	is_closed_path(t_room *room)
-{
-	return (room->flag & FL_CLOSE_PATH);
-}
 
 static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
 {

@@ -6,11 +6,26 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 11:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/05/22 10:20:33 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/28 20:07:23 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+
+static int	nb_neighbour(t_room *room, t_env *env)
+{
+	int		nb_neighbour;
+	int		i;
+
+	nb_neighbour = 0;
+	i = 0;
+	while (i < env->nb_room)
+	{
+		nb_neighbour += env->matrix[room->id][i];
+		++i;
+	}
+	return (nb_neighbour);
+}
 
 int		is_dead_end(t_env *env, int index, int index_parent)
 {
@@ -30,10 +45,7 @@ void	remove_oriented_tube_between_rooms(t_env *env,
 				t_room *room_a, t_room *room_b)
 {
 	if (env->matrix[room_a->id][room_b->id])
-	{
 		env->matrix[room_a->id][room_b->id] = 0;
-		room_a->nb_neighbour -= 1;
-	}
 }
 
 void	remove_tube_between_rooms(t_env *env, t_room *room_a, t_room *room_b)
@@ -63,7 +75,7 @@ void	remove_dead_end_path(t_room *dead_end, t_env *env)
 	while (dead_end && from)
 	{
 		remove_tube_between_rooms(env, dead_end, from);
-		if (from->nb_neighbour == 1)
+		if (nb_neighbour(from, env) == 1)
 		{
 			dead_end = from;
 			from = dead_end->from;

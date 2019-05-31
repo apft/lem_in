@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/05/24 09:28:11 by apion            ###   ########.fr        #
+#    Updated: 2019/05/31 18:39:37 by jkettani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,8 @@ C_FILES		:= \
 	srcs/parser_room.c \
 	srcs/parser_tube.c \
 	srcs/room.c \
+	srcs/room_utils.c \
+	srcs/room_apply_foreach_neighbour.c \
 	srcs/solver.c \
 	srcs/tube.c \
 	srcs/customlibft/ft_bsearch_id.c \

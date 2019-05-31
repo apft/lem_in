@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 11:59:24 by apion             #+#    #+#             */
-/*   Updated: 2019/05/01 10:05:21 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/28 20:10:59 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ struct	s_queue
 	t_list	*tail;
 };
 
+void	prequeue(t_queue *queue, void *content);
 void	enqueue(t_queue *queue, void *content);
 void	*dequeue(t_queue *queue);
 
