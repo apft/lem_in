@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:47:01 by apion             #+#    #+#             */
-/*   Updated: 2019/04/28 14:11:19 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/31 16:58:48 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 /*
 ** can also be called "factory"
 */
+
+int		free_unfully_malloced_matrix_and_return(int ***matrix, int index)
+{
+	while (index--)
+		free((*matrix)[index]);
+	free(*matrix);
+	*matrix = 0;
+	return (errno);
+}
 
 static int	lst_to_array(t_env *env)
 {
@@ -37,15 +46,6 @@ static int	lst_to_array(t_env *env)
 		map = map->next;
 	}
 	return (SUCCESS);
-}
-
-static int	free_unfully_malloced_matrix_and_return(int ***matrix, int index)
-{
-	while (index--)
-		free((*matrix)[index]);
-	free(*matrix);
-	*matrix = 0;
-	return (errno);
 }
 
 static int	create_adjacency_matrix(t_env *env)

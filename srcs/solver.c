@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 15:42:27 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/31 16:47:46 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 #include "output.h"
 #include "ft_printf.h"
 
-static void	set_room_dst(t_room *start, t_room *current, t_env *env, int *dst)
+static void	set_room_dst(t_room *start, t_room *current, t_env *env)
 {
 	int		i;
 
 	(void)start;
-	(void)dst;
 	i = 1;
 	if (!is_closed_path(current))
 		return ;
@@ -244,20 +243,18 @@ static int	has_augmenting_path(t_env *env)
 int		solver(t_env *env)
 {
 	int		flow;
-	int		nb_path;
 
 	flow = 0;
-	nb_path = 0;
 	while (has_augmenting_path(env) == SUCCESS)
 	{
 		flow += env->end->cost[0] - 1;
 		ft_printf("\n");
-		ft_printf("Loop %d:\n", nb_path);
+		ft_printf("Loop %d:\n", env->nb_path);
 		print_paths(env);
-		++nb_path;
+		++(env->nb_path);
 	}
 	ft_printf("\n\nflow= %d", flow);
-	if (!nb_path)
+	if (!env->nb_path)
 		return (ERR_NO_PATH_FOUND);
 	return (SUCCESS);
 }

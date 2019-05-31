@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:03:28 by apion             #+#    #+#             */
-/*   Updated: 2019/05/20 15:33:16 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/31 17:01:27 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ struct	s_env
 	t_room		*start;
 	t_room		*end;
 	int			**matrix;
+	int			nb_path;
+	t_path		**paths_array;
 };
 
+int		free_unfully_malloced_matrix_and_return(int ***matrix, int index);
 void	matrix_filter(t_env *env);
 int		check_map(t_env *env);
 int		solver(t_env *env);
