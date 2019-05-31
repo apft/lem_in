@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 12:51:09 by apion            ###   ########.fr       */
+/*   Updated: 2019/05/31 13:13:21 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			{
 				if (external_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
-				if (is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
+				if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
 					return ;
 				neighbour->cost[0] = internal_cost(current) + 1;
 			}
@@ -149,7 +149,7 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 					return ;
 				if (internal_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
-				if (is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
+				if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
 					return ;
 				neighbour->cost[0] = internal_cost(current) + 1;
 			}
@@ -163,7 +163,7 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			return ;
 		if (internal_cost(neighbour) <= (external_cost(current) + 1))
 			return ;
-		if (is_closed_path(neighbour) && neighbour->dst >= (external_cost(current) + 1))
+		if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (external_cost(current) + 1))
 			return ;
 		neighbour->cost[0] = (external_cost(current) + 1);
 	}
