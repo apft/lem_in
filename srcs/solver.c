@@ -6,63 +6,15 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 00:29:29 by pion             ###   ########.fr       */
+/*   Updated: 2019/05/31 12:51:09 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
 #include "env.h"
 #include "customlibft.h"
 #include "error.h"
 #include "output.h"
 #include "ft_printf.h"
-
-static int	is_closed_path(t_room *room)
-{
-	return (room->flag & FL_CLOSE_PATH);
-}
-
-static int	is_junction(t_room *room)
-{
-	return ((long)room->from_junction);
-}
-
-static int	is_linked_on_same_path(t_room *room_a, t_room *room_b)
-{
-	if (!room_a || !room_b)
-		return (0);
-	if (!is_closed_path(room_a) || !is_closed_path(room_b))
-		return (0);
-	return (room_a->next == room_b || room_b->next == room_a);
-}
-
-static int	external_cost(t_room *room)
-{
-	return (room->cost[0]);
-}
-
-static int	internal_cost(t_room *room)
-{
-	return (room->cost[1]);
-}
-
-static void	print_room(t_room *room, char *after)
-{
-		ft_printf("%s%s(%s:%d:%s-%s:%d)%s",
-			is_junction(room) ? "*" : (is_closed_path(room) ? "~" : ""),
-			room->name,
-			room->from ? room->from->name : ".",
-			room->visited,
-			external_cost(room) == INT_MAX - 1 ? "inf" : ft_itoa(external_cost(room)),
-			internal_cost(room) == INT_MAX - 1 ? "inf" : ft_itoa(internal_cost(room)),
-			room->dst,
-			after);
-}
-
-static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
-{
-	return (env->matrix[id_room_a][id_room_b]);
-}
 
 static void	set_room_dst(t_room *start, t_room *current, t_env *env, int *dst)
 {
@@ -78,23 +30,6 @@ static void	set_room_dst(t_room *start, t_room *current, t_env *env, int *dst)
 		current->dst = i;
 		++i;
 		current = current->next;
-	}
-}
-
-static void	apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data, void (*fct)())
-{
-	t_room	*neighbour;
-	int		i;
-
-	i = 0;
-	while (i < env->nb_room)
-	{
-		if (has_oriented_tube_between_rooms(ref->id, i, env))
-		{
-			neighbour = env->rooms_array[i];
-			fct(ref, neighbour, env, data);
-		}
-		++i;
 	}
 }
 
@@ -150,7 +85,7 @@ static int	closed_room_seen_from_ext_only(t_room *current)
 {
 	if (!is_closed_path(current))
 		return (0);
-	return (current->from_junction && (internal_cost(current) == INT_MAX - 1));
+	return (current->from_junction && (internal_cost(current) == COST_INF));
 }
 
 static int	closed_room_seen_from_int_only(t_room *current)
@@ -278,8 +213,8 @@ static void	initialize(t_env *env, t_queue *queue)
 		env->rooms_array[i]->visited = VISITED_EMPTY;
 		env->rooms_array[i]->from_junction = (void *)0;
 		env->rooms_array[i]->from = (void *)0;
-		env->rooms_array[i]->cost[0] = INT_MAX - 1;
-		env->rooms_array[i]->cost[1] = INT_MAX - 1;
+		env->rooms_array[i]->cost[0] = COST_INF;
+		env->rooms_array[i]->cost[1] = COST_INF;
 		++i;
 	}
 	env->start->cost[0] = 0;
@@ -294,7 +229,7 @@ static int	has_augmenting_path(t_env *env)
 
 	initialize(env, &queue);
 	bfs_max_flow(env, &queue);
-	if (env->end->cost[0] == INT_MAX - 1)
+	if (env->end->cost[0] == COST_INF)
 		return (ERROR);
 	save_path(env);
 	return (SUCCESS);
@@ -303,17 +238,20 @@ static int	has_augmenting_path(t_env *env)
 int		solver(t_env *env)
 {
 	int		flow;
-	int		i;
+	int		nb_path;
 
 	flow = 0;
-	i = 0;
+	nb_path = 0;
 	while (has_augmenting_path(env) == SUCCESS)
 	{
 		flow += env->end->cost[0] - 1;
 		ft_printf("\n");
-		ft_printf("Loop %d:\n", i++);
+		ft_printf("Loop %d:\n", nb_path);
 		print_paths(env);
+		++nb_path;
 	}
 	ft_printf("\n\nflow= %d", flow);
+	if (!nb_path)
+		return (ERR_NO_PATH_FOUND);
 	return (SUCCESS);
 }

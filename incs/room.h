@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 00:09:36 by pion             ###   ########.fr       */
+/*   Updated: 2019/05/31 12:56:45 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@
 # define VISITED_AS_NEIGHBOUR	0x1
 # define VISITED_AS_CURRENT		0x0
 
+# define COST_INF		INT_MAX - 1
+
 # define FL_CLOSE_PATH		0x1
 
 typedef struct s_room	t_room;
 
+# include <limits.h>
 # include "env.h"
 
 struct	s_room
@@ -43,6 +46,18 @@ struct	s_room
 	int			dst;
 };
 
+
+int		external_cost(t_room *room);
+int		internal_cost(t_room *room);
+int		is_junction(t_room *room);
+int		is_closed_path(t_room *room);
+int		is_linked_on_same_path(t_room *room_a, t_room *room_b);
+
 int		get_room_id_by_name(char *str, t_env *env, int context);
+
+void	apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data,
+			void (*fct)());
+
+void	print_room(t_room *room, char *after);
 
 #endif
