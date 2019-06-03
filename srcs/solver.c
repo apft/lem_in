@@ -108,13 +108,17 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 {
 	if (neighbour == current->from)
 		return ;
+	if (neighbour == current->from_junction)
+		return ;
 	if (current == env->start && is_closed_path(neighbour))
 		return ;
-	if (is_closed_path(neighbour) && !is_linked_on_same_path(current, neighbour))
-	{
-		if (is_junction(neighbour) && neighbour->from_junction == current)
-			return ;
-	}
+//	if (is_closed_path(neighbour) && !is_linked_on_same_path(current, neighbour))
+//	{
+//		if (is_junction(neighbour) && neighbour->from_junction == current)
+//			return ;
+//	}
+	if (is_junction(neighbour))
+		return ;
 	if (is_closed_path(current))
 	{
 		if (neighbour == current->next)
