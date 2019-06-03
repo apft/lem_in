@@ -133,6 +133,9 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			{
 				if (internal_cost(neighbour) <= (internal_cost(current) - 1))
 					return ;
+				if (is_junction(neighbour) && external_cost(neighbour) <= (internal_cost(current) - 1))
+					return ;
+				neighbour->from_junction = 0;
 				neighbour->cost[1] = (internal_cost(current) - 1);
 			}
 			else
@@ -152,6 +155,7 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			{
 				if (internal_cost(neighbour) <= (ft_min(external_cost(current), internal_cost(current)) - 1))
 					return ;
+				neighbour->from_junction = 0;
 				 neighbour->cost[1] = (ft_min(external_cost(current), internal_cost(current)) - 1);
 			}
 			else
