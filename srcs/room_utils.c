@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:29:50 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 12:40:05 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/03 14:00:50 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ int		is_linked_on_same_path(t_room *room_a, t_room *room_b)
 
 void	print_room(t_room *room, char *after)
 {
-	ft_printf("%s%s(%s:%d:%s-%s:%d)%s",
+	ft_printf("%s%s(%s:%s:%d:%s-%s:%d)%s",
 		is_junction(room) ? "*" : (is_closed_path(room) ? "~" : ""),
 		room->name,
 		room->from ? room->from->name : ".",
+		room->from_junction ? room->from_junction->name : ".",
 		room->visited,
 		external_cost(room) == COST_INF ? "inf" : ft_itoa(external_cost(room)),
 		internal_cost(room) == COST_INF ? "inf" : ft_itoa(internal_cost(room)),

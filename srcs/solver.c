@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 15:42:27 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/03 18:21:10 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ static void	open_path(t_room **room_from, t_room *first_next)
 	t_room	*current;
 	t_room	*next;
 
+	ft_printf("open_path\n");
 	current = (*room_from)->next;
+		print_room(current, "\n");
 	(*room_from)->next = first_next;
 	while (!is_junction(current))
 	{
@@ -46,11 +48,16 @@ static void	open_path(t_room **room_from, t_room *first_next)
 		next = current->next;
 		current->next = 0;
 		current = next;
+		print_room(current, "\n");
 	}
 	*room_from = current->from_junction;
 	if (is_closed_path(*room_from))
+	{
+		ft_printf("open_path_rec\n");
 		open_path(room_from, current);
+	}
 	(*room_from)->next = current;
+	print_room(*room_from, "\n");
 	(*room_from)->flag |= FL_CLOSE_PATH;
 }
 
@@ -59,10 +66,12 @@ static int	save_path(t_env *env)
 	t_room	*current;
 	t_room	*next;
 
+	ft_printf("save_path\n");
 	current = env->end;
 	next = 0;
 	while (current->from)
 	{
+		print_room(current, "\n");
 		if (current != env->end)
 		{
 			if (!is_closed_path(current))
