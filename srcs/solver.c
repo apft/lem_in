@@ -139,9 +139,9 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			{
 				if (external_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
-				if (neighbour->visited == VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst > (external_cost(current) + 1))
+				if (neighbour->visited == VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst > (internal_cost(current) + 1))
 					return ;
-				if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (external_cost(current) + 1))
+				if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
 					return ;
 				neighbour->cost[0] = internal_cost(current) + 1;
 			}
@@ -160,9 +160,9 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 					return ;
 				if (internal_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
-				if (neighbour->visited == VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst > (external_cost(current) + 1))
+				if (neighbour->visited == VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst > (internal_cost(current) + 1))
 					return ;
-				if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (external_cost(current) + 1))
+				if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
 					return ;
 				neighbour->cost[0] = internal_cost(current) + 1;
 			}
