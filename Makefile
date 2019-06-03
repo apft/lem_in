@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/05/31 18:39:37 by jkettani         ###   ########.fr        #
+#    Updated: 2019/06/03 17:40:20 by jkettani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,9 @@ C_FILES		:= \
 	srcs/customlibft/ft_queue.c \
 	srcs/output/print_ants.c \
 	srcs/output/print_matrix.c \
-	srcs/output/output.c
+	srcs/output/output.c \
+	srcs/path.c \
+	srcs/generic_merge_sort.c
 O_FILES		:= $(C_FILES:%.c=%.o)
 D_FILES		:= $(C_FILES:%.c=%.d)
 O_TREE		= $(shell find $(O_DIR) -type d -print 2> /dev/null | tail -r)

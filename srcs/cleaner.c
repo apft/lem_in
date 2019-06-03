@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 14:31:17 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 16:56:35 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/03 17:27:09 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int			free_mem(t_env *env)
 		ft_memdel((void **)&env->rooms_array);
 	if (env->matrix)
 		free_matrix(&env->matrix, env->nb_room);
-	if (env->array_path)
-		free_array_path(&env->array_path, env->nb_path);
+	if (env->paths_array)
+		free_array_path(&env->paths_array, env->nb_path);
 	return (SUCCESS);
 }

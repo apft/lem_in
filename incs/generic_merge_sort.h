@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.h                                             :+:      :+:    :+:   */
+/*   generic_merge_sort.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/31 12:24:39 by apion             #+#    #+#             */
-/*   Updated: 2019/06/03 18:04:41 by jkettani         ###   ########.fr       */
+/*   Created: 2019/06/03 17:13:51 by jkettani          #+#    #+#             */
+/*   Updated: 2019/06/03 17:40:59 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PATH_H
-# define PATH_H
+#ifndef GENERIC_MERGE_SORT_H
+# define GENERIC_MERGE_SORT_H
 
-# include "env.h"
-# include "room.h"
+# include "stdlib.h"
 
-typedef struct s_path	t_path;
-typedef struct s_path	t_path;
-struct	s_path
+typedef struct s_array_args	t_array_args;
+struct	s_array_args
 {
-	t_room	*front;
-	t_room	*back;
-	t_room	*current;
-	int		length;
+	void	*arr;
+	size_t	elmt_size;
+	size_t	nb_elmt;
+	int		(*cmp)();
 };
 
-int			fill_path_array(t_env *env);
+int			array_merge_sort(t_array_args *args);
 
 #endif

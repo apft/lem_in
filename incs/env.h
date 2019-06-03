@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:03:28 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 17:01:27 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/03 17:28:17 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 typedef struct s_env	t_env;
 
 # include "room.h"
+# include  "path.h"
 
 struct	s_env
 {

@@ -6,11 +6,12 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:34:42 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 16:52:01 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/03 17:29:49 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "error.h"
 
 static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b,
 					t_env *env)
@@ -19,7 +20,7 @@ static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b,
 }
 
 int			apply_foreach_room_linked_to_ref(t_room *ref, t_env *env,
-					void *data, void (*fct)())
+					void *data, int (*fct)())
 {
 	t_room	*neighbour;
 	int		status;

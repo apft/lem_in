@@ -6,14 +6,25 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:19:48 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 17:06:13 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/03 18:03:14 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "env.h"
-#include "bakery.h"
+#include "path.h"
+#include "generic_merge_sort.h"
 #include "error.h"
+#include "ft_printf.h"
+
+int		free_unfully_malloced_path_matrix_and_return(t_path ***matrix, int index)
+{
+	while (index--)
+		free((*matrix)[index]);
+	free(*matrix);
+	*matrix = 0;
+	return (errno);
+}
 
 static int	compute_path_length(t_room *current)
 {
@@ -28,22 +39,34 @@ static int	compute_path_length(t_room *current)
 	return (length);
 }
 
-static void	sort_array_path(t_env *env, int nb_path)
+static int	cmp_array_length(t_path *elm1, t_path *elm2)
 {
+	return (elm1->length - elm2->length);
+}
+
+static void	sort_array_path(t_env *env)
+{
+	t_array_args	args;
+
+	args = (t_array_args){env->paths_array, sizeof(t_path *), env->nb_path,
+				&cmp_array_length};
+	array_merge_sort(&args);
 }
 
 static int	add_path_to_array(t_room *start, t_room *current, t_env *env, int *index)
 {
 	int		length;
 
+	(void)start;
 	if (!is_closed_path(current))
-		return ;
-	env->paths_array[*index] = (t_path *)malloc(sizeof(*path));
+		return (SUCCESS);
+	env->paths_array[*index] = (t_path *)malloc(sizeof(t_path));
 	if (!env->paths_array[*index])
-		return (free_unfully_malloced_matrix_and_return(env->paths_array, *index));
+		return (free_unfully_malloced_path_matrix_and_return(&env->paths_array, *index));
 	length = compute_path_length(current);
 	*env->paths_array[*index] = (t_path){current, current, current, length};
 	++(*index);
+	return (SUCCESS);
 }
 
 static int	create_path_array(t_env *env, int nb_path)
@@ -61,6 +84,19 @@ static int	create_path_array(t_env *env, int nb_path)
 	return (SUCCESS);
 }
 
+void		print_array_path(t_env *env)
+{
+	int		i;
+
+	i = 0;
+	while (i < env->nb_path)
+	{
+		ft_printf("Path %d:\n", i);
+		ft_printf("  > length = %d\n", env->paths_array[i]->length);
+		i++;
+	}
+}
+
 int			fill_path_array(t_env *env)
 {
 	int		status;
@@ -68,5 +104,8 @@ int			fill_path_array(t_env *env)
 	status = create_path_array(env, env->nb_path);
 	if (status != SUCCESS)
 		return (status);
-	sort_array_path(env, env->nb_path);
+	print_array_path(env);
+	sort_array_path(env);
+	print_array_path(env);
+	return (SUCCESS);
 }
