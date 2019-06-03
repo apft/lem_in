@@ -123,6 +123,8 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		{
 			if (!is_linked_on_same_path(current, neighbour))
 				return ;
+			if (neighbour->visited == VISITED_AS_NEIGHBOUR)
+				return ;
 			if (internal_cost(neighbour) <= (external_cost(current) - 1))
 				return ;
 			neighbour->cost[1] = (external_cost(current) - 1);
@@ -132,6 +134,8 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			if (is_linked_on_same_path(current, neighbour))
 			{
 				if (internal_cost(neighbour) <= (internal_cost(current) - 1))
+					return ;
+				if (neighbour->visited == VISITED_AS_NEIGHBOUR)
 					return ;
 				if (is_junction(neighbour) && external_cost(neighbour) <= (internal_cost(current) - 1))
 					return ;
