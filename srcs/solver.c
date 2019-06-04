@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/03 18:21:10 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/04 11:21:26 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,7 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		return ;
 	if (current == env->start && is_closed_path(neighbour))
 		return ;
-//	if (is_closed_path(neighbour) && !is_linked_on_same_path(current, neighbour))
-//	{
-//		if (is_junction(neighbour) && neighbour->from_junction == current)
-//			return ;
-//	}
-	if (is_junction(neighbour))
+	if (is_junction(neighbour) && !is_linked_on_same_path(current, neighbour))
 		return ;
 	if (is_closed_path(current))
 	{
