@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:47:01 by apion             #+#    #+#             */
-/*   Updated: 2019/06/03 18:04:41 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/04 10:45:13 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		free_unfully_malloced_matrix_and_return(int ***matrix, int index)
 	free(*matrix);
 	*matrix = 0;
 	return (errno);
+}
 
 
 static int	lst_to_array(t_env *env)
