@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/04 11:21:26 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/04 16:27:18 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ static void	open_path(t_room **room_from, t_room *first_next)
 		print_room(current, "\n");
 	}
 	*room_from = current->from_junction;
+	print_room(*room_from, "\n");
 	if (is_closed_path(*room_from))
 	{
 		ft_printf("open_path_rec\n");
 		open_path(room_from, current);
 	}
-	(*room_from)->next = current;
-	print_room(*room_from, "\n");
+	else
+		(*room_from)->next = current;
 	(*room_from)->flag |= FL_CLOSE_PATH;
 }
 
@@ -94,7 +95,7 @@ static int	closed_room_seen_from_ext_only(t_room *current)
 {
 	if (!is_closed_path(current))
 		return (0);
-	return (current->from_junction && (internal_cost(current) == COST_INF));
+	return (is_junction(current) && (internal_cost(current) == COST_INF));
 }
 
 static int	closed_room_seen_from_int_only(t_room *current)
@@ -112,8 +113,9 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		return ;
 	if (current == env->start && is_closed_path(neighbour))
 		return ;
-	if (is_junction(neighbour) && !is_linked_on_same_path(current, neighbour))
-		return ;
+	//if (is_junction(neighbour) && !is_linked_on_same_path(current, neighbour))
+//	if (is_junction(neighbour) && neighbour->from_junction == current)
+//		return ;
 	if (is_closed_path(current))
 	{
 		if (neighbour == current->next)
@@ -156,10 +158,18 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		{
 			if (is_linked_on_same_path(current, neighbour))
 			{
-				if (internal_cost(neighbour) <= (ft_min(external_cost(current), internal_cost(current)) - 1))
-					return ;
+				if (is_junction(current))
+				{
+					if (internal_cost(neighbour) <= (external_cost(current) - 1))
+						return ;
+					neighbour->cost[1] = external_cost(current) - 1;
+				}
+				else {
+					if (internal_cost(neighbour) <= (internal_cost(current) - 1))
+						return ;
+					neighbour->cost[1] = internal_cost(current) - 1;
+				}
 				neighbour->from_junction = 0;
-				 neighbour->cost[1] = (ft_min(external_cost(current), internal_cost(current)) - 1);
 			}
 			else
 			{
