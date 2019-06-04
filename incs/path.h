@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:24:39 by apion             #+#    #+#             */
-/*   Updated: 2019/06/03 18:04:41 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/04 13:38:31 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ struct	s_path
 	t_room	*back;
 	t_room	*current;
 	int		length;
+	int		path_printed;
 };
 
 int			fill_path_array(t_env *env);

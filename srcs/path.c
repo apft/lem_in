@@ -85,7 +85,7 @@ static int	add_path_to_array(t_room *start, t_room *current, t_env *env, int *in
 	if (!env->paths_array[*index])
 		return (free_unfully_malloced_path_matrix_and_return(&env->paths_array, *index));
 	length = compute_path_length(current);
-	*env->paths_array[*index] = (t_path){current, current, current, length};
+	*env->paths_array[*index] = (t_path){current, current, current, length, 0};
 	++(*index);
 	return (SUCCESS);
 }
@@ -116,6 +116,89 @@ void		print_array_path(t_env *env)
 		ft_printf("  > length = %d\n", env->paths_array[i]->length);
 		i++;
 	}
+	ft_printf("======\n");
+}
+
+void		print_ants_line(t_env *env, int *last_ant)
+{
+	int		i;
+	int		paths_covered;
+	t_path	*path;
+
+	paths_covered = 0;
+	i = 0;
+	while (paths_covered < env->nb_path)
+	{
+		i = 0;
+		while (i < env->nb_path)
+		{
+			path = env->paths_array[i];
+			if (path->current->ant)
+			{
+				ft_printf("L%d-%s ", path->current->ant, path->current->next->name);
+				if (path->current->next == env->end)
+					++(env->end->ant);
+				else
+				{
+					path->current->next->ant = path->current->ant;
+					if (path->current == path->front)
+						path->front = path->current->next;
+				}
+				path->current->ant = 0;
+				if (path->current->from != env->start)
+					path->current = path->current->from;
+			}
+			else
+			{
+				path->path_printed = 1;
+				++paths_covered;
+			}
+			++i;
+		}
+		i = 0;
+	}
+	while (i < env->nb_path)
+	{
+		path = env->paths_array[i];
+		if (path->back->from == env->start)
+		{
+			if (*last_ant <= env->nb_ants)
+			{
+				ft_printf("L%d-%s ", *last_ant, path->current->name);
+				path->current->ant = *last_ant;
+				++(*last_ant);
+			}
+			else
+				path->back = path->back->next;
+		}
+		else
+		{
+			if (path->back->next != env->end)
+				path->back = path->back->next;
+		}
+		++i;
+	}
+	ft_printf("\n");
+	i = -1;
+	while (++i < env->nb_path)
+	{
+		env->paths_array[i]->path_printed = 0;
+		env->paths_array[i]->current = env->paths_array[i]->front;
+	}
+}
+
+void		print_ants_lines(t_env *env)
+{
+	int		last_ant;
+	int		j;
+
+	last_ant = 1;
+	j = 0;
+	while (env->end->ant < env->nb_ants && j < 150)
+	{
+		print_ants_line(env, &last_ant);
+		j++;
+	}
 }
 
 int			fill_path_array(t_env *env)
@@ -128,5 +211,6 @@ int			fill_path_array(t_env *env)
 	sort_array_path(env);
 	update_paths_links(env);
 	print_array_path(env);
+	print_ants_lines(env);
 	return (SUCCESS);
 }
