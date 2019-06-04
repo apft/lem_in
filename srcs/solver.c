@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/04 16:27:18 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/04 16:29:27 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,22 +267,61 @@ static int	has_augmenting_path(t_env *env)
 	return (SUCCESS);
 }
 
+static int      compute_path_length(t_room *current)
+{
+	int             length;
+
+	length = 0;
+	while (current)
+	{
+		current = current->next;
+		++length;
+	}
+	return (length);
+}
+
+static void	add_path_length(t_room *start, t_room *current, t_env *env, int *flow)
+{
+	(void)start;
+	(void)env;
+	if (!is_closed_path(current))
+		return ;
+	*flow += compute_path_length(current);
+}
+
+static int	compute_flow(t_env *env)
+{
+	int		flow;
+
+	flow = 0;
+	apply_foreach_room_linked_to_ref(env->start, env, &flow, &add_path_length);
+	return (flow);
+}
+
 int		solver(t_env *env)
 {
 	int		flow;
 	int		nb_path;
+	int		flow_2;
 
 	flow = 0;
+	flow_2 = 0;
 	nb_path = 0;
 	while (has_augmenting_path(env) == SUCCESS)
 	{
-		flow += env->end->cost[0] - 1;
-		ft_printf("\n");
+		flow = compute_flow(env);
+		flow_2 += env->end->cost[0];
+		ft_printf("\n\nnb_path= %d, flow= %d", nb_path, flow);
 		ft_printf("Loop %d:\n", nb_path);
 		print_paths(env);
+		if (flow != flow_2)
+		{
+			ft_printf("flow: %d, flow_2: %d, cost(end): %d\n", flow, flow_2, env->end->cost[0]);
+			exit(2);
+		}
 		++nb_path;
 	}
-	ft_printf("\n\nflow= %d", flow);
+	ft_printf("\n\nnb_path= %d, flow= %d", nb_path, flow);
 	if (!nb_path)
 		return (ERR_NO_PATH_FOUND);
 	return (SUCCESS);
