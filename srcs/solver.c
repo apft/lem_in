@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/03 17:43:50 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/05 10:59:55 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ static int	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env 
 	}
 	if (is_closed_path(neighbour) && !is_linked_on_same_path(current, neighbour))
 		neighbour->from_junction = current;
-	print_room(neighbour, " ");
+//	print_room(neighbour, " ");
 	neighbour->from = current;
 	if (neighbour->visited == VISITED_EMPTY)
 	{
@@ -198,13 +198,13 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 	while (queue->head)
 	{
 		current = (t_room *)dequeue(queue);
-		print_room(current, "->{");
+//		print_room(current, "->{");
 		current->visited = VISITED_AS_CURRENT;
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
-		ft_printf("}\n");
+//		ft_printf("}\n");
 		if (internal_cost(current) < 0 || external_cost(current) < 0)
 		{
-			ft_printf("error");
+//			ft_printf("error");
 			exit(1);
 		}
 	}
