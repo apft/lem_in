@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:19:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/05 12:20:28 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/05 15:44:05 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ static int	compute_path_length(t_room *current)
 		++length;
 	}
 	return (length);
+}
+
+static void	compute_streams(t_env *env)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < env->nb_path)
+	{
+		j = i;
+		while (j--)
+			env->paths_array[i]->nb_ants_stream += env->paths_array[i]->length
+				- env->paths_array[j]->length + 1;
+		++i;
+	}
 }
 
 static int	cmp_array_length(t_path **elm1, t_path **elm2)
@@ -89,7 +105,7 @@ static int	add_path_to_array(t_room *start, t_room *current, t_env *env, int *in
 	if (!env->paths_array[*index])
 		return (free_unfully_malloced_path_matrix_and_return(&env->paths_array, *index));
 	length = compute_path_length(current);
-	*env->paths_array[*index] = (t_path){current, current, current, length, 0};
+	*env->paths_array[*index] = (t_path){current, current, current, length, 0, 0};
 	++(*index);
 	return (SUCCESS);
 }
@@ -174,6 +190,8 @@ void		print_ants_line(t_env *env, int *last_ant)
 		{
 			if (*last_ant <= env->nb_ants)
 			{
+				if (i && (env->nb_ants - *last_ant + 1) < path->nb_ants_stream)
+					break ;
 				ft_printf("L%d-%s ", *last_ant, path->current->name);
 				path->current->ant = *last_ant;
 				++(*last_ant);
@@ -227,6 +245,7 @@ int			fill_path_array(t_env *env)
 	status = sort_array_path(env);
 	if (status != SUCCESS)
 		return (status);
+	compute_streams(env);
 	update_paths_links(env);
 	print_array_path(env);
 	ft_printf("\nNb of ants: %d\n", env->nb_ants);
