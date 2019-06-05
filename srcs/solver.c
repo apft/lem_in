@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/05 14:47:15 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/05 17:49:10 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "output.h"
 #include "ft_printf.h"
 
+#define MAX_FLOW	0
 #define MAX_FLOW_REACHED 42
 
 static int	set_room_dst(t_room *start, t_room *current, t_env *env)
@@ -35,15 +36,15 @@ static int	set_room_dst(t_room *start, t_room *current, t_env *env)
 	return (SUCCESS);
 }
 
-static void	open_path(t_room **room_from, t_room *first_next)
+static void	open_path(t_room **room_junction, t_room *first_next)
 {
 	t_room	*current;
 	t_room	*next;
 
 	ft_printf("open_path\n");
-	current = (*room_from)->next;
-		print_room(current, "\n");
-	(*room_from)->next = first_next;
+	current = (*room_junction)->next;
+	print_room(current, "\n");
+	(*room_junction)->next = first_next;
 	while (!is_junction(current))
 	{
 		current->flag ^= FL_CLOSE_PATH;
@@ -52,17 +53,17 @@ static void	open_path(t_room **room_from, t_room *first_next)
 		current = next;
 		print_room(current, "\n");
 	}
-	*room_from = current->from_junction;
+	*room_junction = current->from_junction;
 	current->from_junction = 0;
-	print_room(*room_from, "\n");
-	if (is_closed_path(*room_from))
+	print_room(*room_junction, "\n");
+	if (is_closed_path(*room_junction))
 	{
 		ft_printf("open_path_rec\n");
-		open_path(room_from, current);
+		open_path(room_junction, current);
 	}
 	else
-		(*room_from)->next = current;
-	(*room_from)->flag |= FL_CLOSE_PATH;
+		(*room_junction)->next = current;
+	(*room_junction)->flag |= FL_CLOSE_PATH;
 }
 
 static int	save_path(t_env *env)
@@ -230,7 +231,7 @@ static int	has_augmenting_path(t_env *env)
 	bfs_max_flow(env, &queue);
 	if (env->end->cost[0] == COST_INF)
 		return (ERROR);
-	if (env->flow + external_cost(env->end) > env->nb_ants)
+	if (MAX_FLOW && env->flow + external_cost(env->end) > env->nb_ants)
 		return (MAX_FLOW_REACHED);
 	save_path(env);
 	return (SUCCESS);
