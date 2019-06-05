@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:19:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/05 15:44:05 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/05 17:02:00 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,9 @@ void		print_array_path(t_env *env)
 	ft_printf("\nPaths ordered:\n");
 	while (i < env->nb_path)
 	{
-		ft_printf("%d: (%d, %s)", i, env->paths_array[i]->length,
-				env->paths_array[i]->back->name);
+		ft_printf("%d: (%d, %s, %d)", i, env->paths_array[i]->length,
+				env->paths_array[i]->back->name,
+				env->paths_array[i]->nb_ants_stream);
 		if (i < env->nb_path - 1)
 			ft_printf(" | ");
 		i++;
