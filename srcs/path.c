@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:19:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/05 17:02:00 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 15:03:47 by pion             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,6 @@ int			fill_path_array(t_env *env)
 	update_paths_links(env);
 	print_array_path(env);
 	ft_printf("\nNb of ants: %d\n", env->nb_ants);
-	print_ants_lines(env);
+//	print_ants_lines(env);
 	return (SUCCESS);
 }

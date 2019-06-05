@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 18:06:53 by apion             #+#    #+#             */
-/*   Updated: 2019/05/24 10:30:49 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/05 17:42:22 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ void		print_output(t_env *env)
 	ft_printf("\nPaths:\n");
 	print_paths(env);
 	ft_printf("\nAnts:\n");
-	print_ants(env);
+//	print_ants(env);
 }
