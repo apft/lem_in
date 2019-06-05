@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:19:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/04 17:31:59 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/05 10:57:03 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,17 @@ static int	cmp_array_length(t_path **elm1, t_path **elm2)
 	return ((*elm1)->length - (*elm2)->length);
 }
 
-static void	sort_array_path(t_env *env)
+static int	sort_array_path(t_env *env)
 {
 	t_array_args	args;
+	int				status;
 
 	args = (t_array_args){env->paths_array, sizeof(t_path *), env->nb_path,
 				&cmp_array_length};
-	array_merge_sort(&args);
+	status = array_merge_sort(&args);
+	if (status != SUCCESS)
+		return (status);
+	return (SUCCESS);
 }
 
 static void	update_paths_links(t_env *env)
@@ -110,13 +114,16 @@ void		print_array_path(t_env *env)
 	int		i;
 
 	i = 0;
+	ft_printf("\nPaths ordered:\n");
 	while (i < env->nb_path)
 	{
-		ft_printf("Path %d:\n", i);
-		ft_printf("  > length = %d\n", env->paths_array[i]->length);
+		ft_printf("%d: (%d, %s)", i, env->paths_array[i]->length,
+				env->paths_array[i]->back->name);
+		if (i < env->nb_path - 1)
+			ft_printf(" | ");
 		i++;
 	}
-	ft_printf("======\n");
+	ft_printf("\n");
 }
 
 void		print_ants_line(t_env *env, int *last_ant)
@@ -190,15 +197,10 @@ void		print_ants_line(t_env *env, int *last_ant)
 void		print_ants_lines(t_env *env)
 {
 	int		last_ant;
-	int		j;
 
 	last_ant = 1;
-	j = 0;
-	while (env->end->ant < env->nb_ants && j < 150)
-	{
+	while (env->end->ant < env->nb_ants)
 		print_ants_line(env, &last_ant);
-		j++;
-	}
 }
 
 int			fill_path_array(t_env *env)
@@ -208,9 +210,11 @@ int			fill_path_array(t_env *env)
 	status = create_path_array(env, env->nb_path);
 	if (status != SUCCESS)
 		return (status);
-	sort_array_path(env);
+	status = sort_array_path(env);
+	if (status != SUCCESS)
+		return (status);
 	update_paths_links(env);
 	print_array_path(env);
-	print_ants_lines(env);
+//	print_ants_lines(env);
 	return (SUCCESS);
 }
