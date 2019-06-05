@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:19:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/05 10:57:03 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/05 12:20:28 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,10 +197,17 @@ void		print_ants_line(t_env *env, int *last_ant)
 void		print_ants_lines(t_env *env)
 {
 	int		last_ant;
+	int		j;
 
 	last_ant = 1;
+	j = 0;
+	ft_printf("\n");
 	while (env->end->ant < env->nb_ants)
+	{
 		print_ants_line(env, &last_ant);
+		++j;
+	}
+	ft_printf("\nNb of lines: %d\n", j);
 }
 
 int			fill_path_array(t_env *env)
@@ -215,6 +222,7 @@ int			fill_path_array(t_env *env)
 		return (status);
 	update_paths_links(env);
 	print_array_path(env);
-//	print_ants_lines(env);
+	ft_printf("\nNb of ants: %d\n", env->nb_ants);
+	print_ants_lines(env);
 	return (SUCCESS);
 }
