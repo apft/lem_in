@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/05 12:32:47 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/05 14:47:15 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "error.h"
 #include "output.h"
 #include "ft_printf.h"
+
+#define MAX_FLOW_REACHED 42
 
 static int	set_room_dst(t_room *start, t_room *current, t_env *env)
 {
@@ -228,6 +230,8 @@ static int	has_augmenting_path(t_env *env)
 	bfs_max_flow(env, &queue);
 	if (env->end->cost[0] == COST_INF)
 		return (ERROR);
+	if (env->flow + external_cost(env->end) > env->nb_ants)
+		return (MAX_FLOW_REACHED);
 	save_path(env);
 	return (SUCCESS);
 }
@@ -276,6 +280,7 @@ int		solver(t_env *env)
 	while (has_augmenting_path(env) == SUCCESS)
 	{
 		flow = compute_flow(env);
+		env->flow += external_cost(env->end);
 		flow_2 += env->end->cost[0];
 		ft_printf("\n\nnb_path= %d, flow= %d", nb_path, flow);
 		ft_printf("Loop %d:\n", nb_path);
