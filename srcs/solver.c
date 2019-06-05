@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/04 16:29:27 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/05 11:40:04 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,11 @@ static int	save_path(t_env *env)
 	return (SUCCESS);
 }
 
-static int	closed_room_seen_from_ext_only(t_room *current)
+static int	closed_room_as_junction(t_room *current)
 {
 	if (!is_closed_path(current))
 		return (0);
-	return (is_junction(current) && (internal_cost(current) == COST_INF));
-}
-
-static int	closed_room_seen_from_int_only(t_room *current)
-{
-	if (!is_closed_path(current))
-		return (0);
-	return (!is_junction(current));
+	return (is_junction(current) && (external_cost(current) < internal_cost(current)));
 }
 
 static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env *env, t_queue *queue)
@@ -114,30 +107,26 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 		return ;
 	if (current == env->start && is_closed_path(neighbour))
 		return ;
-	//if (is_junction(neighbour) && !is_linked_on_same_path(current, neighbour))
-//	if (is_junction(neighbour) && neighbour->from_junction == current)
-//		return ;
 	if (is_closed_path(current))
 	{
 		if (neighbour == current->next)
 			return ;
-		if (closed_room_seen_from_ext_only(current))
+		if (closed_room_as_junction(current))
 		{
 			if (!is_linked_on_same_path(current, neighbour))
 				return ;
-			if (neighbour->visited == VISITED_AS_NEIGHBOUR)
-				return ;
 			if (internal_cost(neighbour) <= (external_cost(current) - 1))
 				return ;
+			if (is_junction(neighbour) && external_cost(neighbour) <= (external_cost(current) - 1))
+				return ;
+			neighbour->from_junction = 0;
 			neighbour->cost[1] = (external_cost(current) - 1);
 		}
-		else if (closed_room_seen_from_int_only(current))
+		else
 		{
 			if (is_linked_on_same_path(current, neighbour))
 			{
 				if (internal_cost(neighbour) <= (internal_cost(current) - 1))
-					return ;
-				if (neighbour->visited == VISITED_AS_NEIGHBOUR)
 					return ;
 				if (is_junction(neighbour) && external_cost(neighbour) <= (internal_cost(current) - 1))
 					return ;
@@ -148,40 +137,13 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			{
 				if (external_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
-				if (neighbour->visited == VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst > (internal_cost(current) + 1))
-					return ;
-				if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
-					return ;
-				neighbour->cost[0] = internal_cost(current) + 1;
-			}
-		}
-		else
-		{
-			if (is_linked_on_same_path(current, neighbour))
-			{
-				if (is_junction(current))
-				{
-					if (internal_cost(neighbour) <= (external_cost(current) - 1))
-						return ;
-					neighbour->cost[1] = external_cost(current) - 1;
-				}
-				else {
-					if (internal_cost(neighbour) <= (internal_cost(current) - 1))
-						return ;
-					neighbour->cost[1] = internal_cost(current) - 1;
-				}
-				neighbour->from_junction = 0;
-			}
-			else
-			{
-				if (external_cost(neighbour) <= (internal_cost(current) + 1))
-					return ;
 				if (internal_cost(neighbour) <= (internal_cost(current) + 1))
 					return ;
-				if (neighbour->visited == VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst > (internal_cost(current) + 1))
-					return ;
-				if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (internal_cost(current) + 1))
-					return ;
+				if (is_closed_path(neighbour))
+				{
+					if (neighbour->dst > (internal_cost(current) + 1))
+						return ;
+				}
 				neighbour->cost[0] = internal_cost(current) + 1;
 			}
 		}
@@ -194,10 +156,11 @@ static void	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env
 			return ;
 		if (internal_cost(neighbour) <= (external_cost(current) + 1))
 			return ;
-		if (neighbour->visited == VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst > (external_cost(current) + 1))
-			return ;
-		if (neighbour->visited != VISITED_EMPTY && is_closed_path(neighbour) && neighbour->dst >= (external_cost(current) + 1))
-			return ;
+		if (is_closed_path(neighbour))
+		{
+			if (neighbour->dst > (external_cost(current) + 1))
+				return ;
+		}
 		neighbour->cost[0] = (external_cost(current) + 1);
 	}
 	if (is_closed_path(neighbour) && !is_linked_on_same_path(current, neighbour))
