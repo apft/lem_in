@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/05/23 21:10:07 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/03 17:42:21 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "error.h"
 #include "output.h"
 #include "cleaner.h"
+#include "path.h"
 
 int			main(void)
 {
@@ -29,7 +30,12 @@ int			main(void)
 	matrix_filter(&env);
 //	if ((status = check_map(&env)) != SUCCESS)
 //		return (print_error_and_return(status));
-	solver(&env);
-	print_output(&env);
+	status = solver(&env);
+	if (status != SUCCESS)
+		return (free_mem(&env) + print_error_and_return(status));
+	status = fill_path_array(&env);
+	if (status != SUCCESS)
+		return (free_mem(&env) + print_error_and_return(status));
+//	print_output(&env);
 	return (free_mem(&env));
 }

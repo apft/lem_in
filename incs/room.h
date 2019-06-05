@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 12:56:45 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/03 17:29:30 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ struct	s_room
 	int			cost[2]; // [0]: external cost, [1]: internal cost
 	int			flag;
 	int			dst;
+	int			ant;
 };
 
 
@@ -55,8 +56,8 @@ int		is_linked_on_same_path(t_room *room_a, t_room *room_b);
 
 int		get_room_id_by_name(char *str, t_env *env, int context);
 
-void	apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data,
-			void (*fct)());
+int		apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data,
+			int (*fct)());
 
 void	print_room(t_room *room, char *after);
 

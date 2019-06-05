@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 14:31:17 by apion             #+#    #+#             */
-/*   Updated: 2019/04/29 12:36:28 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/03 17:27:09 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ static void	free_matrix(int ***matrix, size_t size)
 	*matrix = 0;
 }
 
+static void	free_array_path(t_path ***array_path, size_t size)
+{
+	while (size--)
+		free((*array_path)[size]);
+	free(*array_path);
+	*array_path = 0;
+}
+
 int			free_mem(t_env *env)
 {
 	if (env->lines)
@@ -40,5 +48,7 @@ int			free_mem(t_env *env)
 		ft_memdel((void **)&env->rooms_array);
 	if (env->matrix)
 		free_matrix(&env->matrix, env->nb_room);
+	if (env->paths_array)
+		free_array_path(&env->paths_array, env->nb_path);
 	return (SUCCESS);
 }
