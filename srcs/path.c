@@ -140,30 +140,33 @@ void		print_ants_line(t_env *env, int *last_ant)
 		while (i < env->nb_path)
 		{
 			path = env->paths_array[i];
-			if (path->current->ant)
+			if (!path->path_printed)
 			{
-				ft_printf("L%d-%s ", path->current->ant, path->current->next->name);
-				if (path->current->next == env->end)
-					++(env->end->ant);
+				if (path->current->ant)
+				{
+					ft_printf("L%d-%s ", path->current->ant, path->current->next->name);
+					if (path->current->next == env->end)
+						++(env->end->ant);
+					else
+					{
+						path->current->next->ant = path->current->ant;
+						if (path->current == path->front)
+							path->front = path->current->next;
+					}
+					path->current->ant = 0;
+					if (path->current->from != env->start)
+						path->current = path->current->from;
+				}
 				else
 				{
-					path->current->next->ant = path->current->ant;
-					if (path->current == path->front)
-						path->front = path->current->next;
+					path->path_printed = 1;
+					++paths_covered;
 				}
-				path->current->ant = 0;
-				if (path->current->from != env->start)
-					path->current = path->current->from;
-			}
-			else
-			{
-				path->path_printed = 1;
-				++paths_covered;
 			}
 			++i;
 		}
-		i = 0;
 	}
+	i = 0;
 	while (i < env->nb_path)
 	{
 		path = env->paths_array[i];
@@ -176,7 +179,10 @@ void		print_ants_line(t_env *env, int *last_ant)
 				++(*last_ant);
 			}
 			else
-				path->back = path->back->next;
+			{
+				if (path->back->next != env->end)
+					path->back = path->back->next;
+			}
 		}
 		else
 		{
@@ -186,11 +192,12 @@ void		print_ants_line(t_env *env, int *last_ant)
 		++i;
 	}
 	ft_printf("\n");
-	i = -1;
-	while (++i < env->nb_path)
+	i = 0;
+	while (i < env->nb_path)
 	{
 		env->paths_array[i]->path_printed = 0;
 		env->paths_array[i]->current = env->paths_array[i]->front;
+		++i;
 	}
 }
 
