@@ -51,6 +51,7 @@ static void	open_path(t_room **room_from, t_room *first_next)
 		print_room(current, "\n");
 	}
 	*room_from = current->from_junction;
+	current->from_junction = 0;
 	print_room(*room_from, "\n");
 	if (is_closed_path(*room_from))
 	{
