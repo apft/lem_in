@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/05 17:50:54 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/05 17:57:27 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,26 @@ static int	set_room_dst(t_room *start, t_room *current, t_env *env)
 static void	open_path(t_room **room_junction, t_room *next)
 {
 	t_room	*current;
+	t_room	*from;
 
 	ft_printf("open_path\n");
 	current = (*room_junction)->next;
 	print_room(current, "\n");
 	(*room_junction)->next = next;
+	(*room_junction)->from_junction = next;
+	from = *room_junction;
 	while (!is_junction(current))
 	{
 		current->flag ^= FL_CLOSE_PATH;
 		next = current->next;
 		current->next = 0;
+		current->from = from;
 		current = next;
 		print_room(current, "\n");
 	}
 	*room_junction = current->from_junction;
 	current->from_junction = 0;
+	current->from = from;
 	print_room(*room_junction, "\n");
 	if (is_closed_path(*room_junction))
 	{
@@ -91,6 +96,7 @@ static int	save_path(t_env *env)
 		next = current;
 		current = current->from;
 	}
+	current->next = next;
 	return (SUCCESS);
 }
 
