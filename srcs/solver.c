@@ -79,7 +79,7 @@ static int	save_path(t_env *env)
 	t_room	*current;
 	t_room	*next;
 
-	ft_printf("save_path\n");
+	ft_printf("\nsave_path\n");
 	current = env->end;
 	next = 0;
 	while (current->from)
@@ -101,6 +101,64 @@ static int	save_path(t_env *env)
 		current = current->from;
 	}
 	current->next = next;
+	return (SUCCESS);
+}
+
+static int	reopen_path(t_room **room_junction, t_room **from)
+{
+	t_room	*current;
+
+	ft_printf("\nreopen_path\n");
+	current = (*room_junction)->from;
+	(*room_junction)->from_junction = *from;
+	(*room_junction)->from = *from;
+	*from = current;
+	print_room(*room_junction, "\n");
+	print_room(current, "\t\t");
+	while (!is_closed_path(current))
+	{
+		current->next = *from;
+		*from = current;
+		print_room(current, "\n");
+		current = current->from;
+		print_room(current, "\t\t");
+	}
+	*room_junction = current->next;
+	current->next = (*from)->from;
+	print_room(current, "\n");
+	return (SUCCESS);
+}
+
+static int	unsave_path(t_env *env)
+{
+	t_room	*current;
+	t_room	*from;
+	t_room	*next;
+
+	ft_printf("\nunsave_path\n");
+	current = env->start;
+	from = current;
+	while (current->next)
+	{
+		print_room(current, "\t\t");
+		if (!is_junction(current))
+		{
+			next = current->next;
+			if (current != env->start)
+			{
+				current->flag ^= FL_CLOSE_PATH;
+				current->from = from;
+			}
+			current->next = 0;
+			from = current;
+			print_room(current, "\n");
+			current = next;
+		}
+		else
+			reopen_path(&current, &from);
+		print_room(current, "\n");
+	}
+	print_room(current, "\n");
 	return (SUCCESS);
 }
 
@@ -242,6 +300,8 @@ static int	has_augmenting_path(t_env *env)
 		return (ERROR);
 	if (MAX_FLOW && env->flow + external_cost(env->end) > env->nb_ants)
 		return (MAX_FLOW_REACHED);
+	save_path(env);
+	unsave_path(env);
 	save_path(env);
 	return (SUCCESS);
 }
