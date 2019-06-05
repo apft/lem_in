@@ -230,7 +230,7 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 		ft_printf("}\n");
 		if (internal_cost(current) < 0 || external_cost(current) < 0)
 		{
-			ft_printf("error");
+			ft_dprintf(2, "error: negative cost");
 			exit(1);
 		}
 	}
@@ -317,7 +317,7 @@ int		solver(t_env *env)
 		print_paths(env);
 		if (flow != flow_2)
 		{
-			ft_printf("flow: %d, flow_2: %d, cost(end): %d\n", flow, flow_2, env->end->cost[0]);
+			ft_dprintf(2, "error: flow: %d, flow_2: %d, cost(end): %d\n", flow, flow_2, env->end->cost[0]);
 			exit(2);
 		}
 		++nb_path;
