@@ -95,8 +95,10 @@ static int	save_path(t_env *env)
 		else
 			open_path(&current, &next);
 	}
+	print_room(current, "\t\t");
 	current->next = next;
-	current->from = from;
+	current->from = next;
+	print_room(current, "\n");
 	return (SUCCESS);
 }
 
