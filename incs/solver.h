@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output.h                                           :+:      :+:    :+:   */
+/*   solver.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/27 18:12:19 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 13:26:26 by jkettani         ###   ########.fr       */
+/*   Created: 2019/06/06 14:15:52 by jkettani          #+#    #+#             */
+/*   Updated: 2019/06/06 14:17:25 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OUTPUT_H
-# define OUTPUT_H
+#ifndef SOLVER_H
+# define SOLVER_H
 
 # include "env.h"
 
-void		print_output(t_env *env);
-void		print_paths(t_env *env);
-void		print_matrix(t_env *env);
+int		solver(t_env *env);
 
 #endif

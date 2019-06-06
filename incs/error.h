@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 14:58:11 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 17:50:45 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "env.h"
 # include <errno.h>
-# include "options.h"
 
 # define SUCCESS	0
 # define ERROR		-1

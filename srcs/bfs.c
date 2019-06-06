@@ -6,10 +6,11 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:51:36 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 14:06:20 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "bfs.h"
 #include "env.h"
 #include "customlibft.h"
 #include "tube.h"
@@ -89,7 +90,8 @@ void		bfs_remove_dead_end_path(t_env *env)
 		{
 			if (env->matrix[current->id][i])
 			{
-				if (!env->rooms_array[i]->visited && env->rooms_array[i] != env->end)
+				if (!env->rooms_array[i]->visited
+						&& env->rooms_array[i] != env->end)
 				{
 					env->rooms_array[i]->visited = 1;
 					env->rooms_array[i]->from = current;

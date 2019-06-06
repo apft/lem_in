@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output.h                                           :+:      :+:    :+:   */
+/*   map.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/27 18:12:19 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 13:26:26 by jkettani         ###   ########.fr       */
+/*   Created: 2019/06/06 14:03:18 by jkettani          #+#    #+#             */
+/*   Updated: 2019/06/06 14:15:33 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OUTPUT_H
-# define OUTPUT_H
+#ifndef MAP_H
+# define MAP_H
 
-# include "env.h"
+#include "env.h"
 
-void		print_output(t_env *env);
-void		print_paths(t_env *env);
-void		print_matrix(t_env *env);
+int			check_map(t_env *env);
+void		matrix_filter(t_env *env);
 
 #endif

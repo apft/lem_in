@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 20:06:34 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/03 17:15:03 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 13:24:15 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,62 +15,54 @@
 #include "libft.h"
 #include "error.h"
 
-typedef struct s_pos t_pos;
-struct	s_pos
+static void		assign(void *dst, void *src, t_array_args *a)
 {
-	int	cur;
-	int	left;
-	int right;
-};
-
-static void	assign(void *dst, void *src, t_array_args *args)
-{
-	ft_memcpy(dst, src, args->elmt_size);
+	ft_memcpy(dst, src, a->elmt_size);
 }
 
-static int	merge(t_array_args *args, int left, int mid, int right)
+static int		merge(t_array_args *a, int left, int mid, int right)
 {
 	void	*tmp_arr;
 	size_t	scale;
 	t_pos	p;
 
-	scale = args->elmt_size;
+	scale = a->elmt_size;
 	p = (t_pos){0, left, mid + 1};
-	if (!(tmp_arr = (void *)ft_memalloc(args->elmt_size * (right - left + 1))))
+	if (!(tmp_arr = (void *)ft_memalloc(a->elmt_size * (right - left + 1))))
 		return (errno);
 	while (p.left <= mid && p.right <= right)
 	{
-		if ((*(args->cmp))(args->arr + p.left * scale,
-					args->arr + p.right * scale) < 0)
-			assign(tmp_arr + p.cur++ * scale, args->arr + p.left++ * scale, args);
+		if ((*(a->cmp))(a->arr + p.left * scale,
+					a->arr + p.right * scale) < 0)
+			assign(tmp_arr + p.cur++ * scale, a->arr + p.left++ * scale, a);
 		else
-			assign(tmp_arr + p.cur++ * scale, args->arr + p.right++ * scale, args);
+			assign(tmp_arr + p.cur++ * scale, a->arr + p.right++ * scale, a);
 	}
 	while (p.left <= mid)
-		assign(tmp_arr + (p.cur++ * scale), args->arr + (p.left++ * scale), args);
+		assign(tmp_arr + (p.cur++ * scale), a->arr + (p.left++ * scale), a);
 	while (p.right <= right)
-		assign(tmp_arr + p.cur++ * scale, args->arr + p.right++ * scale, args);
+		assign(tmp_arr + p.cur++ * scale, a->arr + p.right++ * scale, a);
 	while (p.cur--)
-		assign(args->arr + (left + p.cur) * scale, tmp_arr + p.cur * scale, args);
+		assign(a->arr + (left + p.cur) * scale, tmp_arr + p.cur * scale, a);
 	free((void *)tmp_arr);
 	return (SUCCESS);
 }
 
-static int	merge_sort(t_array_args *args, int left, int right)
+static int		merge_sort(t_array_args *a, int left, int right)
 {
 	int		mid;
 
-	if (!args || !args->arr || (left >= right))
+	if (!a || !a->arr || (left >= right))
 		return (SUCCESS);
 	mid = (left + right) / 2;
-	return (merge_sort(args, left, mid) != SUCCESS
-			|| merge_sort(args, mid + 1, right) != SUCCESS
-			|| merge(args, left, mid, right) != SUCCESS);
+	return (merge_sort(a, left, mid) != SUCCESS
+			|| merge_sort(a, mid + 1, right) != SUCCESS
+			|| merge(a, left, mid, right) != SUCCESS);
 }
 
-int			array_merge_sort(t_array_args *args)
+int				array_merge_sort(t_array_args *a)
 {
-	if (merge_sort(args, 0, args->nb_elmt - 1) != SUCCESS)
+	if (merge_sort(a, 0, a->nb_elmt - 1) != SUCCESS)
 		return (errno);
 	return (SUCCESS);
 }

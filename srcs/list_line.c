@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 12:15:58 by apion             #+#    #+#             */
-/*   Updated: 2019/04/27 18:28:08 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/06 16:43:41 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_list_line	*create_list_line(char *line)
 
 	node = (t_list_line *)malloc(sizeof(*node));
 	if (!node)
-		return (0);
+		return (NULL);
 	node->line = line;
 	node->next = 0;
 	return (node);

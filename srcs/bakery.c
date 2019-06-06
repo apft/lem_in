@@ -6,28 +6,23 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:47:01 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 13:38:28 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "env.h"
 #include "parser.h"
 #include "error.h"
 #include "libft.h"
+#include <stdlib.h>
 
-/*
-** can also be called "factory"
-*/
-
-void	free_unfully_malloced_matrix(int ***matrix, int index)
+static void	free_unfully_malloced_matrix(int ***matrix, int index)
 {
 	while (index--)
 		free((*matrix)[index]);
 	free(*matrix);
 	*matrix = NULL;
 }
-
 
 static int	lst_to_array(t_env *env)
 {

@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 17:13:51 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/03 17:40:59 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 13:24:48 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ struct	s_array_args
 	int		(*cmp)();
 };
 
-int			array_merge_sort(t_array_args *args);
+typedef struct s_pos		t_pos;
+struct	s_pos
+{
+	int	cur;
+	int	left;
+	int right;
+};
+
+int							array_merge_sort(t_array_args *args);
 
 #endif

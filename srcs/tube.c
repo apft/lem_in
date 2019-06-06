@@ -6,25 +6,25 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 11:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 14:11:55 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
-static int	nb_neighbour(t_room *room, t_env *env)
+static int	nb_of_neighbours(t_room *room, t_env *env)
 {
-	int		nb_neighbour;
+	int		nb_neighbours;
 	int		i;
 
-	nb_neighbour = 0;
+	nb_neighbours = 0;
 	i = 0;
 	while (i < env->nb_rooms)
 	{
-		nb_neighbour += env->matrix[room->id][i];
+		nb_neighbours += env->matrix[room->id][i];
 		++i;
 	}
-	return (nb_neighbour);
+	return (nb_neighbours);
 }
 
 int		is_dead_end(t_env *env, int index, int index_parent)
@@ -75,7 +75,7 @@ void	remove_dead_end_path(t_room *dead_end, t_env *env)
 	while (dead_end && from)
 	{
 		remove_tube_between_rooms(env, dead_end, from);
-		if (nb_neighbour(from, env) == 1)
+		if (nb_of_neighbours(from, env) == 1)
 		{
 			dead_end = from;
 			from = dead_end->from;

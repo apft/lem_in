@@ -6,16 +6,17 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/05/14 16:13:59 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 17:47:54 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "parser.h"
 #include "env.h"
 #include "atoi_pos.h"
 #include "get_next_line.h"
 #include "error.h"
+#include "ft_printf.h"
+#include <unistd.h>
 
 static int	get_cmd(char *line)
 {
@@ -44,8 +45,9 @@ static int	get_number_ants(t_env *env)
 		return (status);
 	if (env->nb_ants < 0)
 		return (ERR_NEG_NB_ANTS);
-	if (list_line_add_first(&env->lines, line))
-		return (errno);
+	status = list_line_add_first(&env->lines, line);
+	if (status != SUCCESS)
+		return (status);
 	return (SUCCESS);
 }
 

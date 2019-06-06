@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 17:47:44 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,40 @@ static int	extract_start_or_end(t_room *room, t_env *env, unsigned int *cmd_flag
 	return (SUCCESS);
 }
 
-int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
+static int	extract_room_info(char *line, t_room *room, t_env *env)
 {
 	char	*end;
+
+	end = ft_strchr(line, '\0') - 1;
+	if (extract_coord(&end, &room->y) != SUCCESS)
+		return (ERR_INVALID_Y_COORD);
+	--end;
+	if (extract_coord(&end, &room->x) != SUCCESS)
+		return (ERR_INVALID_X_COORD);
+	if (!is_print_str(line, end))
+		return (ERR_INVALID_ROOM_NAME);
+	room->name = ft_strndup(line, end - line);
+	if (!room->name)
+		return (errno);
+	if (is_room_duplicate(room->name, env))
+		return (ft_strdel_ret(&room->name, ERR_ROOM_DUPLICATED));
+	return (SUCCESS);
+}
+
+int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
+{
+	int		status;
 	t_room	room;
 	t_list	*node;
 
 	room = (t_room){0, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE,
-				(void *)0, (void *)0, (void *)0, VISITED_EMPTY, {0, 0}, 0, 0, 0};
+			(void *)0, (void *)0, (void *)0, VISITED_EMPTY, {0, 0}, 0, 0, 0};
 	if (*cmd_flag & BLK_TUBE)
 		return (ERR_INVALID_TUBE);
 	if (ft_nchar(line, ' ') != 2)
 		return (ERR_INVALID_ROOM_NB_ARG);
-	end = ft_strchr(line, '\0') - 1;
-	if (extract_coord(&end, &room.y) != SUCCESS)
-		return (ERR_INVALID_Y_COORD);
-	--end;
-	if (extract_coord(&end, &room.x) != SUCCESS)
-		return (ERR_INVALID_X_COORD);
-	if (!is_print_str(line, end))
-		return (ERR_INVALID_ROOM_NAME);
-	room.name = ft_strndup(line, end - line);
-	if (!room.name)
-		return (errno);
-	if (is_room_duplicate(room.name, env))
-		return (ft_strdel_ret(&room.name, ERR_ROOM_DUPLICATED));
+	if ((status = extract_room_info(line, &room, env)) != SUCCESS)
+		return (status);
 	node = ft_lstnew((void *)&room, sizeof(room));
 	if (!node)
 		return (errno);

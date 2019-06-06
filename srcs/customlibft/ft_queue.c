@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 21:36:32 by apion             #+#    #+#             */
-/*   Updated: 2019/05/28 19:50:46 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/06 13:13:42 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	*create_node(void *content)
 	return (node);
 }
 
-void	prequeue(t_queue *queue, void *content)
+void		prequeue(t_queue *queue, void *content)
 {
 	t_list *node;
 
@@ -44,7 +44,7 @@ void	prequeue(t_queue *queue, void *content)
 		queue->tail = node;
 }
 
-void	enqueue(t_queue *queue, void *content)
+void		enqueue(t_queue *queue, void *content)
 {
 	t_list	*node;
 
@@ -58,7 +58,7 @@ void	enqueue(t_queue *queue, void *content)
 	queue->tail = node;
 }
 
-void	*dequeue(t_queue *queue)
+void		*dequeue(t_queue *queue)
 {
 	t_list	*node;
 	void	*content;

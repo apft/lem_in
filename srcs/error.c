@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 14:58:33 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 15:43:42 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 t_error		g_error[] =
 {
 	{ERR_INVALID_OPTION, "[options] invalid option"},
-	{ERR_READ, "[read]"},
+	{ERR_READ, "[read] could not read file"},
 	{ERR_ATOI, "[atoi]"},
 	{ERR_ATOI_EMPTY, "[atoi] no input"},
 	{ERR_ATOI_NO_DIGITS, "[atoi] no digit"},

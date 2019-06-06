@@ -37,9 +37,4 @@ struct	s_env
 	t_path		**paths_array;
 };
 
-int		free_unfully_malloced_matrix_and_return(int ***matrix, int index);
-void	matrix_filter(t_env *env);
-int		check_map(t_env *env);
-int		solver(t_env *env);
-
 #endif
