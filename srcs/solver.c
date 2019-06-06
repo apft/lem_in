@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 11:13:19 by pion             ###   ########.fr       */
+/*   Updated: 2019/06/06 13:37:58 by pion             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,12 @@ static int	unsave_path(t_env *env)
 
 	ft_printf("\nunsave_path\n");
 	current = env->start;
+	next = 0;
 	from = 0;
-	while (current->from)
+	while (current->next)
 	{
 		print_room(current, "\t\t");
+		next = current->next;
 		if (!is_junction(current))
 		{
 			if (current != env->start)
@@ -153,13 +155,15 @@ static int	unsave_path(t_env *env)
 			current->from = from;
 			from = current;
 			print_room(current, "\n");
-			current = from;
+			current = next;
 		}
 		else
-			open_path(&current, &from);
+			close_path(&current, &from);
 	}
+	print_room(current, "\t\t");
 	current->next = 0;
 	current->from = from;
+	print_room(current, "\n");
 	return (SUCCESS);
 }
 
