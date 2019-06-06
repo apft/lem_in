@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 11:09:02 by pion             ###   ########.fr       */
+/*   Updated: 2019/06/06 11:13:19 by pion             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,29 +100,35 @@ static int	save_path(t_env *env)
 	return (SUCCESS);
 }
 
-static int	reopen_path(t_room **room_junction, t_room **from)
+static void	close_path(t_room **current, t_room **from)
 {
-	t_room	*current;
+	t_room	*room_boundary;
+	t_room	*next;
 
-	ft_printf("\nreopen_path\n");
-	current = (*room_junction)->from;
-	(*room_junction)->from_junction = *from;
-	(*room_junction)->from = *from;
-	*from = current;
-	print_room(*room_junction, "\n");
-	print_room(current, "\t\t");
-	while (!is_closed_path(current))
+	ft_printf("close_path\n");
+	room_boundary = *current;
+	*current = room_boundary->from;
+	room_boundary->from = *from;
+	next = room_boundary;
+	print_room(room_boundary, "\n");
+	print_room(*current, "\t\t");
+	while (!is_closed_path(*current))
 	{
-		current->next = *from;
-		*from = current;
-		print_room(current, "\n");
-		current = current->from;
-		print_room(current, "\t\t");
+		(*current)->flag |= FL_CLOSE_PATH;
+		*from = (*current)->from;
+		(*current)->next = next;
+		(*current)->from = next;
+		next = *current;
+		print_room(*current, "\n");
+		*current = *from;
+		print_room(*current, "\t\t");
 	}
-	*room_junction = current->next;
-	current->next = (*from)->from;
-	print_room(current, "\n");
-	return (SUCCESS);
+	room_boundary = *current;
+	*current = room_boundary->next;
+	room_boundary->next = next;
+	*from = room_boundary;
+	print_room(room_boundary, "\n");
+	print_room(*current, "\n");
 }
 
 static int	unsave_path(t_env *env)
@@ -133,28 +139,25 @@ static int	unsave_path(t_env *env)
 
 	ft_printf("\nunsave_path\n");
 	current = env->start;
-	from = current;
-	while (current->next)
+	from = 0;
+	while (current->from)
 	{
 		print_room(current, "\t\t");
 		if (!is_junction(current))
 		{
-			next = current->next;
 			if (current != env->start)
-			{
 				current->flag ^= FL_CLOSE_PATH;
-				current->from = from;
-			}
 			current->next = 0;
+			current->from = from;
 			from = current;
 			print_room(current, "\n");
-			current = next;
+			current = from;
 		}
 		else
-			reopen_path(&current, &from);
-		print_room(current, "\n");
+			open_path(&current, &from);
 	}
-	print_room(current, "\n");
+	current->next = 0;
+	current->from = from;
 	return (SUCCESS);
 }
 
