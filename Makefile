@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/06/03 17:40:20 by jkettani         ###   ########.fr        #
+#    Updated: 2019/06/06 12:36:50 by jkettani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ C_FILES		:= \
 	srcs/output/print_matrix.c \
 	srcs/output/output.c \
 	srcs/path.c \
+	srcs/path_utils.c \
 	srcs/generic_merge_sort.c
 O_FILES		:= $(C_FILES:%.c=%.o)
 D_FILES		:= $(C_FILES:%.c=%.d)

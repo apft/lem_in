@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:51:36 by apion             #+#    #+#             */
-/*   Updated: 2019/05/22 10:20:09 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	initialize(t_env *env, t_queue *queue)
 	int		i;
 
 	i = 0;
-	while (i < env->nb_room)
+	while (i < env->nb_rooms)
 		env->rooms_array[i++]->visited = 0;
 	*queue = (t_queue){0, 0};
 	enqueue(queue, (void *)env->start);
@@ -60,7 +60,7 @@ int			bfs(t_env *env)
 		if (current == env->end)
 			return (rewind_dst_to_start_and_clear_queue(env->end, &queue));
 		i = 0;
-		while (i < env->nb_room)
+		while (i < env->nb_rooms)
 		{
 			if (env->matrix[current->id][i] && !env->rooms_array[i]->visited)
 			{
@@ -85,7 +85,7 @@ void		bfs_remove_dead_end_path(t_env *env)
 	{
 		current = (t_room *)dequeue(&queue);
 		i = 0;
-		while (i < env->nb_room)
+		while (i < env->nb_rooms)
 		{
 			if (env->matrix[current->id][i])
 			{

@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/05 14:47:15 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 11:23:17 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "customlibft.h"
 #include "error.h"
 #include "output.h"
-#include "ft_printf.h"
+#include "//ft_printf.h"
 
 #define MAX_FLOW_REACHED 42
 
@@ -40,9 +40,9 @@ static void	open_path(t_room **room_from, t_room *first_next)
 	t_room	*current;
 	t_room	*next;
 
-	ft_printf("open_path\n");
+	//ft_printf("open_path\n");
 	current = (*room_from)->next;
-		print_room(current, "\n");
+		//print_room(current, "\n");
 	(*room_from)->next = first_next;
 	while (!is_junction(current))
 	{
@@ -50,14 +50,14 @@ static void	open_path(t_room **room_from, t_room *first_next)
 		next = current->next;
 		current->next = 0;
 		current = next;
-		print_room(current, "\n");
+		//print_room(current, "\n");
 	}
 	*room_from = current->from_junction;
 	current->from_junction = 0;
-	print_room(*room_from, "\n");
+	//print_room(*room_from, "\n");
 	if (is_closed_path(*room_from))
 	{
-		ft_printf("open_path_rec\n");
+		//ft_printf("open_path_rec\n");
 		open_path(room_from, current);
 	}
 	else
@@ -70,12 +70,12 @@ static int	save_path(t_env *env)
 	t_room	*current;
 	t_room	*next;
 
-	ft_printf("save_path\n");
+	//ft_printf("save_path\n");
 	current = env->end;
 	next = 0;
 	while (current->from)
 	{
-		print_room(current, "\n");
+		//print_room(current, "\n");
 		if (current != env->end)
 		{
 			if (!is_closed_path(current))
@@ -167,7 +167,7 @@ static int	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env 
 	}
 	if (is_closed_path(neighbour) && !is_linked_on_same_path(current, neighbour))
 		neighbour->from_junction = current;
-//	print_room(neighbour, " ");
+//	//print_room(neighbour, " ");
 	neighbour->from = current;
 	if (neighbour->visited == VISITED_EMPTY)
 	{
@@ -190,10 +190,10 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 	while (queue->head)
 	{
 		current = (t_room *)dequeue(queue);
-//		print_room(current, "->{");
+//		//print_room(current, "->{");
 		current->visited = VISITED_AS_CURRENT;
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
-//		ft_printf("}\n");
+//		//ft_printf("}\n");
 		if (internal_cost(current) < 0 || external_cost(current) < 0)
 		{
 			ft_dprintf(2, "error: negative cost");
@@ -207,7 +207,7 @@ static void	initialize(t_env *env, t_queue *queue)
 	int		i;
 
 	i = 0;
-	while (i < env->nb_room)
+	while (i < env->nb_rooms)
 	{
 		env->rooms_array[i]->visited = VISITED_EMPTY;
 		env->rooms_array[i]->from_junction = (void *)0;
@@ -230,8 +230,8 @@ static int	has_augmenting_path(t_env *env)
 	bfs_max_flow(env, &queue);
 	if (env->end->cost[0] == COST_INF)
 		return (ERROR);
-	if (env->flow + external_cost(env->end) > env->nb_ants)
-		return (MAX_FLOW_REACHED);
+//	if (env->flow + external_cost(env->end) > env->nb_ants)
+//		return (MAX_FLOW_REACHED);
 	save_path(env);
 	return (SUCCESS);
 }
@@ -282,9 +282,9 @@ int		solver(t_env *env)
 		flow = compute_flow(env);
 		env->flow += external_cost(env->end);
 		flow_2 += env->end->cost[0];
-		ft_printf("\n\nnb_path= %d, flow= %d", nb_path, flow);
-		ft_printf("Loop %d:\n", nb_path);
-		print_paths(env);
+		//ft_printf("\n\nnb_path= %d, flow= %d", nb_path, flow);
+		//ft_printf("Loop %d:\n", nb_path);
+		//print_paths(env);
 		if (flow != flow_2)
 		{
 			ft_dprintf(2, "error: flow: %d, flow_2: %d, cost(end): %d\n", flow, flow_2, env->end->cost[0]);
@@ -292,8 +292,8 @@ int		solver(t_env *env)
 		}
 		++nb_path;
 	}
-	ft_printf("\n\nnb_path= %d, flow= %d", nb_path, flow);
-	env->nb_path = nb_path;
+	//ft_printf("\n\nnb_path= %d, flow= %d", nb_path, flow);
+	env->nb_paths = nb_path;
 	if (!nb_path)
 		return (ERR_NO_PATH_FOUND);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:34:42 by apion             #+#    #+#             */
-/*   Updated: 2019/06/03 17:29:49 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			apply_foreach_room_linked_to_ref(t_room *ref, t_env *env,
 	int		i;
 
 	i = 0;
-	while (i < env->nb_room)
+	while (i < env->nb_rooms)
 	{
 		if (has_oriented_tube_between_rooms(ref->id, i, env))
 		{

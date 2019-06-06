@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 16:14:31 by apion             #+#    #+#             */
-/*   Updated: 2019/05/28 19:28:34 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	remove_self_loop(t_env *env)
 	int		i;
 
 	i = 0;
-	while (i < env->nb_room)
+	while (i < env->nb_rooms)
 	{
 		env->matrix[i][i] = 0;
 		++i;

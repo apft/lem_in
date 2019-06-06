@@ -3,108 +3,116 @@
 /*                                                        :::      ::::::::   */
 /*   print_ants.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/24 07:53:30 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 18:40:31 by jkettani         ###   ########.fr       */
+/*   Created: 2019/06/06 11:56:52 by jkettani          #+#    #+#             */
+/*   Updated: 2019/06/06 12:33:18 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "print_ants.h"
 #include "env.h"
-#include "error.h"
+#include "path.h"
 #include "ft_printf.h"
 
-static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b, t_env *env)
+static void	print_ant_move_and_update_nodes(t_path *path, t_env *env)
 {
-	return (env->matrix[id_room_a][id_room_b]);
-}
-
-static int	has_ant_in_room(t_room *room)
-{
-	return (room->ant > 0);
-}
-
-static int	move_ant_to_room(t_room *from, t_room *room, t_env *env)
-{
-	int		ant_nb;
-
-	if (from == env->start)
-	{
-		ant_nb = env->nb_ants - env->start->ant + 1;
-		from->ant -= 1;
-	}
+	ft_printf("L%d-%s ", path->current->ant, path->current->next->name);
+	if (path->current->next == env->end)
+		++(env->end->ant);
 	else
 	{
-		ant_nb = from->ant;
-		from->ant = 0;
+		path->current->next->ant = path->current->ant;
+		if (path->current == path->front)
+			path->front = path->current->next;
 	}
-	if (room == env->end)
-		room->ant -= 1;
-	else
-		room->ant = ant_nb;
-	ft_printf("L%d-%s ", ant_nb, room->name);
-	return (SUCCESS);
+	path->current->ant = 0;
+	if (path->current->from != env->start)
+		path->current = path->current->from;
 }
 
-static int	search_first_empty_room_on_path(t_room *from, t_room *current, t_env *env)
+static void	print_moves_of_ants_already_in_anthill(t_env *env)
 {
-	while (current != env->end)
+	int		i;
+	int		paths_covered;
+	t_path	*path;
+
+	paths_covered = 0;
+	while (paths_covered < env->nb_paths)
 	{
-		if (!has_ant_in_room(current))
+		i = 0;
+		while (i < env->nb_paths)
 		{
-			if (!from->ant)
+			path = env->paths_array[i];
+			if (!path->path_printed)
 			{
-				from = current;
-				current = current->next;
+				if (path->current->ant)
+					print_ant_move_and_update_nodes(path, env);
+				else
+				{
+					path->path_printed = 1;
+					++paths_covered;
+				}
 			}
-			else
+			++i;
+		}
+	}
+}
+
+static void	print_moves_of_ants_entering_anthill(t_env *env, int *last_ant)
+{
+	int		i;
+	t_path	*path;
+
+	i = 0;
+	while (i < env->nb_paths)
+	{
+		path = env->paths_array[i];
+		if ((path->back->from == env->start) && (*last_ant <= env->nb_ants))
+		{
+			if (i && (env->nb_ants - *last_ant + 1) < path->nb_ants_stream)
 				break ;
+			ft_printf("L%d-%s ", *last_ant, path->current->name);
+			path->current->ant = *last_ant;
+			++(*last_ant);
 		}
 		else
 		{
-			from = current;
-			current = current->next;
-		}
-	}
-	if (from->ant && (!has_ant_in_room(current) || current == env->end))
-		return (move_ant_to_room(from, current, env));
-	return (ERROR);
-}
-
-static int	apply_foreach_path_from_start(t_env *env, int (*fct)())
-{
-	t_room *current;
-	int		has_moved;
-	int		i;
-
-	has_moved = 0;
-	i = 0;
-	while (i < env->nb_room)
-	{
-		current = env->rooms_array[i];
-		if (has_oriented_tube_between_rooms(env->start->id, current->id, env))
-		{
-			if (is_closed_path(current))
-				has_moved = fct(env->start, current, env) == SUCCESS;
+			if (path->back->next != env->end)
+				path->back = path->back->next;
 		}
 		++i;
 	}
-	return (has_moved);
 }
 
-void	print_ants(t_env *env)
+static void	print_line_of_ants_moves(t_env *env, int *last_ant)
 {
 	int		i;
-	
-	env->start->ant = env->nb_ants;
-	env->end->ant = env->nb_ants;
+
+	print_moves_of_ants_already_in_anthill(env);
+	print_moves_of_ants_entering_anthill(env, last_ant);
+	ft_printf("\n");
 	i = 0;
-	while (env->end->ant)
+	while (i < env->nb_paths)
 	{
-		while(apply_foreach_path_from_start(env, &search_first_empty_room_on_path))
-			;
+		env->paths_array[i]->path_printed = 0;
+		env->paths_array[i]->current = env->paths_array[i]->front;
 		++i;
-		ft_printf("\n");
 	}
-	ft_printf("\nNombre de lignes: %d\n", i);
+}
+
+void		print_all_lines_of_ants_moves(t_env *env)
+{
+	int		last_ant;
+	int		j;
+
+	last_ant = 1;
+	j = 0;
+	ft_printf("\n");
+	while (env->end->ant < env->nb_ants)
+	{
+		print_line_of_ants_moves(env, &last_ant);
+		++j;
+	}
+	ft_printf("\nNb of lines: %d\n", j);
 }

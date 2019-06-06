@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 15:59:38 by apion             #+#    #+#             */
-/*   Updated: 2019/04/28 16:25:20 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	print_rows(t_env *env, int width)
 	int		j;
 
 	i = 0;
-	while (i < env->nb_room)
+	while (i < env->nb_rooms)
 	{
 		if (ft_strequ(env->rooms_array[i]->name, env->start->name))
 			ft_printf(">%*s |", width, env->rooms_array[i]->name);
@@ -43,7 +43,7 @@ static void	print_rows(t_env *env, int width)
 		else
 			ft_printf(" %*s |", width, env->rooms_array[i]->name);
 		j = 0;
-		while (j < env->nb_room)
+		while (j < env->nb_rooms)
 		{
 			ft_printf(" %*d ", width, env->matrix[i][j]);
 			++j;
@@ -78,13 +78,13 @@ void		print_matrix(t_env *env)
 {
 	int		width_room_max;
 
-	if (!env->nb_room)
+	if (!env->nb_rooms)
 		return (print_and_return("empty room\n"));
 	if (!env->matrix)
 		return (print_and_return("empty matrix\n"));
 	if (!env->rooms_array)
 		return (print_and_return("empty rooms array\n"));
-	width_room_max = get_width_room_max(env->rooms_array, env->nb_room);
-	print_header_line(env->rooms_array, env->nb_room, width_room_max);
+	width_room_max = get_width_room_max(env->rooms_array, env->nb_rooms);
+	print_header_line(env->rooms_array, env->nb_rooms, width_room_max);
 	print_rows(env, width_room_max);
 }

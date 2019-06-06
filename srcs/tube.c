@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 11:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/05/28 20:07:23 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	nb_neighbour(t_room *room, t_env *env)
 
 	nb_neighbour = 0;
 	i = 0;
-	while (i < env->nb_room)
+	while (i < env->nb_rooms)
 	{
 		nb_neighbour += env->matrix[room->id][i];
 		++i;
@@ -32,7 +32,7 @@ int		is_dead_end(t_env *env, int index, int index_parent)
 	int		i;
 
 	i = 0;
-	while (i < env->nb_room)
+	while (i < env->nb_rooms)
 	{
 		if (i != index_parent && env->matrix[index][i])
 			return (0);
@@ -59,7 +59,7 @@ void	remove_oriented_tubes_back_to_start_or_from_end(t_env *env)
 	int		i;
 
 	i = 0;
-	while (i < env->nb_room)
+	while (i < env->nb_rooms)
 	{
 		remove_oriented_tube_between_rooms(env, env->rooms_array[i], env->start);
 		remove_oriented_tube_between_rooms(env, env->end, env->rooms_array[i]);
