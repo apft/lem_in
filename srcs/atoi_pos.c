@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:38:01 by apion             #+#    #+#             */
-/*   Updated: 2019/05/07 13:23:14 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/06 16:24:51 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "error.h"
 
 #define ATOI_MAX_POS	((long)0x7fffffff)
-#define ATOI_MAX_NEG	((long)0xffffffff)
+#define ATOI_MAX_NEG	((long)0x80000000)
 
 static int	jump_spaces(char *str)
 {
