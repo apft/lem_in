@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 14:17:02 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 17:53:02 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "output.h"
 #include "ft_printf.h"
 
+#define MAX_FLOW	0
 #define MAX_FLOW_REACHED 42
 
 static int	set_room_dst(t_room *start, t_room *current, t_env *env)
@@ -35,62 +36,134 @@ static int	set_room_dst(t_room *start, t_room *current, t_env *env)
 	return (SUCCESS);
 }
 
-static void	open_path(t_room **room_from, t_room *first_next)
+static void	open_path(t_room **current, t_room **next)
 {
-	t_room	*current;
-	t_room	*next;
+	t_room	*room_boundary;
+	t_room	*from;
 
-	//ft_printf("open_path\n");
-	current = (*room_from)->next;
-		//print_room(current, "\n");
-	(*room_from)->next = first_next;
-	while (!is_junction(current))
+	ft_printf("open_path\n");
+	room_boundary = *current;
+	*current = room_boundary->next;
+	room_boundary->next = *next;
+	room_boundary->from = *next;
+	from = room_boundary;
+	print_room(room_boundary, "\n");
+	print_room(*current, "\t\t");
+	while (!is_junction(*current))
 	{
-		current->flag ^= FL_CLOSE_PATH;
-		next = current->next;
-		current->next = 0;
-		current = next;
-		//print_room(current, "\n");
+		(*current)->flag ^= FL_CLOSE_PATH;
+		*next = (*current)->next;
+		(*current)->next = 0;
+		(*current)->from = from;
+		from = *current;
+		print_room(*current, "\n");
+		*current = *next;
+		print_room(*current, "\t\t");
 	}
-	*room_from = current->from_junction;
-	current->from_junction = 0;
-	//print_room(*room_from, "\n");
-	if (is_closed_path(*room_from))
-	{
-		//ft_printf("open_path_rec\n");
-		open_path(room_from, current);
-	}
-	else
-		(*room_from)->next = current;
-	(*room_from)->flag |= FL_CLOSE_PATH;
+	room_boundary = *current;
+	*current = room_boundary->from_junction;
+	room_boundary->from = from;
+	*next = room_boundary;
+	print_room(room_boundary, "\n");
+	print_room(*current, "\n");
 }
 
 static int	save_path(t_env *env)
 {
 	t_room	*current;
+	t_room	*from;
 	t_room	*next;
 
 	//ft_printf("save_path\n");
 	current = env->end;
 	next = 0;
+	from = 0;
 	while (current->from)
 	{
-		//print_room(current, "\n");
-		if (current != env->end)
+		print_room(current, "\t\t");
+		from = current->from;
+		if (!is_closed_path(current))
 		{
-			if (!is_closed_path(current))
-			{
+			if (current != env->end)
 				current->flag |= FL_CLOSE_PATH;
-				current->next = next;
-			}
-			else
-				open_path(&current, next);
+			current->next = next;
+			current->from = next;
+			next = current;
+			print_room(current, "\n");
+			current = from;
 		}
 		else
-			current->next = next;
-		next = current;
-		current = current->from;
+			open_path(&current, &next);
 	}
+	print_room(current, "\t\t");
+	current->next = next;
+	current->from = next;
+	print_room(current, "\n");
+	return (SUCCESS);
+}
+
+static void	close_path(t_room **current, t_room **from)
+{
+	t_room	*room_boundary;
+	t_room	*next;
+
+	ft_printf("close_path\n");
+	room_boundary = *current;
+	*current = room_boundary->from;
+	room_boundary->from = *from;
+	next = room_boundary;
+	print_room(room_boundary, "\n");
+	print_room(*current, "\t\t");
+	while (!is_closed_path(*current))
+	{
+		(*current)->flag |= FL_CLOSE_PATH;
+		*from = (*current)->from;
+		(*current)->next = next;
+		(*current)->from = next;
+		next = *current;
+		print_room(*current, "\n");
+		*current = *from;
+		print_room(*current, "\t\t");
+	}
+	room_boundary = *current;
+	*current = room_boundary->next;
+	room_boundary->next = next;
+	*from = room_boundary;
+	print_room(room_boundary, "\n");
+	print_room(*current, "\n");
+}
+
+static int	unsave_path(t_env *env)
+{
+	t_room	*current;
+	t_room	*from;
+	t_room	*next;
+
+	ft_printf("\nunsave_path\n");
+	current = env->start;
+	next = 0;
+	from = 0;
+	while (current->next)
+	{
+		print_room(current, "\t\t");
+		next = current->next;
+		if (!is_junction(current))
+		{
+			if (current != env->start)
+				current->flag ^= FL_CLOSE_PATH;
+			current->next = 0;
+			current->from = from;
+			from = current;
+			print_room(current, "\n");
+			current = next;
+		}
+		else
+			close_path(&current, &from);
+	}
+	print_room(current, "\t\t");
+	current->next = 0;
+	current->from = from;
+	print_room(current, "\n");
 	return (SUCCESS);
 }
 
@@ -230,8 +303,10 @@ static int	has_augmenting_path(t_env *env)
 	bfs_max_flow(env, &queue);
 	if (env->end->cost[0] == COST_INF)
 		return (ERROR);
-//	if (env->flow + external_cost(env->end) > env->nb_ants)
-//		return (MAX_FLOW_REACHED);
+	if (MAX_FLOW && env->flow + external_cost(env->end) > env->nb_ants)
+		return (MAX_FLOW_REACHED);
+	save_path(env);
+	unsave_path(env);
 	save_path(env);
 	return (SUCCESS);
 }
