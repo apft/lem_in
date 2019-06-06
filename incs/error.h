@@ -6,14 +6,16 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/05/31 12:57:33 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/06 14:58:11 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERROR_H
 # define ERROR_H
 
+# include "env.h"
 # include <errno.h>
+# include "options.h"
 
 # define SUCCESS	0
 # define ERROR		-1
@@ -27,7 +29,8 @@ struct	s_error
 
 enum	e_error
 {
-	ERR_READ = -255,
+	ERR_INVALID_OPTION = -255,
+	ERR_READ,
 	ERR_ATOI,
 	ERR_ATOI_EMPTY,
 	ERR_ATOI_NO_DIGITS,
@@ -59,7 +62,6 @@ enum	e_error
 	ERR_ANTS
 };
 
-void	print_error(int error);
-int		print_error_and_return(int error);
+int		print_error_and_return(int error, t_env *env);
 
 #endif

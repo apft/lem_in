@@ -6,19 +6,22 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/05/14 16:23:31 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/06 14:58:33 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "error.h"
+#include "env.h"
+#include "ft_printf.h"
+# include "options.h"
 #include <unistd.h>
 #include <string.h>
-#include "error.h"
-#include "ft_printf.h"
 
 #define OPTION_ERROR	1
 
 t_error		g_error[] =
 {
+	{ERR_INVALID_OPTION, "[options] invalid option"},
 	{ERR_READ, "[read]"},
 	{ERR_ATOI, "[atoi]"},
 	{ERR_ATOI_EMPTY, "[atoi] no input"},
@@ -49,10 +52,10 @@ t_error		g_error[] =
 	{ERR_NO_PATH_FROM_START_TO_END, "no path start-end"}
 };
 
-static void	custom_print_error(int error, char *error_msg)
+static void	custom_print_error(int error, char *error_msg, t_env *env)
 {
 	ft_dprintf(STDERR_FILENO, "ERROR");
-	if (OPTION_ERROR)
+	if (env->options & OP_ERR)
 		ft_dprintf(STDERR_FILENO, ": (%d) %s", error, error_msg);
 	ft_dprintf(STDERR_FILENO, "\n");
 }
@@ -68,7 +71,7 @@ static char	*custom_strerror(int error)
 	return ("error message not defined...");
 }
 
-void		print_error(int error)
+void		print_error(int error, t_env *env)
 {
 	char	*error_msg;
 
@@ -76,11 +79,11 @@ void		print_error(int error)
 		error_msg = strerror(error);
 	else
 		error_msg = custom_strerror(error);
-	custom_print_error(error, error_msg);
+	custom_print_error(error, error_msg, env);
 }
 
-int			print_error_and_return(int error)
+int			print_error_and_return(int error, t_env *env)
 {
-	print_error(error);
+	print_error(error, env);
 	return (-1);
 }
