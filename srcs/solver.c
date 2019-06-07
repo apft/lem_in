@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 12:39:58 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/07 13:55:29 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,7 @@ static int	has_augmenting_path(t_env *env)
 		return (ERROR);
 	save_path(env);
 	++(env->nb_paths);
-	if (max_stream(env) >= env->nb_ants)
+	if (max_stream(env) > env->nb_ants)
 	{
 		unsave_path(env);
 		--(env->nb_paths);
