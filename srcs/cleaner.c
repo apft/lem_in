@@ -6,14 +6,14 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 14:31:17 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:53:49 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "env.h"
 #include "libft.h"
 #include "error.h"
+#include <stdlib.h>
 
 static void	free_room(void *room, size_t size)
 {

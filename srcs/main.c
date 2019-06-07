@@ -34,8 +34,8 @@ int			main(int ac, char **av)
 		if (check_environment(&env, status) != SUCCESS)
 			return (free_mem(&env) + print_error_and_return(status, &env));
 	matrix_filter(&env);
-//	if ((status = check_map(&env)) != SUCCESS)
-//		return (print_error_and_return(status));
+	if ((status = check_map(&env)) != SUCCESS)
+		return (free_mem(&env) + print_error_and_return(status, &env));
 	status = solver(&env);
 	if (status != SUCCESS)
 		return (free_mem(&env) + print_error_and_return(status, &env));
