@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 11:56:52 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/06 12:33:18 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:13:00 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	print_moves_of_ants_entering_anthill(t_env *env, int *last_ant)
 		path = env->paths_array[i];
 		if ((path->back->from == env->start) && (*last_ant <= env->nb_ants))
 		{
-			if (i && (env->nb_ants - *last_ant + 1) < path->nb_ants_stream)
+			if (i && (env->nb_ants - *last_ant + 1 + i) < path->nb_ants_stream)
 				break ;
 			ft_printf("L%d-%s ", *last_ant, path->current->name);
 			path->current->ant = *last_ant;
