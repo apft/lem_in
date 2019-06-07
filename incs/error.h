@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 17:50:45 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:17:50 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,36 +29,46 @@ struct	s_error
 enum	e_error
 {
 	ERR_INVALID_OPTION = -255,
-	ERR_READ,
-	ERR_ATOI,
+	ERR_ANTS_BEGIN,
+	ERR_ANTS_READ,
+	ERR_ANTS_EOL_NO_NEWLINE,
+	ERR_ANTS_ATOI,
+	ERR_ANTS_NEG_NB,
+	ERR_ANTS_ADD_LINE,
+	ERR_ANTS_END,
+	ERR_PARSER_EOL_NO_NEWLINE,
+	ERR_PARSER_EMPTY_LINE,
+	ERR_PARSER_L_BEGIN,
+	ERR_PARSER_ADD_LINE,
+	ERR_PARSER_EOF_NO_NEWLINE,
+	ERR_ROOM_BEGIN,
+	ERR_ROOM_INVALID_NB_ARG,
+	ERR_ROOM_INVALID_Y_COORD,
+	ERR_ROOM_INVALID_X_COORD,
+	ERR_ROOM_INVALID_NAME,
+	ERR_ROOM_DUPLICATED,
+	ERR_ROOM_START_ALREADY_DEFINED,
+	ERR_ROOM_END_ALREADY_DEFINED,
+	ERR_ROOM_END,
+	ERR_ENV_BEGIN,
+	ERR_ENV_EMPTY,
+	ERR_ENV_EMPTY_START,
+	ERR_ENV_EMPTY_END,
+	ERR_ENV_LST_TO_ARRAY,
+	ERR_ENV_ARRAY_SORT,
+	ERR_ENV_ADJACENCY_MATRIX,
+	ERR_ENV_NO_PATH_FROM_START_TO_END,
+	ERR_ENV_END,
+	ERR_TUBE_INVALID_NB_DASH,
+	ERR_TUBE_ROOM_NOT_FOUND,
+	ERR_TUBE_HAS_SPACES,
+	ERR_NO_PATH_FOUND,
 	ERR_ATOI_EMPTY,
 	ERR_ATOI_NO_DIGITS,
 	ERR_ATOI_NEG,
 	ERR_ATOI_OVERFLOW,
 	ERR_ATOI_INVALID_CHAR,
-	ERR_EOF_NO_NEWLINE,
-	ERR_EMPTY_LINE,
-	ERR_NEG_NB_ANTS,
-	ERR_L_BEGIN,
-	ERR_INVALID_ROOM_NB_ARG,
-	ERR_INVALID_Y_COORD,
-	ERR_INVALID_X_COORD,
-	ERR_INVALID_ROOM_NAME,
-	ERR_INVALID_TUBE,
 	ERR_NULL_POINTER,
-	ERR_LST_TO_ARRAY_FAILED,
-	ERR_ROOM_DUPLICATED,
-	ERR_ROOM_START_ALREADY_DEFINED,
-	ERR_ROOM_END_ALREADY_DEFINED,
-	ERR_EMPTY_MAP,
-	ERR_EMPTY_START,
-	ERR_EMPTY_END,
-	ERR_INVALID_TUBE_DEFINITION,
-	ERR_ROOM_DOES_NOT_EXIST,
-	ERR_NO_PATH_FROM_START_TO_END,
-	ERR_NO_PATH_START_TO_END,
-	ERR_NO_PATH_FOUND,
-	ERR_ANTS
 };
 
 int		print_error_and_return(int error, t_env *env);

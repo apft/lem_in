@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:47:01 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 13:38:28 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 13:57:24 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,16 @@ int			bake_environment(t_env *env, unsigned int *cmd_flag)
 {
 	*cmd_flag ^= BLK_ROOM | BLK_TUBE;
 	if (!env->map)
-		return (ERR_EMPTY_MAP);
+		return (ERR_ENV_EMPTY);
 	if (!env->start)
-		return (ERR_EMPTY_START);
+		return (ERR_ENV_EMPTY_START);
 	if (!env->end)
-		return (ERR_EMPTY_END);
+		return (ERR_ENV_EMPTY_END);
 	if (lst_to_array(env) != SUCCESS)
-		return (errno);
+		return (ERR_ENV_LST_TO_ARRAY);
 	if (array_room_merge_sort(env->rooms_array, env->nb_rooms) != SUCCESS)
-		return (errno);
+		return (ERR_ENV_ARRAY_SORT);
 	if (create_adjacency_matrix(env) != SUCCESS)
-		return (errno);
+		return (ERR_ENV_ADJACENCY_MATRIX);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 10:07:35 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:40:18 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@
 
 static int	extract_coord(char **str_end, int *coord)
 {
+	int		status;
+
 	while (!ft_isspace(**str_end))
 		--(*str_end);
-	if (atoi_pos(*str_end, coord, ATOI_NBR_IN_STR) == SUCCESS)
-		return (SUCCESS);
+	if ((status = atoi_pos(*str_end, coord, ATOI_NBR_IN_STR)) != SUCCESS)
+		return (status);
 	else
-		return (ERR_ATOI);
+		return (SUCCESS);
 }
 
 static int	cmp_room_name(t_room *room, char *name)
@@ -49,7 +51,8 @@ static int	is_print_str(char *str, char *end)
 	return (1);
 }
 
-static int	extract_start_or_end(t_room *room, t_env *env, unsigned int *cmd_flag)
+static int	extract_start_or_end(t_room *room, t_env *env,
+				unsigned int *cmd_flag)
 {
 	if (env->start && (*cmd_flag & CMD_START))
 		return (ERR_ROOM_START_ALREADY_DEFINED);
@@ -74,12 +77,12 @@ static int	extract_room_info(char *line, t_room *room, t_env *env)
 
 	end = ft_strchr(line, '\0') - 1;
 	if (extract_coord(&end, &room->y) != SUCCESS)
-		return (ERR_INVALID_Y_COORD);
+		return (ERR_ROOM_INVALID_Y_COORD);
 	--end;
 	if (extract_coord(&end, &room->x) != SUCCESS)
-		return (ERR_INVALID_X_COORD);
+		return (ERR_ROOM_INVALID_X_COORD);
 	if (!is_print_str(line, end))
-		return (ERR_INVALID_ROOM_NAME);
+		return (ERR_ROOM_INVALID_NAME);
 	room->name = ft_strndup(line, end - line);
 	if (!room->name)
 		return (errno);
@@ -97,9 +100,9 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 	room = (t_room){0, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE,
 			(void *)0, (void *)0, (void *)0, VISITED_EMPTY, {0, 0}, 0, 0, 0};
 	if (*cmd_flag & BLK_TUBE)
-		return (ERR_INVALID_TUBE);
+		return (ERR_TUBE_HAS_SPACES);
 	if (ft_nchar(line, ' ') != 2)
-		return (ERR_INVALID_ROOM_NB_ARG);
+		return (ERR_ROOM_INVALID_NB_ARG);
 	if ((status = extract_room_info(line, &room, env)) != SUCCESS)
 		return (status);
 	node = ft_lstnew((void *)&room, sizeof(room));
