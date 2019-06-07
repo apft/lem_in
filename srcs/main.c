@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 15:20:06 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 12:36:19 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			main(int ac, char **av)
 	status = solver(&env);
 	if (status != SUCCESS)
 		return (free_mem(&env) + print_error_and_return(status, &env));
-	status = fill_paths_array(&env);
+	status = fill_paths_array(&env, UPDATE_LINKS);
 	if (status != SUCCESS)
 		return (free_mem(&env) + print_error_and_return(status, &env));
 	print_output(&env);
