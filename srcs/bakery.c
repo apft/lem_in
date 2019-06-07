@@ -64,6 +64,16 @@ static int	create_adjacency_matrix(t_env *env)
 	return (SUCCESS);
 }
 
+int			check_environment(t_env *env, int status)
+{
+	if ((status > ERR_ANTS_BEGIN && status < ERR_ANTS_END)
+		|| (status > ERR_ROOM_BEGIN && status < ERR_ROOM_END)
+		|| (status > ERR_ENV_BEGIN && status < ERR_ENV_END)
+		|| !env->rooms_array || !env->matrix)
+		return (status);
+	return (SUCCESS);
+}
+
 int			bake_environment(t_env *env, unsigned int *cmd_flag)
 {
 	*cmd_flag ^= BLK_ROOM | BLK_TUBE;
