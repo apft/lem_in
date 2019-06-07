@@ -6,50 +6,52 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 15:43:42 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:51:47 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
 #include "env.h"
 #include "ft_printf.h"
-# include "options.h"
+#include "options.h"
 #include <unistd.h>
-#include <string.h>
-
-#define OPTION_ERROR	1
 
 t_error		g_error[] =
 {
 	{ERR_INVALID_OPTION, "[options] invalid option"},
-	{ERR_READ, "[read] could not read file"},
-	{ERR_ATOI, "[atoi]"},
+	{ERR_ANTS_READ, "[ants] could not read file"},
+	{ERR_ANTS_EOL_NO_NEWLINE, "[ants] no newline at end of line"},
+	{ERR_ANTS_ATOI, "[ants] invalid number of ants"},
+	{ERR_ANTS_NEG_NB, "[ants] negative number of ants"},
+	{ERR_ANTS_ADD_LINE, "[ants] could not add line"},
+	{ERR_PARSER_EOL_NO_NEWLINE, "[parser] no newline at end of line"},
+	{ERR_PARSER_EMPTY_LINE, "[parser] empty line"},
+	{ERR_PARSER_L_BEGIN, "[parser] line start with 'L'"},
+	{ERR_PARSER_ADD_LINE, "[parser] could not add line"},
+	{ERR_PARSER_EOF_NO_NEWLINE, "[parser] no newline at end of file"},
+	{ERR_ROOM_INVALID_NB_ARG, "[room] invalid number of arguments (room x y)"},
+	{ERR_ROOM_INVALID_Y_COORD, "[room] invalid Y coord"},
+	{ERR_ROOM_INVALID_X_COORD, "[room] invalid X coord"},
+	{ERR_ROOM_INVALID_NAME, "[room] invalid room name"},
+	{ERR_ROOM_DUPLICATED, "[room] name already exists"},
+	{ERR_ROOM_START_ALREADY_DEFINED, "[room] start already defined"},
+	{ERR_ROOM_END_ALREADY_DEFINED, "[room] end already defined"},
+	{ERR_ENV_EMPTY, "[env] empty"},
+	{ERR_ENV_EMPTY_START, "[env] no start defined"},
+	{ERR_ENV_EMPTY_END, "[env] no end defined"},
+	{ERR_ENV_LST_TO_ARRAY, "[env] list to array failed"},
+	{ERR_ENV_ARRAY_SORT, "[env] sorting array failed"},
+	{ERR_ENV_ADJACENCY_MATRIX, "[env] creating adjacency matrix failed"},
+	{ERR_ENV_NO_PATH_FROM_START_TO_END, "[env] no path start-end"},
+	{ERR_TUBE_INVALID_NB_DASH, "[tube] invalid number of '-' in tube"},
+	{ERR_TUBE_ROOM_NOT_FOUND, "[tube] room does not exist"},
+	{ERR_TUBE_HAS_SPACES, "[tube] tube definition has spaces"},
 	{ERR_ATOI_EMPTY, "[atoi] no input"},
 	{ERR_ATOI_NO_DIGITS, "[atoi] no digit"},
 	{ERR_ATOI_NEG, "[atoi] can not be < 0"},
 	{ERR_ATOI_OVERFLOW, "[atoi] input too large (overflow)"},
 	{ERR_ATOI_INVALID_CHAR, "[atoi] invalid char"},
-	{ERR_EOF_NO_NEWLINE, "[read] no newline at end of file"},
-	{ERR_NEG_NB_ANTS, "[ants] negative number of ants"},
-	{ERR_EMPTY_LINE, "[read] empty line"},
-	{ERR_L_BEGIN, "line start with 'L'"},
-	{ERR_INVALID_ROOM_NB_ARG, "[room] invalid number of arguments (room x y)"},
-	{ERR_INVALID_Y_COORD, "[room] invalid Y coord"},
-	{ERR_INVALID_X_COORD, "[room] invalid X coord"},
-	{ERR_INVALID_ROOM_NAME, "[room] invalid room name"},
-	{ERR_INVALID_TUBE, "[tube] invalid tube format"},
-	{ERR_NULL_POINTER, "null pointer"},
-	{ERR_LST_TO_ARRAY_FAILED, "failed to create array based on list"},
-	{ERR_ROOM_DUPLICATED, "[room] name already exists"},
-	{ERR_ROOM_START_ALREADY_DEFINED, "[room] start already defined"},
-	{ERR_ROOM_END_ALREADY_DEFINED, "[room] end already defined"},
-	{ERR_EMPTY_MAP, "empty map"},
-	{ERR_EMPTY_START, "empty start"},
-	{ERR_EMPTY_END, "empty end"},
-	{ERR_INVALID_TUBE_DEFINITION, "[tube] too many dash"},
-	{ERR_ROOM_DOES_NOT_EXIST, "[tube] room name does not exist"},
-	{ERR_ANTS, "invalid number of ants"},
-	{ERR_NO_PATH_FROM_START_TO_END, "no path start-end"}
+	{ERR_NULL_POINTER, "null pointer"}
 };
 
 static void	custom_print_error(int error, char *error_msg, t_env *env)
@@ -71,7 +73,7 @@ static char	*custom_strerror(int error)
 	return ("error message not defined...");
 }
 
-void		print_error(int error, t_env *env)
+static void	print_error(int error, t_env *env)
 {
 	char	*error_msg;
 
@@ -85,5 +87,5 @@ void		print_error(int error, t_env *env)
 int			print_error_and_return(int error, t_env *env)
 {
 	print_error(error, env);
-	return (-1);
+	return (ERROR);
 }

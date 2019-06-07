@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 11:56:52 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/07 15:13:00 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/07 16:46:23 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "env.h"
 #include "path.h"
 #include "ft_printf.h"
+#include "options.h"
 
 static void	print_ant_move_and_update_nodes(t_path *path, t_env *env)
 {
@@ -108,11 +109,11 @@ void		print_all_lines_of_ants_moves(t_env *env)
 
 	last_ant = 1;
 	j = 0;
-	ft_printf("\n");
 	while (env->end->ant < env->nb_ants)
 	{
 		print_line_of_ants_moves(env, &last_ant);
 		++j;
 	}
-	ft_printf("\nNb of lines: %d\n", j);
+	if (env->options & OP_DEBUG)
+		ft_printf("\nNb of lines: %d\n", j);
 }

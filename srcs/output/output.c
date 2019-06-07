@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 18:06:53 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 17:54:13 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:09:27 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ft_printf.h"
 #include "path_utils.h"
 #include "print_ants.h"
+#include "options.h"
 
 static void	print_path(t_env *env, t_room *start)
 {
@@ -63,13 +64,13 @@ void		print_output(t_env *env)
 {
 	print_lines(env->lines);
 	ft_putchar('\n');
-	//print_matrix(env);
-	//ft_printf("length of shortest path start->end: %d\n",
-	//	env->end->dst_min_to_start);
-	ft_printf("\nPaths:\n");
-	print_paths(env);
-	ft_printf("\nPaths ordered:\n");
-	print_paths_array(env);
-	ft_printf("\nNb of ants: %d\n", env->nb_ants);
+	if (env->options & OP_DEBUG)
+	{
+		ft_printf("Paths found:\n");
+		print_paths(env);
+		ft_printf("\nPaths ordered:\n");
+		print_paths_array(env);
+		ft_printf("\nNb of ants: %d\n", env->nb_ants);
+	}
 	print_all_lines_of_ants_moves(env);
 }

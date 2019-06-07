@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.h                                              :+:      :+:    :+:   */
+/*   bakery.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/06 14:03:18 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/07 16:17:09 by jkettani         ###   ########.fr       */
+/*   Created: 2019/06/07 13:57:40 by jkettani          #+#    #+#             */
+/*   Updated: 2019/06/07 13:58:10 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_H
-# define MAP_H
+#ifndef BAKERY_H
+# define BAKERY_H
 
-# include "env.h"
-
-int			check_map(t_env *env);
-void		matrix_filter(t_env *env);
+int			check_environment(t_env *env, int status);
 
 #endif

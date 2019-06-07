@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 17:22:43 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:18:57 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 
 # define FL_CLOSE_PATH		    0x1
 
+/*
+**cost[0]: external cost, cost[1]: internal cost
+*/
 typedef struct s_room	t_room;
 struct	s_room
 {
@@ -39,7 +42,7 @@ struct	s_room
 	t_room		*from_junction;
 	t_room		*next;
 	int			visited;
-	int			cost[2]; // [0]: external cost, [1]: internal cost
+	int			cost[2];
 	int			flag;
 	int			dst;
 	int			ant;
