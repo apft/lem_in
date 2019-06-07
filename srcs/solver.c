@@ -6,12 +6,13 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 18:01:13 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 12:39:58 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "customlibft.h"
+#include "path_utils.h"
 #include "error.h"
 #include "output.h"
 #include "ft_printf.h"
@@ -295,6 +296,24 @@ static void	initialize(t_env *env, t_queue *queue)
 	apply_foreach_room_linked_to_ref(env->start, env, 0, &set_room_dst);
 }
 
+static void	free_array_path(t_path ***array_path, size_t size)
+{
+	while (size--)
+		free((*array_path)[size]);
+	free(*array_path);
+	*array_path = 0;
+}
+
+static int	max_stream(t_env *env)
+{
+	int		max_stream;
+
+	fill_paths_array(env, NO_UPDATE_LINKS);
+	max_stream = env->paths_array[env->nb_paths - 1]->nb_ants_stream;
+	free_array_path(&env->paths_array, env->nb_paths);
+	return (max_stream);
+}
+
 static int	has_augmenting_path(t_env *env)
 {
 	t_queue	queue;
@@ -303,73 +322,22 @@ static int	has_augmenting_path(t_env *env)
 	bfs_max_flow(env, &queue);
 	if (env->end->cost[0] == COST_INF)
 		return (ERROR);
-	if (MAX_FLOW && env->flow + external_cost(env->end) > env->nb_ants)
-		return (MAX_FLOW_REACHED);
 	save_path(env);
-	unsave_path(env);
-	save_path(env);
-	return (SUCCESS);
-}
-
-static int      compute_path_length(t_room *current)
-{
-	int             length;
-
-	length = 0;
-	while (current)
+	++(env->nb_paths);
+	if (max_stream(env) >= env->nb_ants)
 	{
-		current = current->next;
-		++length;
+		unsave_path(env);
+		--(env->nb_paths);
+		return (MAX_FLOW_REACHED);
 	}
-	return (length);
-}
-
-static int	add_path_length(t_room *start, t_room *current, t_env *env, int *flow)
-{
-	(void)start;
-	(void)env;
-	if (!is_closed_path(current))
-		return (SUCCESS);
-	*flow += compute_path_length(current);
 	return (SUCCESS);
-}
-
-static int	compute_flow(t_env *env)
-{
-	int		flow;
-
-	flow = 0;
-	apply_foreach_room_linked_to_ref(env->start, env, &flow, &add_path_length);
-	return (flow);
 }
 
 int		solver(t_env *env)
 {
-	int		flow;
-	int		nb_path;
-	int		flow_2;
-
-	flow = 0;
-	flow_2 = 0;
-	nb_path = 0;
 	while (has_augmenting_path(env) == SUCCESS)
-	{
-		flow = compute_flow(env);
-		env->flow += external_cost(env->end);
-		flow_2 += env->end->cost[0];
-		//ft_printf("\n\nnb_path= %d, flow= %d", nb_path, flow);
-		//ft_printf("Loop %d:\n", nb_path);
-		//print_paths(env);
-		if (flow != flow_2)
-		{
-			ft_dprintf(2, "error: flow: %d, flow_2: %d, cost(end): %d\n", flow, flow_2, env->end->cost[0]);
-			exit(2);
-		}
-		++nb_path;
-	}
-	//ft_printf("\n\nnb_path= %d, flow= %d", nb_path, flow);
-	env->nb_paths = nb_path;
-	if (!nb_path)
+		;
+	if (!env->nb_paths)
 		return (ERR_NO_PATH_FOUND);
 	return (SUCCESS);
 }
