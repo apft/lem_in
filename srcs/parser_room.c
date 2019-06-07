@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 17:47:44 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/07 10:07:35 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,10 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 	ft_lstadd(&env->map, node);
 	++env->nb_rooms;
 	if (*cmd_flag & (CMD_START | CMD_END))
-		return (extract_start_or_end(env->map->content, env, cmd_flag));
+	{
+		status = extract_start_or_end(env->map->content, env, cmd_flag);
+		if (status != SUCCESS)
+			return (status);
+	}
 	return (SUCCESS);
 }
