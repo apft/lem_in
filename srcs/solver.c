@@ -16,6 +16,7 @@
 #include "error.h"
 #include "output.h"
 #include "ft_printf.h"
+#include "tests.h"
 
 #define MAX_FLOW	0
 #define MAX_FLOW_REACHED 42
@@ -260,11 +261,7 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 		current->visited = VISITED_AS_CURRENT;
 		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
 		//ft_printf("}\n");
-		if (internal_cost(current) < 0 || external_cost(current) < 0)
-		{
-			ft_dprintf(2, "error: negative cost");
-			exit(1);
-		}
+		test_cost(current);
 	}
 }
 
@@ -331,7 +328,9 @@ static int	has_augmenting_path(t_env *env)
 int		solver(t_env *env)
 {
 	while (has_augmenting_path(env) == SUCCESS)
-		;
+	{
+		test_flow(env);
+	}
 	if (!env->nb_paths)
 		return (ERR_NO_PATH_FOUND);
 	return (SUCCESS);
