@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 14:31:17 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 15:53:49 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/10 21:07:31 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 #include "error.h"
 #include <stdlib.h>
 
-static void	free_room(void *room, size_t size)
+static void	free_room(void *room)
 {
-	(void)size;
 	free((void *)((t_room *)room)->name);
 	free((void *)((t_room *)room));
+}
+
+static void	free_tree_node(t_rb_node *node)
+{
+	free_room(node->data);
+	free((void *)node);
 }
 
 static void	free_matrix(int ***matrix, size_t size)
@@ -42,8 +47,8 @@ int			free_mem(t_env *env)
 {
 	if (env->lines)
 		list_line_del_all(&env->lines);
-	if (env->map)
-		ft_lstdel(&env->map, &free_room);
+	if (env->rooms_tree)
+		btree_apply_suffix(env->rooms_tree, (void *)0, &free_tree_node);
 	if (env->rooms_array)
 		ft_memdel((void **)&env->rooms_array);
 	if (env->matrix)

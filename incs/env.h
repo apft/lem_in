@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:03:28 by apion             #+#    #+#             */
-/*   Updated: 2019/06/10 19:56:31 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/10 21:10:36 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "list_line.h"
+# include "ft_btree_rb.h"
 # include "room.h"
 # include "path.h"
 
@@ -26,7 +27,7 @@ struct	s_env
 	t_uint		options;
 	int			nb_ants;
 	t_list_line	*lines;
-	t_list		*map;
+	t_rb_node	*rooms_tree;
 	t_room		**rooms_array;
 	int			nb_rooms;
 	t_room		*start;
