@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 13:55:29 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/10 17:32:56 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,11 +172,13 @@ static int	closed_room_as_junction(t_room *current)
 {
 	if (!is_closed_path(current))
 		return (0);
-	return (is_junction(current) && (external_cost(current) < internal_cost(current)));
+	return (is_junction(current) && internal_cost(current) == INT_MAX - 1);
 }
 
 static int	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env *env, t_queue *queue)
 {
+	int		cost_current;
+
 	if (neighbour == current->from)
 		return (SUCCESS);
 	if (neighbour == current->from_junction)
@@ -187,41 +189,31 @@ static int	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env 
 	{
 		if (neighbour == current->next)
 			return (SUCCESS);
-		if (closed_room_as_junction(current))
+		if (is_linked_on_same_path(current, neighbour))
 		{
-			if (!is_linked_on_same_path(current, neighbour))
+			cost_current = ft_min(external_cost(current), internal_cost(current));
+			if (internal_cost(neighbour) <= (cost_current - 1))
 				return (SUCCESS);
-			if (internal_cost(neighbour) <= (external_cost(current) - 1))
-				return (SUCCESS);
-			if (is_junction(neighbour) && external_cost(neighbour) <= (external_cost(current) - 1))
-				return (SUCCESS);
-			neighbour->from_junction = 0;
-			neighbour->cost[1] = (external_cost(current) - 1);
+			neighbour->cost[1] = cost_current - 1;
+			if (internal_cost(neighbour) < external_cost(neighbour))
+				neighbour->from_junction = 0;
 		}
 		else
 		{
-			if (is_linked_on_same_path(current, neighbour))
-			{
-				if (internal_cost(neighbour) <= (internal_cost(current) - 1))
-					return (SUCCESS);
-				if (is_junction(neighbour) && external_cost(neighbour) <= (internal_cost(current) - 1))
-					return (SUCCESS);
-				neighbour->from_junction = 0;
-				neighbour->cost[1] = (internal_cost(current) - 1);
-			}
+			if (closed_room_as_junction(current))
+				return (SUCCESS);
 			else
+				cost_current = internal_cost(current);
+			if (external_cost(neighbour) <= (cost_current + 1))
+				return (SUCCESS);
+			if (internal_cost(neighbour) <= (cost_current + 1))
+				return (SUCCESS);
+			if (is_closed_path(neighbour))
 			{
-				if (external_cost(neighbour) <= (internal_cost(current) + 1))
+				if (neighbour->dst > (cost_current + 1))
 					return (SUCCESS);
-				if (internal_cost(neighbour) <= (internal_cost(current) + 1))
-					return (SUCCESS);
-				if (is_closed_path(neighbour))
-				{
-					if (neighbour->dst > (internal_cost(current) + 1))
-						return (SUCCESS);
-				}
-				neighbour->cost[0] = internal_cost(current) + 1;
 			}
+			neighbour->cost[0] = cost_current + 1;
 		}
 	}
 	else
