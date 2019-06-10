@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 12:08:05 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/07 12:35:01 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/10 19:16:22 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static void	compute_streams(t_env *env)
 	int		j;
 
 	i = 0;
-	while (i < env->nb_paths)
+	env->paths_array[i]->nb_ants_stream = env->paths_array[i]->length;
+	while (++i < env->nb_paths)
 	{
 		j = i;
 		while (j--)
 			env->paths_array[i]->nb_ants_stream += env->paths_array[i]->length
 				- env->paths_array[j]->length + 1;
-		++i;
 	}
 }
 
