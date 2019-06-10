@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/08 13:48:06 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/10 19:14:07 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,10 @@ static int	get_number_ants(t_env *env)
 	if (!eol_had_newline)
 		return (ft_strdel_ret(&line, ERR_ANTS_EOL_NO_NEWLINE));
 	status = atoi_pos(line, &(env->nb_ants), ATOI_NBR_AND_SPACES_ONLY);
-	ft_strdel(&line);
 	if (status != SUCCESS)
-		return (ERR_ANTS_ATOI);
+		return (ft_strdel_ret(&line, ERR_ANTS_ATOI));
 	if (env->nb_ants < 0)
-		return (ERR_ANTS_NEG_NB);
+		return (ft_strdel_ret(&line, ERR_ANTS_NEG_NB));
 	status = list_line_add_first(&env->lines, line);
 	if (status != SUCCESS)
 		return (ERR_ANTS_ADD_LINE);
