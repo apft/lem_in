@@ -45,7 +45,8 @@ static void	bfs_max_flow(t_env *env, t_queue *queue)
 	{
 		current = (t_room *)dequeue(queue);
 		current->visited = VISITED_AS_CURRENT;
-		apply_foreach_room_linked_to_ref(current, env, queue, &search_for_valid_neighbour);
+		apply_foreach_room_linked_to_ref(current, env,
+				queue, &search_for_valid_neighbour);
 		test_cost(current);
 	}
 }
@@ -90,7 +91,7 @@ static int	has_augmenting_path(t_env *env)
 
 	initialize(env, &queue);
 	bfs_max_flow(env, &queue);
-	if (env->end->cost[0] == COST_INF)
+	if (external_cost(env->end) == COST_INF)
 		return (ERROR);
 	save_augmenting_path(env);
 	status = compute_max_stream(&max_stream, env);
