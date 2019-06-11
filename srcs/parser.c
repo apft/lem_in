@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/10 19:14:07 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 10:45:55 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	get_number_ants(t_env *env)
 	int		status;
 
 	line = NULL;
+	eol_had_newline = 0;
 	len = get_next_line(STDIN_FILENO, &line, &eol_had_newline);
 	if (len == GNL_ERROR)
 		return (ft_strdel_ret(&line, ERR_ANTS_READ));
