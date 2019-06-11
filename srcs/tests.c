@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 18:48:18 by apion             #+#    #+#             */
-/*   Updated: 2019/06/10 19:24:54 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 12:15:22 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static int      add_path_length(t_room *start, t_room *current, t_env *env, int 
 	(void)start;
 	(void)env;
 	if (!is_closed_path(current))
-		return (SUCCESS);
+		return (LOOP_CONTINUE);
 	*flow += compute_path_length(current);
-	return (SUCCESS);
+	return (LOOP_SUCCESS);
 }
 
 static int      compute_flow(t_env *env)

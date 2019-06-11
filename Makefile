@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/06/10 19:23:43 by apion            ###   ########.fr        #
+#    Updated: 2019/06/11 13:58:07 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ H_DIR		:= incs $(LIBFT_PATH)/includes $(FT_PRINTF_PATH)
 O_DIR		:= .obj
 C_FILES		:= \
 	srcs/options.c \
+	srcs/augmented_path.c \
 	srcs/atoi_pos.c \
 	srcs/bakery.c \
 	srcs/bfs.c \

@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 11:44:01 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 16:08:03 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define ROOM_H
 
 # include <limits.h>
+
+# include "error.h"
 
 # define ROOM_UNDEF_VALUE	    -1
 
@@ -24,7 +26,7 @@
 # define VISITED_AS_NEIGHBOUR	0x1
 # define VISITED_AS_CURRENT		0x0
 
-# define COST_INF	            INT_MAX - 1
+# define COST_INF	            (INT_MAX - 1)
 
 # define FL_CLOSE_PATH		    0x1
 # define FL_DIRECT_TO_END       0x2
@@ -47,6 +49,13 @@ struct	s_room
 	int			flag;
 	int			dst;
 	int			ant;
+};
+
+enum	e_loop_foreach
+{
+	LOOP_BREAK = -2,
+	LOOP_CONTINUE = -1,
+	LOOP_SUCCESS = SUCCESS,
 };
 
 typedef struct s_env	t_env;

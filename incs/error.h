@@ -6,14 +6,13 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 14:36:36 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 16:07:47 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERROR_H
 # define ERROR_H
 
-# include "env.h"
 # include <errno.h>
 
 # define SUCCESS	0
@@ -72,6 +71,8 @@ enum	e_error
 	ERR_ATOI_INVALID_CHAR,
 	ERR_NULL_POINTER,
 };
+
+typedef struct s_env	t_env;
 
 int		print_error_and_return(int error, t_env *env);
 
