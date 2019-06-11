@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 11:56:52 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/07 16:46:23 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 13:56:27 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@
 #include "ft_printf.h"
 #include "options.h"
 
-static void	print_ant_move_and_update_nodes(t_path *path, t_env *env)
+static void	print_ant_move_and_update_nodes(t_path *path, t_env *env, int *ret)
 {
-	ft_printf("L%d-%s ", path->current->ant, path->current->next->name);
+	if (*ret)
+		ft_putchar(' ');
+	else
+		*ret = 1;
+	ft_printf("L%d-%s", path->current->ant, path->current->next->name);
 	if (path->current->next == env->end)
 		++(env->end->ant);
 	else
@@ -32,35 +36,37 @@ static void	print_ant_move_and_update_nodes(t_path *path, t_env *env)
 		path->current = path->current->from;
 }
 
-static void	print_moves_of_ants_already_in_anthill(t_env *env)
+static int	print_moves_of_ants_already_in_anthill(t_env *env)
 {
 	int		i;
+	int		ret;
 	int		paths_covered;
-	t_path	*path;
 
 	paths_covered = 0;
+	ret = 0;
 	while (paths_covered < env->nb_paths)
 	{
-		i = 0;
-		while (i < env->nb_paths)
+		i = -1;
+		while (++i < env->nb_paths)
 		{
-			path = env->paths_array[i];
-			if (!path->path_printed)
+			if (!env->paths_array[i]->path_printed)
 			{
-				if (path->current->ant)
-					print_ant_move_and_update_nodes(path, env);
+				if (env->paths_array[i]->current->ant)
+					print_ant_move_and_update_nodes(env->paths_array[i], env,
+							&ret);
 				else
 				{
-					path->path_printed = 1;
+					env->paths_array[i]->path_printed = 1;
 					++paths_covered;
 				}
 			}
-			++i;
 		}
 	}
+	return (ret);
 }
 
-static void	print_moves_of_ants_entering_anthill(t_env *env, int *last_ant)
+static void	print_moves_of_ants_entering_anthill(t_env *env, int *last_ant,
+				int ants_printed)
 {
 	int		i;
 	t_path	*path;
@@ -73,7 +79,9 @@ static void	print_moves_of_ants_entering_anthill(t_env *env, int *last_ant)
 		{
 			if (i && (env->nb_ants - *last_ant + 1 + i) < path->nb_ants_stream)
 				break ;
-			ft_printf("L%d-%s ", *last_ant, path->current->name);
+			if (i || ants_printed)
+				ft_putchar(' ');
+			ft_printf("L%d-%s", *last_ant, path->current->name);
 			path->current->ant = *last_ant;
 			++(*last_ant);
 		}
@@ -89,10 +97,11 @@ static void	print_moves_of_ants_entering_anthill(t_env *env, int *last_ant)
 static void	print_line_of_ants_moves(t_env *env, int *last_ant)
 {
 	int		i;
+	int		ants_printed;
 
-	print_moves_of_ants_already_in_anthill(env);
-	print_moves_of_ants_entering_anthill(env, last_ant);
-	ft_printf("\n");
+	ants_printed = print_moves_of_ants_already_in_anthill(env);
+	print_moves_of_ants_entering_anthill(env, last_ant, ants_printed);
+	ft_putchar('\n');
 	i = 0;
 	while (i < env->nb_paths)
 	{
