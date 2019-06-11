@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 18:48:18 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 12:15:22 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 18:45:19 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 		exit (1); \
 	} while (0)
 
-static int      compute_path_length(t_room *current)
+static int	compute_path_length(t_room *current)
 {
 	int             length;
 
@@ -35,7 +35,8 @@ static int      compute_path_length(t_room *current)
 	return (length);
 }
 
-static int      add_path_length(t_room *start, t_room *current, t_env *env, int *flow)
+static int	add_path_length(t_room *start, t_room *current,
+				t_env *env, int *flow)
 {
 	(void)start;
 	(void)env;
@@ -45,7 +46,7 @@ static int      add_path_length(t_room *start, t_room *current, t_env *env, int 
 	return (LOOP_SUCCESS);
 }
 
-static int      compute_flow(t_env *env)
+static int	compute_flow(t_env *env)
 {
 	int             flow;
 
@@ -61,7 +62,9 @@ void		test_flow(t_env *env)
 
 	flow_by_cost += external_cost(env->end);
 	flow_by_length = compute_flow(env);
-	ASSERT_TEST(flow_by_cost == flow_by_length, "error: flow_by_cost= %d, flow_by_length= %d, cost_end= %d", flow_by_cost, flow_by_length, external_cost(env->end));
+	ASSERT_TEST(flow_by_cost == flow_by_length,
+			"error: flow_by_cost= %d, flow_by_length= %d, cost_end= %d",
+			flow_by_cost, flow_by_length, external_cost(env->end));
 }
 
 void		test_cost(t_room *current)
