@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 12:22:39 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 12:25:05 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ static int	closed_room_as_junction(t_room *current)
 {
 	if (!is_closed_path(current))
 		return (0);
-	return (is_junction(current) && internal_cost(current) == INT_MAX - 1);
+	return (is_junction(current) && internal_cost(current) == COST_INF);
 }
 
 static int	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env *env, t_queue *queue)
