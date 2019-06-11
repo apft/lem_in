@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   augmented_path.c                                   :+:      :+:    :+:   */
+/*   augmenting_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 13:54:12 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 13:58:16 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 17:29:52 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	open_path(t_room **current, t_room **next)
 	*next = room_boundary;
 }
 
-void		save_augmented_path(t_env *env)
+void		save_augmenting_path(t_env *env)
 {
 	t_room	*current;
 	t_room	*from;
@@ -64,6 +64,7 @@ void		save_augmented_path(t_env *env)
 	}
 	current->next = next;
 	current->from = next;
+	++(env->nb_paths);
 }
 
 static void	close_path(t_room **current, t_room **from)
@@ -90,7 +91,7 @@ static void	close_path(t_room **current, t_room **from)
 	*from = room_boundary;
 }
 
-void		reset_to_previous_augmented_path(t_env *env)
+void		reset_to_previous_augmenting_path(t_env *env)
 {
 	t_room	*current;
 	t_room	*from;
@@ -116,4 +117,5 @@ void		reset_to_previous_augmented_path(t_env *env)
 	}
 	current->next = 0;
 	current->from = from;
+	--(env->nb_paths);
 }
