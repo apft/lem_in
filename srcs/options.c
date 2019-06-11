@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:30:32 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/07 16:19:00 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 10:36:12 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,26 @@
 #include "env.h"
 #include "error.h"
 
+t_option	g_option[] =
+{
+	{'e', OP_ERR},
+	{'d', OP_DEBUG}
+};
+
 static int	update_flag(char c, t_uint *options)
 {
-	if (c == 'e')
-		*options |= OP_ERR;
-	else if (c == 'd')
-		*options |= OP_DEBUG;
-	else
-		return (ERR_INVALID_OPTION);
-	return (SUCCESS);
+	size_t	size;
+
+	size = sizeof(g_option) / sizeof(t_option);
+	while (size--)
+	{
+		if (g_option[size].c == c)
+		{
+			*options |= g_option[size].flag;
+			return (SUCCESS);
+		}
+	}
+	return (ERR_INVALID_OPTION);
 }
 
 int			get_options(int ac, char **av, t_env *env)
