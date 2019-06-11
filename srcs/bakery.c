@@ -6,23 +6,16 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:47:01 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 13:57:24 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 15:00:26 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "parser.h"
+#include "cleaner.h"
 #include "error.h"
 #include "libft.h"
 #include <stdlib.h>
-
-static void	free_unfully_malloced_matrix(int ***matrix, int index)
-{
-	while (index--)
-		free((*matrix)[index]);
-	free(*matrix);
-	*matrix = NULL;
-}
 
 static int	lst_to_array(t_env *env)
 {
@@ -56,7 +49,7 @@ static int	create_adjacency_matrix(t_env *env)
 		(env->matrix)[i] = (int *)ft_memalloc(sizeof(int) * env->nb_rooms);
 		if (!(env->matrix)[i])
 		{
-			free_unfully_malloced_matrix(&(env->matrix), i);
+			free_ptr_array_to_index((void ***)&(env->matrix), i);
 			return (errno);
 		}
 		++i;

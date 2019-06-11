@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 14:31:17 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 15:53:49 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 14:33:40 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "error.h"
 #include <stdlib.h>
+#include "ft_printf.h"
 
 static void	free_room(void *room, size_t size)
 {
@@ -22,20 +23,12 @@ static void	free_room(void *room, size_t size)
 	free((void *)((t_room *)room));
 }
 
-static void	free_matrix(int ***matrix, size_t size)
+void		free_ptr_array_to_index(void ***array, int last_index)
 {
-	while (size--)
-		free((*matrix)[size]);
-	free(*matrix);
-	*matrix = 0;
-}
-
-static void	free_array_path(t_path ***array_path, size_t size)
-{
-	while (size--)
-		free((*array_path)[size]);
-	free(*array_path);
-	*array_path = 0;
+	while (last_index--)
+		free(*(*array + last_index));
+	free(*array);
+	*array = 0;
 }
 
 int			free_mem(t_env *env)
@@ -47,8 +40,8 @@ int			free_mem(t_env *env)
 	if (env->rooms_array)
 		ft_memdel((void **)&env->rooms_array);
 	if (env->matrix)
-		free_matrix(&env->matrix, env->nb_rooms);
+		free_ptr_array_to_index((void ***)&env->matrix, env->nb_rooms);
 	if (env->paths_array)
-		free_array_path(&env->paths_array, env->nb_paths);
+		free_ptr_array_to_index((void ***)&env->paths_array, env->nb_paths);
 	return (SUCCESS);
 }

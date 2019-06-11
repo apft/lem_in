@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 13:57:37 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 15:01:42 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "customlibft.h"
 #include "path_utils.h"
 #include "augmented_path.h"
+#include "cleaner.h"
 #include "error.h"
 #include "output.h"
 #include "tests.h"
@@ -153,27 +154,23 @@ static void	initialize(t_env *env, t_queue *queue)
 	apply_foreach_room_linked_to_ref(env->start, env, 0, &set_room_dst);
 }
 
-static void	free_array_path(t_path ***array_path, size_t size)
+static int	compute_max_stream(int *max_stream, t_env *env)
 {
-	while (size--)
-		free((*array_path)[size]);
-	free(*array_path);
-	*array_path = 0;
-}
+	int		status;
 
-static int	max_stream(t_env *env)
-{
-	int		max_stream;
-
-	fill_paths_array(env, NO_UPDATE_LINKS);
-	max_stream = env->paths_array[env->nb_paths - 1]->nb_ants_stream;
-	free_array_path(&env->paths_array, env->nb_paths);
-	return (max_stream);
+	status = fill_paths_array(env, NO_UPDATE_LINKS);
+	if (status != SUCCESS)
+		return (status);
+	*max_stream = env->paths_array[env->nb_paths - 1]->nb_ants_stream;
+	free_ptr_array_to_index((void ***)&env->paths_array, env->nb_paths);
+	return (status);
 }
 
 static int	has_augmented_path(t_env *env)
 {
 	t_queue	queue;
+	int		max_stream;
+	int		status;
 
 	initialize(env, &queue);
 	bfs_max_flow(env, &queue);
@@ -181,7 +178,10 @@ static int	has_augmented_path(t_env *env)
 		return (ERROR);
 	save_augmented_path(env);
 	++(env->nb_paths);
-	if (max_stream(env) >= env->nb_ants)
+	status = compute_max_stream(&max_stream, env);
+	if (status != SUCCESS)
+		return (status);
+	if (max_stream >= env->nb_ants)
 	{
 		if (env->nb_paths > 1)
 		{
