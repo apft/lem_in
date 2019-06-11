@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/10 19:14:27 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 12:16:14 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static int	set_room_dst(t_room *start, t_room *current, t_env *env)
 	(void)start;
 	i = 1;
 	if (!is_closed_path(current))
-		return (SUCCESS);
+		return (LOOP_CONTINUE);
 	while (current != env->end)
 	{
 		current->dst = i;
 		++i;
 		current = current->next;
 	}
-	return (SUCCESS);
+	return (LOOP_SUCCESS);
 }
 
 static void	open_path(t_room **current, t_room **next)
@@ -181,20 +181,20 @@ static int	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env 
 	int		cost_current;
 
 	if (neighbour == current->from)
-		return (SUCCESS);
+		return (LOOP_CONTINUE);
 	if (neighbour == current->from_junction)
-		return (SUCCESS);
+		return (LOOP_CONTINUE);
 	if (current == env->start && is_closed_path(neighbour))
-		return (SUCCESS);
+		return (LOOP_CONTINUE);
 	if (is_closed_path(current))
 	{
 		if (neighbour == current->next)
-			return (SUCCESS);
+			return (LOOP_CONTINUE);
 		if (is_linked_on_same_path(current, neighbour))
 		{
 			cost_current = ft_min(external_cost(current), internal_cost(current));
 			if (internal_cost(neighbour) <= (cost_current - 1))
-				return (SUCCESS);
+				return (LOOP_CONTINUE);
 			neighbour->cost[1] = cost_current - 1;
 			if (internal_cost(neighbour) < external_cost(neighbour))
 				neighbour->from_junction = 0;
@@ -202,17 +202,17 @@ static int	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env 
 		else
 		{
 			if (closed_room_as_junction(current))
-				return (SUCCESS);
+				return (LOOP_CONTINUE);
 			else
 				cost_current = internal_cost(current);
 			if (external_cost(neighbour) <= (cost_current + 1))
-				return (SUCCESS);
+				return (LOOP_CONTINUE);
 			if (internal_cost(neighbour) <= (cost_current + 1))
-				return (SUCCESS);
+				return (LOOP_CONTINUE);
 			if (is_closed_path(neighbour))
 			{
 				if (neighbour->dst > (cost_current + 1))
-					return (SUCCESS);
+					return (LOOP_CONTINUE);
 			}
 			neighbour->cost[0] = cost_current + 1;
 		}
@@ -220,15 +220,15 @@ static int	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env 
 	else
 	{
 		if (is_closed_path(neighbour) && env->matrix[env->start->id][neighbour->id])
-			return (SUCCESS);
+			return (LOOP_CONTINUE);
 		if (external_cost(neighbour) <= (external_cost(current) + 1))
-			return (SUCCESS);
+			return (LOOP_CONTINUE);
 		if (internal_cost(neighbour) <= (external_cost(current) + 1))
-			return (SUCCESS);
+			return (LOOP_CONTINUE);
 		if (is_closed_path(neighbour))
 		{
 			if (neighbour->dst > (external_cost(current) + 1))
-				return (SUCCESS);
+				return (LOOP_CONTINUE);
 		}
 		neighbour->cost[0] = (external_cost(current) + 1);
 	}
@@ -246,7 +246,7 @@ static int	search_for_valid_neighbour(t_room *current, t_room *neighbour, t_env 
 		neighbour->visited = VISITED_AS_NEIGHBOUR;
 		prequeue(queue, (void *)neighbour);
 	}
-	return (SUCCESS);
+	return (LOOP_SUCCESS);
 }
 
 #include <stdlib.h>

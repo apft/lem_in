@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:19:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 17:53:51 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 11:57:39 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	add_path_to_array(t_room *start, t_room *current, t_env *env,
 
 	(void)start;
 	if (!is_closed_path(current))
-		return (SUCCESS);
+		return (LOOP_CONTINUE);
 	env->paths_array[*index] = (t_path *)malloc(sizeof(t_path));
 	if (!env->paths_array[*index])
 	{
@@ -55,7 +55,7 @@ static int	add_path_to_array(t_room *start, t_room *current, t_env *env,
 	*env->paths_array[*index] = (t_path){current, current, current, length, 0,
 											0};
 	++(*index);
-	return (SUCCESS);
+	return (LOOP_SUCCESS);
 }
 
 int			create_paths_array(t_env *env, int nb_path)

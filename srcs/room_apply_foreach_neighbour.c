@@ -6,12 +6,12 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:34:42 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 10:56:05 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 12:00:26 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "error.h"
+#include "room.h"
 
 static int	has_oriented_tube_between_rooms(int id_room_a, int id_room_b,
 					t_env *env)
@@ -26,8 +26,8 @@ int			apply_foreach_room_linked_to_ref(t_room *ref, t_env *env,
 	int		status;
 	int		i;
 
-	i = 0;
-	while (i < env->nb_rooms)
+	i = -1;
+	while (++i < env->nb_rooms)
 	{
 		if (has_oriented_tube_between_rooms(ref->id, i, env))
 		{
@@ -36,10 +36,13 @@ int			apply_foreach_room_linked_to_ref(t_room *ref, t_env *env,
 				status = fct(ref, neighbour, env, data);
 			else
 				status = fct(ref, neighbour, env);
-			if (status != SUCCESS)
+			if (status == LOOP_CONTINUE)
+				continue ;
+			else if (status == LOOP_BREAK)
+				break ;
+			else if (status != LOOP_SUCCESS)
 				return (status);
 		}
-		++i;
 	}
 	return (SUCCESS);
 }

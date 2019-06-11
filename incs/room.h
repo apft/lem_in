@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 16:18:57 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 11:47:33 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define ROOM_H
 
 # include <limits.h>
+
+# include "error.h"
 
 # define ROOM_UNDEF_VALUE	    -1
 
@@ -46,6 +48,13 @@ struct	s_room
 	int			flag;
 	int			dst;
 	int			ant;
+};
+
+enum	e_loop_foreach
+{
+	LOOP_SUCCESS = SUCCESS,
+	LOOP_CONTINUE,
+	LOOP_BREAK
 };
 
 typedef struct s_env	t_env;
