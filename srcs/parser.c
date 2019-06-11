@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 10:45:55 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 15:56:10 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	handle_room_or_tube(char *line, t_env *env, unsigned int *cmd_flag)
 		if ((*cmd_flag & BLK_ROOM)
 				&& (status = bake_environment(env, cmd_flag)) != SUCCESS)
 			return (status);
-		return (handle_tube(line, env));
+		return (handle_tube(line, env, cmd_flag));
 	}
 }
 
@@ -77,7 +77,11 @@ int			parse_and_save_line(char *line, t_env *env, unsigned int *cmd_flag)
 	if (line[0] == 'L')
 		return (ERR_PARSER_L_BEGIN);
 	if (line[0] == '#' && line[1] == '#')
+	{
+		if (*cmd_flag & (CMD_START | CMD_END))
+			return (ERR_ENV_WRONG_CMD_START_OR_END);
 		*cmd_flag |= get_cmd(line + 2);
+	}
 	if (line[0] != '#'
 			&& (status = handle_room_or_tube(line, env, cmd_flag)) != SUCCESS)
 		return (status);
@@ -110,5 +114,7 @@ int			parser(t_env *env)
 		return (errno);
 	if (!eol_had_newline)
 		return (ERR_PARSER_EOF_NO_NEWLINE);
+	if (!(cmd_flag & BLK_TUBE))
+		return (ERR_ENV_NO_TUBE);
 	return (SUCCESS);
 }

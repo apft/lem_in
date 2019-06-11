@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:26:34 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 14:18:20 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 15:54:36 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 int		parser(t_env *env);
 int		handle_room(char *line, t_env *env, unsigned int *cmd_flag);
-int		handle_tube(char *line, t_env *env);
+int		handle_tube(char *line, t_env *env, unsigned int *cmd_flag);
 int		bake_environment(t_env *env, unsigned int *cmd_flag);
 int		array_room_merge_sort(t_room **array, size_t array_size);
 

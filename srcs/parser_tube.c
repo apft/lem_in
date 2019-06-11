@@ -6,15 +6,16 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 11:24:44 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/07 14:14:34 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 15:54:09 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "error.h"
 #include "customlibft.h"
+#include "parser.h"
 
-int			handle_tube(char *line, t_env *env)
+int			handle_tube(char *line, t_env *env, unsigned int *cmd_flag)
 {
 	int		id_dash;
 	int		id_room1;
@@ -22,6 +23,8 @@ int			handle_tube(char *line, t_env *env)
 
 	if (ft_nchar(line, '-') != 1)
 		return (ERR_TUBE_INVALID_NB_DASH);
+	if (*cmd_flag & (CMD_START | CMD_END))
+		return (ERR_ENV_WRONG_CMD_START_OR_END);
 	id_dash = 0;
 	while (line[id_dash] != '-')
 		++id_dash;

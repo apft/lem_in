@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 15:51:47 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 14:51:13 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_error		g_error[] =
 	{ERR_ENV_LST_TO_ARRAY, "[env] list to array failed"},
 	{ERR_ENV_ARRAY_SORT, "[env] sorting array failed"},
 	{ERR_ENV_ADJACENCY_MATRIX, "[env] creating adjacency matrix failed"},
+	{ERR_ENV_NO_TUBE, "[env] no tubes defined"},
+	{ERR_ENV_WRONG_CMD_START_OR_END, "[env] wrong command start or end"},
 	{ERR_ENV_NO_PATH_FROM_START_TO_END, "[env] no path start-end"},
 	{ERR_TUBE_INVALID_NB_DASH, "[tube] invalid number of '-' in tube"},
 	{ERR_TUBE_ROOM_NOT_FOUND, "[tube] room does not exist"},

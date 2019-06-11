@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 16:17:50 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 14:36:36 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ enum	e_error
 	ERR_ENV_ARRAY_SORT,
 	ERR_ENV_ADJACENCY_MATRIX,
 	ERR_ENV_NO_PATH_FROM_START_TO_END,
+	ERR_ENV_NO_TUBE,
+	ERR_ENV_WRONG_CMD_START_OR_END,
 	ERR_ENV_END,
 	ERR_TUBE_INVALID_NB_DASH,
 	ERR_TUBE_ROOM_NOT_FOUND,
