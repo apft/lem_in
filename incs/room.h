@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 17:02:10 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 18:08:58 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,19 @@ typedef struct s_env	t_env;
 
 int		external_cost(t_room *room);
 int		internal_cost(t_room *room);
+int		get_room_id_by_name(char *str, t_env *env, int (*cmp)());
+
 int		is_junction(t_room *room);
 int		is_closed_path(t_room *room);
 int		is_linked_on_same_path(t_room *room_a, t_room *room_b);
-int		closed_room_as_junction(t_room *current);
-int		get_room_id_by_name(char *str, t_env *env, int context);
+int		is_closed_room_as_junction(t_room *current);
+int		is_room_name_equal(t_room *room1, t_room *room2);
+
 int		has_oriented_tube_between_rooms_by_id(int id_room_a, int id_room_b,
 			t_env *env);
 int		has_oriented_tube_between_rooms(t_room *room_a, t_room *room_b,
 			t_env *env);
 int		apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data,
 			int (*fct)());
-void	print_room(t_room *room, char *after);
 
 #endif

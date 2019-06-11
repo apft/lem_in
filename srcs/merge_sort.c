@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 20:06:34 by jkettani          #+#    #+#             */
-/*   Updated: 2019/04/29 16:39:11 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 18:08:23 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 #include "room.h"
 #include "error.h"
 #include "libft.h"
-
-static int	cmp_room_name(t_room *room1, t_room *room2)
-{
-	return (ft_strcmp(room1->name, room2->name));
-}
 
 static int	merge(t_room **array, int left, int mid, int right)
 {
@@ -34,7 +29,7 @@ static int	merge(t_room **array, int left, int mid, int right)
 		return (errno);
 	while (lpos <= mid && rpos <= right)
 	{
-		if (cmp_room_name(array[lpos], array[rpos]) < 0)
+		if (is_room_name_equal(array[lpos], array[rpos]) < 0)
 			tmp_array[pos++] = array[lpos++];
 		else
 			tmp_array[pos++] = array[rpos++];
