@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/06/12 11:30:03 by pion             ###   ########.fr        #
+#    Updated: 2019/06/12 12:20:57 by pion             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ C_FILES		:= \
 	srcs/customlibft/tree/rb_insert.c \
 	srcs/output/print_ants.c \
 	srcs/output/print_matrix.c \
+	srcs/output/print_room.c \
 	srcs/output/output.c \
 	srcs/path.c \
 	srcs/path_utils.c \
