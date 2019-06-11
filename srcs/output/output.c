@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 18:06:53 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 16:09:27 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 13:55:24 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,40 @@ static void	print_paths_array(t_env *env)
 			ft_printf(" | ");
 		i++;
 	}
-	ft_printf("\n");
+	ft_putchar('\n');
+}
+
+static void	print_ants_move_start_end(t_env *env)
+{
+	int		i;
+
+	i = 1;
+	while (i <= env->nb_ants)
+	{
+		ft_printf("L%d-%s", i, env->end->name);
+		if (i < env->nb_ants)
+			ft_putchar(' ');
+		++i;
+	}
+	ft_putchar('\n');
 }
 
 void		print_output(t_env *env)
 {
 	print_lines(env->lines);
 	ft_putchar('\n');
-	if (env->options & OP_DEBUG)
+	if (!(env->start->flag & FL_DIRECT_TO_END))
 	{
-		ft_printf("Paths found:\n");
-		print_paths(env);
-		ft_printf("\nPaths ordered:\n");
-		print_paths_array(env);
-		ft_printf("\nNb of ants: %d\n", env->nb_ants);
+		if (env->options & OP_DEBUG)
+		{
+			ft_printf("Paths found:\n");
+			print_paths(env);
+			ft_printf("\nPaths ordered:\n");
+			print_paths_array(env);
+			ft_printf("\nNb of ants: %d\n", env->nb_ants);
+		}
+		print_all_lines_of_ants_moves(env);
 	}
-	print_all_lines_of_ants_moves(env);
+	else
+		print_ants_move_start_end(env);
 }

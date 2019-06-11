@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:52:31 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 16:45:53 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/11 14:20:55 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@ int			main(int ac, char **av)
 	matrix_filter(&env);
 	if ((status = check_map(&env)) != SUCCESS)
 		return (free_mem(&env) + print_error_and_return(status, &env));
-	status = solver(&env);
-	if (status != SUCCESS)
-		return (free_mem(&env) + print_error_and_return(status, &env));
-	status = fill_paths_array(&env, UPDATE_LINKS);
-	if (status != SUCCESS)
-		return (free_mem(&env) + print_error_and_return(status, &env));
+	if (!start_directly_linked_to_end(&env))
+	{
+		status = solver(&env);
+		if (status != SUCCESS)
+			return (free_mem(&env) + print_error_and_return(status, &env));
+		status = fill_paths_array(&env, UPDATE_LINKS);
+		if (status != SUCCESS)
+			return (free_mem(&env) + print_error_and_return(status, &env));
+	}
 	print_output(&env);
 	return (free_mem(&env));
 }
