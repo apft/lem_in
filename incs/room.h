@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 11:47:33 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 12:25:53 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define VISITED_AS_NEIGHBOUR	0x1
 # define VISITED_AS_CURRENT		0x0
 
-# define COST_INF	            INT_MAX - 1
+# define COST_INF	            (INT_MAX - 1)
 
 # define FL_CLOSE_PATH		    0x1
 
