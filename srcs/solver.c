@@ -6,13 +6,13 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 17:05:31 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 17:33:06 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "solver.h"
 #include "path_utils.h"
-#include "augmented_path.h"
+#include "augmenting_path.h"
 #include "cleaner.h"
 #include "error.h"
 #include "output.h"
@@ -82,7 +82,7 @@ static int	compute_max_stream(int *max_stream, t_env *env)
 	return (status);
 }
 
-static int	has_augmented_path(t_env *env)
+static int	has_augmenting_path(t_env *env)
 {
 	t_queue	queue;
 	int		max_stream;
@@ -92,18 +92,14 @@ static int	has_augmented_path(t_env *env)
 	bfs_max_flow(env, &queue);
 	if (env->end->cost[0] == COST_INF)
 		return (ERROR);
-	save_augmented_path(env);
-	++(env->nb_paths);
+	save_augmenting_path(env);
 	status = compute_max_stream(&max_stream, env);
 	if (status != SUCCESS)
 		return (status);
 	if (max_stream >= env->nb_ants)
 	{
 		if (env->nb_paths > 1)
-		{
-			reset_to_previous_augmented_path(env);
-			--(env->nb_paths);
-		}
+			reset_to_previous_augmenting_path(env);
 		return (MAX_FLOW_REACHED);
 	}
 	return (SUCCESS);
@@ -111,7 +107,7 @@ static int	has_augmented_path(t_env *env)
 
 int			solver(t_env *env)
 {
-	while (has_augmented_path(env) == SUCCESS)
+	while (has_augmenting_path(env) == SUCCESS)
 	{
 		test_flow(env);
 	}
