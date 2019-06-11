@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/06/11 13:58:07 by apion            ###   ########.fr        #
+#    Updated: 2019/06/11 17:30:23 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ H_DIR		:= incs $(LIBFT_PATH)/includes $(FT_PRINTF_PATH)
 O_DIR		:= .obj
 C_FILES		:= \
 	srcs/options.c \
-	srcs/augmented_path.c \
+	srcs/augmenting_path.c \
 	srcs/atoi_pos.c \
 	srcs/bakery.c \
 	srcs/bfs.c \
@@ -51,6 +51,7 @@ C_FILES		:= \
 	srcs/room_utils.c \
 	srcs/room_apply_foreach_neighbour.c \
 	srcs/solver.c \
+	srcs/solver_valid_neighbour.c \
 	srcs/tube.c \
 	srcs/customlibft/ft_bsearch_id.c \
 	srcs/customlibft/ft_nchar.c \
