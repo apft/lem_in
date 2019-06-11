@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 12:25:53 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/11 15:08:12 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ struct	s_room
 
 enum	e_loop_foreach
 {
+	LOOP_BREAK = -2,
+	LOOP_CONTINUE = -1,
 	LOOP_SUCCESS = SUCCESS,
-	LOOP_CONTINUE,
-	LOOP_BREAK
 };
 
 typedef struct s_env	t_env;
