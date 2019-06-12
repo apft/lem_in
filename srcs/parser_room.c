@@ -88,7 +88,7 @@ static int	extract_room_info(char *line, t_room *room, t_env *env)
 	if (!room->name)
 		return (errno);
 	if (is_room_duplicate(room->name, env))
-		return (ft_strdel_ret(&room->name, ERR_ROOM_DUPLICATED));
+		return (free_room_and_return((void *)room, ERR_ROOM_DUPLICATED));
 	return (SUCCESS);
 }
 
