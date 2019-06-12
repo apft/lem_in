@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/06/12 12:39:17 by apion            ###   ########.fr        #
+#    Updated: 2019/06/12 17:32:24 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ C_FILES		:= \
 	srcs/solver_valid_neighbour.c \
 	srcs/tube.c \
 	srcs/customlibft/ft_bsearch_id.c \
+	srcs/customlibft/ft_is_print_str.c \
 	srcs/customlibft/ft_nchar.c \
 	srcs/customlibft/ft_queue.c \
 	srcs/customlibft/tree/btree_apply_infix.c \

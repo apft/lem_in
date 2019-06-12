@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:29:50 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 18:08:11 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 17:10:29 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,4 @@ int		is_closed_room_as_junction(t_room *current)
 	if (!is_closed_path(current))
 		return (0);
 	return (is_junction(current) && internal_cost(current) == COST_INF);
-}
-
-int		is_room_name_equal(t_room *room1, t_room *room2)
-{
-	return (ft_strcmp(room1->name, room2->name));
 }

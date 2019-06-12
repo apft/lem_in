@@ -6,17 +6,27 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/06/10 20:24:33 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 17:50:05 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "env.h"
 #include "atoi_pos.h"
+#include "cleaner.h"
 #include "error.h"
 #include "customlibft.h"
-#include <stdlib.h>
 #include <limits.h>
+
+static int	is_room_duplicate(char *name, t_env *env)
+{
+	static t_room	ref;
+
+	ref.name = name;
+	if (btree_search_item(env->rooms_tree, &ref, &cmp_room_name))
+		return (1);
+	return (0);
+}
 
 static int	extract_coord(char **str_end, int *coord)
 {
@@ -28,28 +38,6 @@ static int	extract_coord(char **str_end, int *coord)
 		return (status);
 	else
 		return (SUCCESS);
-}
-
-static int	cmp_room_name(char *name, t_room *room)
-{
-	if (ft_strequ(room->name, name))
-		return (0);
-	return (1);
-}
-
-static int	is_room_duplicate(char *name, t_env *env)
-{
-	if (btree_search_item(env->rooms_tree, name, &cmp_room_name))
-		return (1);
-	return (0);
-}
-
-static int	is_print_str(char *str, char *end)
-{
-	while (str != end)
-		if (!ft_isprint(*str++))
-			return (0);
-	return (1);
 }
 
 static int	extract_start_or_end(t_room *room, t_env *env,
@@ -82,7 +70,7 @@ static int	extract_room_info(char *line, t_room *room, t_env *env)
 	--end;
 	if (extract_coord(&end, &room->x) != SUCCESS)
 		return (ERR_ROOM_INVALID_X_COORD);
-	if (!is_print_str(line, end))
+	if (!ft_is_print_str(line, end))
 		return (ERR_ROOM_INVALID_NAME);
 	room->name = ft_strndup(line, end - line);
 	if (!room->name)
@@ -90,23 +78,6 @@ static int	extract_room_info(char *line, t_room *room, t_env *env)
 	if (is_room_duplicate(room->name, env))
 		return (free_room_and_return((void *)room, ERR_ROOM_DUPLICATED));
 	return (SUCCESS);
-}
-
-t_room		*create_empty_room(void)
-{
-	t_room	*room;
-
-	room = (t_room *)malloc(sizeof(*room));
-	if (!room)
-		return (0);
-	*room = (t_room){0, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE, ROOM_UNDEF_VALUE,
-			(void *)0, (void *)0, (void *)0, VISITED_EMPTY, {0, 0}, 0, 0, 0};
-	return (room);
-}
-
-int			cmp_rooms(void *room_a, void *room_b)
-{
-	return (ft_strcmp(((t_room *)room_a)->name, ((t_room *)room_b)->name));
 }
 
 int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
@@ -123,7 +94,7 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 		return (errno);
 	if ((status = extract_room_info(line, room, env)) != SUCCESS)
 		return (status);
-	rb_insert(&env->rooms_tree, (void *)room, &cmp_rooms);
+	rb_insert(&env->rooms_tree, (void *)room, &cmp_room_name);
 	++env->nb_rooms;
 	if (*cmd_flag & (CMD_START | CMD_END))
 	{

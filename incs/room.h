@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 12:41:51 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 17:34:33 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <limits.h>
 
 # include "error.h"
-
-# define ROOM_UNDEF_VALUE	    -1
 
 # define ROOM_NAME_ONLY		    0x1
 # define ROOM_NAME_IN_TUBE	    0x2
@@ -60,15 +58,16 @@ enum	e_loop_foreach
 
 typedef struct s_env	t_env;
 
+t_room	*create_empty_room(void);
 int		external_cost(t_room *room);
 int		internal_cost(t_room *room);
 int		get_room_id_by_name(char *str, t_env *env, int (*cmp)());
+int		cmp_room_name(void *room1, void *room2);
 
 int		is_junction(t_room *room);
 int		is_closed_path(t_room *room);
 int		is_linked_on_same_path(t_room *room_a, t_room *room_b);
 int		is_closed_room_as_junction(t_room *current);
-int		is_room_name_equal(t_room *room1, t_room *room2);
 
 int		apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data,
 			int (*fct)());
