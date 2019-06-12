@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:47:01 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 10:59:38 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/12 11:35:59 by pion             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,25 @@
 #include "cleaner.h"
 #include "error.h"
 #include "libft.h"
-#include "generic_merge_sort.h"
+#include <stdlib.h>
 
-static int	lst_to_array(t_env *env)
+static void	add_to_array(t_rb_node *node, t_env *env)
 {
-	t_list		*map;
-	int			i;
+	t_room		*room;
+	static int	index;
 
-	env->rooms_array = (t_room **)ft_memalloc(sizeof(t_room *) * env->nb_rooms);
+	room = (t_room *)node->data;
+	room->id = index;
+	env->rooms_array[index] = room;
+	++index;
+}
+
+static int	tree_to_array(t_env *env)
+{
+	env->rooms_array = (t_room **)malloc(sizeof(t_room *) * env->nb_rooms);
 	if (!env->rooms_array)
 		return (errno);
-	map = env->map;
-	i = 0;
-	while (map)
-	{
-		env->rooms_array[i] = (t_room *)(map->content);
-		++i;
-		map = map->next;
-	}
+	btree_apply_infix(env->rooms_tree, (void *)env, &add_to_array);
 	return (SUCCESS);
 }
 
@@ -67,45 +68,17 @@ int			check_environment(t_env *env, int status)
 	return (SUCCESS);
 }
 
-int			cmp_rooms_name(t_room **room1, t_room **room2)
-{
-	return (ft_strcmp((*room1)->name, (*room2)->name));
-}
-
-int			create_ordered_rooms_array(t_env *env)
-{
-	t_array_args	args;
-	int				i;
-
-	if (lst_to_array(env) != SUCCESS)
-		return (ERR_ENV_LST_TO_ARRAY);
-	args = (t_array_args){env->rooms_array, sizeof(t_room *), env->nb_rooms,
-				&cmp_rooms_name};
-	if (array_merge_sort(&args) != SUCCESS)
-		return (ERR_ENV_ARRAY_SORT);
-	i = 0;
-	while (i < env->nb_rooms)
-	{
-		env->rooms_array[i]->id = i;
-		++i;
-	}
-	return (SUCCESS);
-}
-
 int			bake_environment(t_env *env, unsigned int *cmd_flag)
 {
-	int		status;
-
 	*cmd_flag ^= BLK_ROOM | BLK_TUBE;
-	if (!env->map)
+	if (!env->rooms_tree)
 		return (ERR_ENV_EMPTY);
 	if (!env->start)
 		return (ERR_ENV_EMPTY_START);
 	if (!env->end)
 		return (ERR_ENV_EMPTY_END);
-	status = create_ordered_rooms_array(env);
-	if (status != SUCCESS)
-		return (status);
+	if (tree_to_array(env) != SUCCESS)
+		return (ERR_ENV_LST_TO_ARRAY);
 	if (create_adjacency_matrix(env) != SUCCESS)
 		return (ERR_ENV_ADJACENCY_MATRIX);
 	return (SUCCESS);

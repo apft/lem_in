@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/06/11 17:30:23 by apion            ###   ########.fr        #
+#    Updated: 2019/06/12 11:30:03 by pion             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,10 @@ C_FILES		:= \
 	srcs/customlibft/ft_bsearch_id.c \
 	srcs/customlibft/ft_nchar.c \
 	srcs/customlibft/ft_queue.c \
+	srcs/customlibft/tree/btree_apply_infix.c \
+	srcs/customlibft/tree/btree_apply_suffix.c \
+	srcs/customlibft/tree/btree_search_item.c \
+	srcs/customlibft/tree/rb_insert.c \
 	srcs/output/print_ants.c \
 	srcs/output/print_matrix.c \
 	srcs/output/output.c \
