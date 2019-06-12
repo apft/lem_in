@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 11:24:44 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/12 12:28:54 by pion             ###   ########.fr       */
+/*   Updated: 2019/06/12 17:18:42 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 #include "libft.h"
 #include "customlibft.h"
 #include "parser.h"
-
-static int	cmp_room_name(char *str, t_room **room)
-{
-	return (ft_strcmp(str, (*room)->name));
-}
 
 static int	cmp_first_room_name_in_tube(char *str, t_room **room)
 {
@@ -34,6 +29,11 @@ static int	cmp_first_room_name_in_tube(char *str, t_room **room)
 		return (res - (*room)->name[id_dash]);
 	else
 		return (res);
+}
+
+static int	cmp_second_room_name_in_tube(char *str, t_room **room)
+{
+	return (ft_strcmp(str, (*room)->name));
 }
 
 int			handle_tube(char *line, t_env *env, unsigned int *cmd_flag)
@@ -52,7 +52,8 @@ int			handle_tube(char *line, t_env *env, unsigned int *cmd_flag)
 	id_room1 = get_room_id_by_name(line, env, &cmp_first_room_name_in_tube);
 	if (id_room1 < 0)
 		return (ERR_TUBE_ROOM_NOT_FOUND);
-	id_room2 = get_room_id_by_name(line + id_dash + 1, env, &cmp_room_name);
+	id_room2 = get_room_id_by_name(
+			line + id_dash + 1, env, &cmp_second_room_name_in_tube);
 	if (id_room2 < 0)
 		return (ERR_TUBE_ROOM_NOT_FOUND);
 	env->matrix[id_room1][id_room2] = 1;
