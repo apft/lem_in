@@ -48,10 +48,10 @@ function	run()
 		do
 			usr=`$bin < $MAP | grep "^L" | wc -l | bc`
 			time=`{ time $bin < $MAP ; } 2>&1 | grep real | cut -f2`
-			if [ ${#bin} -lt 16 ]; then
+			if [ ${#bin} -lt 19 ]; then
 				printf "%4d (%+3d) %s  "  $usr $((usr-max)) $time
 			else
-				printf "%*s%4d (%+3d) %s  " $((${#bin} - 10)) "" $usr $((usr-max)) $time
+				printf "%*s%4d (%+3d) %s  " $((${#bin} - 19)) "" $usr $((usr-max)) $time
 			fi
 			((j++))
 		done
