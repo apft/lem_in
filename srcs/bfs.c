@@ -6,14 +6,15 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:51:36 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 14:06:20 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/12 12:40:15 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bfs.h"
 #include "env.h"
-#include "customlibft.h"
+#include "dead_end.h"
 #include "tube.h"
+#include "customlibft.h"
 #include "error.h"
 
 static void	clear_queue(t_queue *queue)

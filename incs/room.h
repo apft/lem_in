@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 17:39:52 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 18:08:58 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 12:41:51 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,6 @@ int		is_linked_on_same_path(t_room *room_a, t_room *room_b);
 int		is_closed_room_as_junction(t_room *current);
 int		is_room_name_equal(t_room *room1, t_room *room2);
 
-int		has_oriented_tube_between_rooms_by_id(int id_room_a, int id_room_b,
-			t_env *env);
-int		has_oriented_tube_between_rooms(t_room *room_a, t_room *room_b,
-			t_env *env);
 int		apply_foreach_room_linked_to_ref(t_room *ref, t_env *env, void *data,
 			int (*fct)());
 

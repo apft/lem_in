@@ -6,11 +6,12 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 16:39:19 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 17:54:31 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 12:42:33 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "tube.h"
 #include "customlibft.h"
 
 static int	check_neighbour_with_closed_current(t_room *current,

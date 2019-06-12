@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/06/12 12:21:44 by pion             ###   ########.fr        #
+#    Updated: 2019/06/12 12:39:17 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ C_FILES		:= \
 	srcs/bakery.c \
 	srcs/bfs.c \
 	srcs/cleaner.c \
+	srcs/dead_end.c \
 	srcs/error.c \
 	srcs/get_next_line.c \
 	srcs/list_line.c \
