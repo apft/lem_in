@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 16:21:35 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 16:49:16 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ int			solver(t_env *env)
 		test_flow(env);
 	}
 	if (!env->nb_paths)
-		return (ERR_NO_PATH_FOUND);
+		return (ERR_ENV_NO_PATH_FROM_START_TO_END);
 	return (SUCCESS);
 }
