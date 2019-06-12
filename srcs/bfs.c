@@ -6,16 +6,17 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:51:36 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 12:40:15 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 16:38:30 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bfs.h"
 #include "env.h"
+#include "solver.h"
 #include "dead_end.h"
 #include "tube.h"
 #include "customlibft.h"
 #include "error.h"
+#include "tests.h"
 
 static void	clear_queue(t_queue *queue)
 {
@@ -80,29 +81,26 @@ void		bfs_remove_dead_end_path(t_env *env)
 {
 	t_queue	queue;
 	t_room	*current;
-	int		i;
 
 	initialize(env, &queue);
 	while (queue.head)
 	{
 		current = (t_room *)dequeue(&queue);
-		i = 0;
-		while (i < env->nb_rooms)
-		{
-			if (env->matrix[current->id][i])
-			{
-				if (!env->rooms_array[i]->visited
-						&& env->rooms_array[i] != env->end)
-				{
-					env->rooms_array[i]->visited = 1;
-					env->rooms_array[i]->from = current;
-					if (is_dead_end(env, i, current->id))
-						remove_dead_end_path(env->rooms_array[i], env);
-					else
-						enqueue(&queue, (void *)env->rooms_array[i]);
-				}
-			}
-			++i;
-		}
+		apply_foreach_room_linked_to_ref(current, env,
+				&queue, &search_for_dead_end);
+	}
+}
+
+void		bfs_max_flow(t_env *env, t_queue *queue)
+{
+	t_room	*current;
+
+	while (queue->head)
+	{
+		current = (t_room *)dequeue(queue);
+		current->visited = VISITED_AS_CURRENT;
+		apply_foreach_room_linked_to_ref(current, env,
+				queue, &search_for_valid_neighbour);
+		test_cost(current);
 	}
 }

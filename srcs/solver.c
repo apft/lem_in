@@ -6,14 +6,14 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 17:33:06 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 16:21:35 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "solver.h"
+#include "bfs.h"
 #include "path_utils.h"
-#include "augmenting_path.h"
 #include "cleaner.h"
+#include "augmenting_path.h"
 #include "error.h"
 #include "output.h"
 #include "tests.h"
@@ -35,20 +35,6 @@ static int	set_room_dst(t_room *start, t_room *current, t_env *env)
 		current = current->next;
 	}
 	return (LOOP_SUCCESS);
-}
-
-static void	bfs_max_flow(t_env *env, t_queue *queue)
-{
-	t_room	*current;
-
-	while (queue->head)
-	{
-		current = (t_room *)dequeue(queue);
-		current->visited = VISITED_AS_CURRENT;
-		apply_foreach_room_linked_to_ref(current, env,
-				queue, &search_for_valid_neighbour);
-		test_cost(current);
-	}
 }
 
 static void	initialize(t_env *env, t_queue *queue)
