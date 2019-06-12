@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 16:14:31 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 16:40:31 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 16:47:23 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,5 @@ void		matrix_filter(t_env *env)
 
 int			start_directly_linked_to_end(t_env *env)
 {
-	int		j;
-	int		index_start;
-
-	j = 0;
-	index_start = env->start->id;
-	while (j < env->nb_rooms)
-	{
-		if (j == env->end->id)
-		{
-			if (env->matrix[index_start][j])
-			{
-				env->start->flag |= FL_DIRECT_TO_END;
-				return (1);
-			}
-		}
-		++j;
-	}
-	return (0);
+	return (has_oriented_tube_between_rooms(env->start, env->end, env));
 }
