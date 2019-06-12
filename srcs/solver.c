@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 17:33:06 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 14:20:05 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,25 @@ static int	has_augmenting_path(t_env *env)
 	t_queue	queue;
 	int		max_stream;
 	int		status;
+	int		prev_nb_lines;
 
 	initialize(env, &queue);
 	bfs_max_flow(env, &queue);
 	if (external_cost(env->end) == COST_INF)
 		return (ERROR);
 	save_augmenting_path(env);
+	if (env->nb_paths == 1)
+		prev_nb_lines = 99999999;
+	else
+		prev_nb_lines = env->nb_lines;
 	status = compute_max_stream(&max_stream, env);
 	if (status != SUCCESS)
 		return (status);
-	if (max_stream >= env->nb_ants)
+	if (prev_nb_lines <= env->nb_lines)
 	{
 		if (env->nb_paths > 1)
 			reset_to_previous_augmenting_path(env);
+		env->nb_lines = prev_nb_lines;
 		return (MAX_FLOW_REACHED);
 	}
 	return (SUCCESS);
