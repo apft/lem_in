@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 16:14:31 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 11:44:50 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/12 16:40:31 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@
 #include "bfs.h"
 #include "tube.h"
 #include "room.h"
-
-int			check_map(t_env *env)
-{
-	(void)env;
-	env->end->dst = bfs(env);
-	if (env->end->dst < 1)
-		return (ERR_ENV_NO_PATH_FROM_START_TO_END);
-	return (SUCCESS);
-}
 
 static void	remove_self_loop(t_env *env)
 {
