@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 16:39:19 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 12:42:33 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 18:36:33 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,25 @@ static void	update_neighbour_froms(t_room *current, t_room *neighbour)
 	neighbour->from = current;
 }
 
-static void	add_neighbour_to_queue(t_room *neighbour, t_queue *queue)
+static int	add_neighbour_to_queue(t_room *neighbour, t_queue *queue)
 {
+	int		status;
+
 	if (neighbour->visited == VISITED_EMPTY)
 	{
 		neighbour->visited = VISITED_AS_NEIGHBOUR;
-		enqueue(queue, (void *)neighbour);
+		status = enqueue(queue, (void *)neighbour);
+		if (status != SUCCESS)
+			return (status);
 	}
 	else if (neighbour->visited == VISITED_AS_CURRENT)
 	{
 		neighbour->visited = VISITED_AS_NEIGHBOUR;
-		prequeue(queue, (void *)neighbour);
+		status = prequeue(queue, (void *)neighbour);
+		if (status != SUCCESS)
+			return (status);
 	}
+	return (SUCCESS);
 }
 
 int			search_for_valid_neighbour(t_room *current, t_room *neighbour,
@@ -108,6 +115,8 @@ int			search_for_valid_neighbour(t_room *current, t_room *neighbour,
 			return (status);
 	}
 	update_neighbour_froms(current, neighbour);
-	add_neighbour_to_queue(neighbour, queue);
+	status = add_neighbour_to_queue(neighbour, queue);
+	if (status != SUCCESS)
+		return (status);
 	return (LOOP_SUCCESS);
 }

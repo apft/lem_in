@@ -6,12 +6,13 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 12:11:55 by apion             #+#    #+#             */
-/*   Updated: 2019/05/13 17:34:47 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 18:29:35 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_btree_rb.h"
+#include "error.h"
 
 #define ROTATE_LEFT		0x1
 #define ROTATE_RIGHT	0x2
@@ -118,20 +119,21 @@ static void		insert_tree(t_rb_node *tree, t_rb_node *node,
 	node->parent = tree;
 }
 
-void			rb_insert(t_rb_node **root, void *data,
+int				rb_insert(t_rb_node **root, void *data,
 						int (*cmp)(void *, void *))
 {
 	t_rb_node	*node;
 
 	if (!root || !cmp)
-		return ;
+		return (ERR_NULL_POINTER);
 	node = (t_rb_node *)malloc(sizeof(*node));
 	if (!node)
-		return ;
+		return (errno);
 	*node = (t_rb_node){0, 0, 0, data, RB_RED};
 	if (!*root)
 		*root = node;
 	else
 		insert_tree(*root, node, cmp);
 	repair_tree(root, node);
+	return (SUCCESS);
 }

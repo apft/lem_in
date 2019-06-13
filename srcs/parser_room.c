@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 09:32:47 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 18:10:49 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 		return (errno);
 	if ((status = extract_room_info(line, room, env)) != SUCCESS)
 		return (status);
-	rb_insert(&env->rooms_tree, (void *)room, &cmp_room_name);
+	status = rb_insert(&env->rooms_tree, (void *)room, &cmp_room_name);
+	if (status != SUCCESS)
+		return (ERR_ROOM_TREE_FAILED);
 	++env->nb_rooms;
 	if (*cmd_flag & (CMD_START | CMD_END))
 	{

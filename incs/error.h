@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 16:49:46 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 18:28:23 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ enum	e_error
 	ERR_PARSER_EOF_NO_NEWLINE,
 	ERR_ROOM_BEGIN,
 	ERR_ROOM_INVALID_NB_ARG,
+	ERR_ROOM_TREE_FAILED,
 	ERR_ROOM_INVALID_Y_COORD,
 	ERR_ROOM_INVALID_X_COORD,
 	ERR_ROOM_INVALID_NAME,

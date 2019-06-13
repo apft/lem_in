@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:09:34 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 14:51:13 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/13 18:12:41 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_error		g_error[] =
 	{ERR_PARSER_ADD_LINE, "[parser] could not add line"},
 	{ERR_PARSER_EOF_NO_NEWLINE, "[parser] no newline at end of file"},
 	{ERR_ROOM_INVALID_NB_ARG, "[room] invalid number of arguments (room x y)"},
+	{ERR_ROOM_TREE_FAILED, "[room] could not create tree"},
 	{ERR_ROOM_INVALID_Y_COORD, "[room] invalid Y coord"},
 	{ERR_ROOM_INVALID_X_COORD, "[room] invalid X coord"},
 	{ERR_ROOM_INVALID_NAME, "[room] invalid room name"},

@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:51:36 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 12:08:39 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 18:27:53 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,57 @@
 #include "customlibft.h"
 #include "error.h"
 
-static void	initialize(t_env *env, t_queue *queue)
+static int	initialize(t_env *env, t_queue *queue)
 {
 	int		i;
+	int		status;
 
 	i = 0;
 	while (i < env->nb_rooms)
 		env->rooms_array[i++]->visited = 0;
 	*queue = (t_queue){0, 0};
-	enqueue(queue, (void *)env->start);
+	status = enqueue(queue, (void *)env->start);
+	if (status != SUCCESS)
+		return (status);
 	env->start->visited = 1;
+	return (SUCCESS);
 }
 
-void		bfs_remove_dead_end_path(t_env *env)
+int			bfs_remove_dead_end_path(t_env *env)
 {
+	int		status;
 	t_queue	queue;
 	t_room	*current;
 
-	initialize(env, &queue);
+	status = initialize(env, &queue);
+	if (status != SUCCESS)
+		return (status);
 	while (queue.head)
 	{
 		current = (t_room *)dequeue(&queue);
+		if (!current)
+			return (ERR_NULL_POINTER);
 		apply_foreach_room_linked_to_ref(current, env,
 				&queue, &search_for_dead_end);
 	}
+	return (SUCCESS);
 }
 
-void		bfs_max_flow(t_env *env, t_queue *queue)
+int			bfs_max_flow(t_env *env, t_queue *queue)
 {
 	t_room	*current;
+	int		status;
 
 	while (queue->head)
 	{
 		current = (t_room *)dequeue(queue);
+		if (!current)
+			return (ERR_NULL_POINTER);
 		current->visited = VISITED_AS_CURRENT;
-		apply_foreach_room_linked_to_ref(current, env,
+		status = apply_foreach_room_linked_to_ref(current, env,
 				queue, &search_for_valid_neighbour);
+		if (status != SUCCESS)
+			return (status);
 	}
+	return (SUCCESS);
 }

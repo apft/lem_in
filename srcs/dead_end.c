@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 12:35:14 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 16:35:50 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 18:23:17 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static void	remove_dead_end_path(t_room *dead_end, t_env *env)
 int			search_for_dead_end(t_room *current, t_room *neighbour,
 				t_env *env, t_queue *queue)
 {
+	int		status;
+
 	if (neighbour->visited || neighbour == env->end)
 		return (LOOP_CONTINUE);
 	neighbour->visited = 1;
@@ -72,6 +74,10 @@ int			search_for_dead_end(t_room *current, t_room *neighbour,
 	if (is_dead_end(current, neighbour, env))
 		remove_dead_end_path(neighbour, env);
 	else
-		enqueue(queue, (void *)neighbour);
+	{
+		status = enqueue(queue, (void *)neighbour);
+		if (status != SUCCESS)
+			return (status);
+	}
 	return (LOOP_SUCCESS);
 }

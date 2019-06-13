@@ -6,17 +6,14 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 21:36:32 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 13:13:42 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/13 18:29:01 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 #include "customlibft.h"
-
-/*
-** Not using ft_lstnew because I only need a queue of pointer, no need to memcpy
-*/
+#include "error.h"
 
 static void	*create_node(void *content)
 {
@@ -31,31 +28,33 @@ static void	*create_node(void *content)
 	return (node);
 }
 
-void		prequeue(t_queue *queue, void *content)
+int			prequeue(t_queue *queue, void *content)
 {
 	t_list *node;
 
 	node = create_node(content);
 	if (!node)
-		return ;
+		return (errno);
 	node->next = queue->head;
 	queue->head = node;
 	if (!queue->tail)
 		queue->tail = node;
+	return (SUCCESS);
 }
 
-void		enqueue(t_queue *queue, void *content)
+int			enqueue(t_queue *queue, void *content)
 {
 	t_list	*node;
 
 	node = create_node(content);
 	if (!node)
-		return ;
+		return (errno);
 	if (!queue->head)
 		queue->head = node;
 	if (queue->tail)
 		queue->tail->next = node;
 	queue->tail = node;
+	return (SUCCESS);
 }
 
 void		*dequeue(t_queue *queue)
