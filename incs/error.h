@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 16:07:47 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 16:49:46 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ enum	e_error
 	ERR_TUBE_INVALID_NB_DASH,
 	ERR_TUBE_ROOM_NOT_FOUND,
 	ERR_TUBE_HAS_SPACES,
-	ERR_NO_PATH_FOUND,
 	ERR_ATOI_EMPTY,
 	ERR_ATOI_NO_DIGITS,
 	ERR_ATOI_NEG,

@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 11:59:24 by apion             #+#    #+#             */
-/*   Updated: 2019/05/28 20:10:59 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 17:33:06 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 
+int		ft_is_print_str(char *str, char *end);
 int		ft_nchar(char *str, char c);
 
 typedef struct s_array_args	t_array_args;

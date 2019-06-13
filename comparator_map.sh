@@ -2,6 +2,8 @@
 
 TYPE="$1"
 shift
+MAP_FOLDER="$1"
+shift
 
 MAP=".map"
 MAP_BFR=".map_old"
@@ -29,7 +31,7 @@ function print_header()
 	printf "        exp  "
 	for bin in $@
 	do
-		printf "%*s  " 19 $bin
+		printf "%*s   " 10 $bin
 	done
 	printf "\n"
 }
@@ -38,25 +40,22 @@ function	run()
 {
 	print_header $@
 
-	for i in {1..25}
+	for map in `find ${MAP_FOLDER} -type f`
 	do
-		generate_new_map
-		max=`tail -n 1 $MAP | cut -d ':' -f 2 | bc`
-		printf "%4d : %4d  " $i $max
+		max=`tail -n 1 $map | cut -d ':' -f 2 | bc`
+		printf "%4d : %4d  " `echo $map | rev | cut -d '_' -f 1 | rev` $max
 		j=0
 		for bin in $@
 		do
-			usr=`$bin < $MAP | grep "^L" | wc -l | bc`
-			time=`{ time $bin < $MAP ; } 2>&1 | grep real | cut -f2`
-			if [ ${#bin} -lt 19 ]; then
-				printf "%4d (%+3d) %s  "  $usr $((usr-max)) $time
+			usr=`$bin < $map | grep "^L" | wc -l | bc`
+			if [ ${#bin} -lt 16 ]; then
+				printf "%4d (%+3d)   "  $usr $((usr-max))
 			else
-				printf "%*s%4d (%+3d) %s  " $((${#bin} - 19)) "" $usr $((usr-max)) $time
+				printf "%*s%4d (%+3d)   " $((${#bin} - 10)) "" $usr $((usr-max))
 			fi
 			((j++))
 		done
 		[ ${#@} -eq 1 ] && let "COMP[$((10 + usr - max))]++"
-		mv $MAP ${MAP_BFR}
 		printf "\n"
 	done
 }
@@ -93,7 +92,7 @@ function	print_summary()
 	print_graph
 }
 
-touch $MAP ${MAP_BFR}
+#touch $MAP ${MAP_BFR}
 
 initialize_array_comp
 run $@

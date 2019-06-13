@@ -1,27 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   room_utils.c                                       :+:      :+:    :+:   */
+/*   room_is.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:29:50 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 13:36:18 by pion             ###   ########.fr       */
+/*   Updated: 2019/06/12 17:10:29 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "ft_printf.h"
-
-int		external_cost(t_room *room)
-{
-	return (room->cost[0]);
-}
-
-int		internal_cost(t_room *room)
-{
-	return (room->cost[1]);
-}
 
 int		is_junction(t_room *room)
 {
@@ -42,18 +31,9 @@ int		is_linked_on_same_path(t_room *room_a, t_room *room_b)
 	return (room_a->next == room_b || room_b->next == room_a);
 }
 
-void	print_room(t_room *room, char *after)
+int		is_closed_room_as_junction(t_room *current)
 {
-	ft_printf("%c%c%s(%s:%s:%s:%d:%s-%s:%d)%s",
-		is_junction(room) ? '*' : ' ',
-		is_closed_path(room) ? '~' : ' ',
-		room->name,
-		room->from ? room->from->name : ".",
-		room->from_junction ? room->from_junction->name : ".",
-		room->next ? room->next->name : ".",
-		room->visited,
-		external_cost(room) == COST_INF ? "inf" : ft_itoa(external_cost(room)),
-		internal_cost(room) == COST_INF ? "inf" : ft_itoa(internal_cost(room)),
-		room->dst,
-		after);
+	if (!is_closed_path(current))
+		return (0);
+	return (is_junction(current) && internal_cost(current) == COST_INF);
 }

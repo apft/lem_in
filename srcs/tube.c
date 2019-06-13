@@ -6,56 +6,38 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 11:16:03 by apion             #+#    #+#             */
-/*   Updated: 2019/06/07 15:43:34 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/12 12:41:29 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
-static int	nb_of_neighbours(t_room *room, t_env *env)
+int		has_oriented_tube_between_rooms_by_id(int id_room_a, int id_room_b,
+					t_env *env)
 {
-	int		nb_neighbours;
-	int		i;
-
-	nb_neighbours = 0;
-	i = 0;
-	while (i < env->nb_rooms)
-	{
-		nb_neighbours += env->matrix[room->id][i];
-		++i;
-	}
-	return (nb_neighbours);
+	return (env->matrix[id_room_a][id_room_b]);
 }
 
-int			is_dead_end(t_env *env, int index, int index_parent)
+int		has_oriented_tube_between_rooms(t_room *room_a, t_room *room_b,
+					t_env *env)
 {
-	int		i;
-
-	i = 0;
-	while (i < env->nb_rooms)
-	{
-		if (i != index_parent && env->matrix[index][i])
-			return (0);
-		++i;
-	}
-	return (1);
+	return (has_oriented_tube_between_rooms_by_id(room_a->id, room_b->id, env));
 }
 
-void		remove_oriented_tube_between_rooms(t_env *env,
+void	remove_oriented_tube_between_rooms(t_env *env,
 				t_room *room_a, t_room *room_b)
 {
-	if (env->matrix[room_a->id][room_b->id])
+	if (has_oriented_tube_between_rooms(room_a, room_b, env))
 		env->matrix[room_a->id][room_b->id] = 0;
 }
 
-void		remove_tube_between_rooms(t_env *env, t_room *room_a,
-										t_room *room_b)
+void	remove_tube_between_rooms(t_env *env, t_room *room_a, t_room *room_b)
 {
 	remove_oriented_tube_between_rooms(env, room_a, room_b);
 	remove_oriented_tube_between_rooms(env, room_b, room_a);
 }
 
-void		remove_oriented_tubes_back_to_start_or_from_end(t_env *env)
+void	remove_oriented_tubes_back_to_start_or_from_end(t_env *env)
 {
 	int		i;
 
@@ -66,23 +48,5 @@ void		remove_oriented_tubes_back_to_start_or_from_end(t_env *env)
 											env->start);
 		remove_oriented_tube_between_rooms(env, env->end, env->rooms_array[i]);
 		++i;
-	}
-}
-
-void		remove_dead_end_path(t_room *dead_end, t_env *env)
-{
-	t_room	*from;
-
-	from = dead_end->from;
-	while (dead_end && from)
-	{
-		remove_tube_between_rooms(env, dead_end, from);
-		if (nb_of_neighbours(from, env) == 1)
-		{
-			dead_end = from;
-			from = dead_end->from;
-		}
-		else
-			return ;
 	}
 }

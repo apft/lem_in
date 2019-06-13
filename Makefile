@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/06/12 11:30:03 by pion             ###   ########.fr        #
+#    Updated: 2019/06/12 17:32:24 by apion            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ C_FILES		:= \
 	srcs/bakery.c \
 	srcs/bfs.c \
 	srcs/cleaner.c \
+	srcs/dead_end.c \
 	srcs/error.c \
 	srcs/get_next_line.c \
 	srcs/list_line.c \
@@ -48,12 +49,13 @@ C_FILES		:= \
 	srcs/parser_room.c \
 	srcs/parser_tube.c \
 	srcs/room.c \
-	srcs/room_utils.c \
+	srcs/room_is.c \
 	srcs/room_apply_foreach_neighbour.c \
 	srcs/solver.c \
 	srcs/solver_valid_neighbour.c \
 	srcs/tube.c \
 	srcs/customlibft/ft_bsearch_id.c \
+	srcs/customlibft/ft_is_print_str.c \
 	srcs/customlibft/ft_nchar.c \
 	srcs/customlibft/ft_queue.c \
 	srcs/customlibft/tree/btree_apply_infix.c \
@@ -62,6 +64,7 @@ C_FILES		:= \
 	srcs/customlibft/tree/rb_insert.c \
 	srcs/output/print_ants.c \
 	srcs/output/print_matrix.c \
+	srcs/output/print_room.c \
 	srcs/output/output.c \
 	srcs/path.c \
 	srcs/path_utils.c \

@@ -6,11 +6,12 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 16:39:19 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 17:04:25 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 12:42:33 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "tube.h"
 #include "customlibft.h"
 
 static int	check_neighbour_with_closed_current(t_room *current,
@@ -31,7 +32,7 @@ static int	check_neighbour_with_closed_current(t_room *current,
 	}
 	else
 	{
-		if (closed_room_as_junction(current))
+		if (is_closed_room_as_junction(current))
 			return (LOOP_CONTINUE);
 		cost = internal_cost(current) + 1;
 		if (external_cost(neighbour) <= cost

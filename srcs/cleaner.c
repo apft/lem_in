@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 14:31:17 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 11:39:21 by pion             ###   ########.fr       */
+/*   Updated: 2019/06/12 17:47:23 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ static void	free_room(void *room)
 {
 	free((void *)((t_room *)room)->name);
 	free((void *)((t_room *)room));
+}
+
+int			free_room_and_return(void *room, int status)
+{
+	free_room(room);
+	return (status);
 }
 
 static void	free_tree_node(t_rb_node *node)

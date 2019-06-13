@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 16:14:31 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 11:44:50 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/13 09:21:22 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@
 #include "bfs.h"
 #include "tube.h"
 #include "room.h"
-
-int			check_map(t_env *env)
-{
-	(void)env;
-	env->end->dst = bfs(env);
-	if (env->end->dst < 1)
-		return (ERR_ENV_NO_PATH_FROM_START_TO_END);
-	return (SUCCESS);
-}
 
 static void	remove_self_loop(t_env *env)
 {
@@ -47,22 +38,10 @@ void		matrix_filter(t_env *env)
 
 int			start_directly_linked_to_end(t_env *env)
 {
-	int		j;
-	int		index_start;
-
-	j = 0;
-	index_start = env->start->id;
-	while (j < env->nb_rooms)
+	if (has_oriented_tube_between_rooms(env->start, env->end, env))
 	{
-		if (j == env->end->id)
-		{
-			if (env->matrix[index_start][j])
-			{
-				env->start->flag |= FL_DIRECT_TO_END;
-				return (1);
-			}
-		}
-		++j;
+		env->start->flag |= FL_DIRECT_TO_END;
+		return (1);
 	}
 	return (0);
 }
