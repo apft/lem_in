@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_utils.h                                       :+:      :+:    :+:   */
+/*   ft_vprintf.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/06 12:11:31 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/07 12:36:09 by apion            ###   ########.fr       */
+/*   Created: 2019/02/20 12:46:18 by apion             #+#    #+#             */
+/*   Updated: 2019/02/20 12:47:47 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PATH_UTILS_H
-# define PATH_UTILS_H
+#ifndef FT_VPRINTF_H
+# define FT_VPRINTF_H
 
-# include "env.h"
-
-# define NO_UPDATE_LINKS	0
-# define UPDATE_LINKS		1
-
-int			fill_paths_array(t_env *env, int update_links);
+int		ft_vprintf(const char *restrict format, va_list ap);
+int		ft_vdprintf(int fd, const char *restrict format, va_list ap);
+int		ft_vasprintf(char **str, const char *restrict format, va_list ap);
 
 #endif

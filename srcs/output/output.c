@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 18:06:53 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 13:55:24 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/13 12:03:19 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "env.h"
 #include "libft.h"
 #include "ft_printf.h"
-#include "path_utils.h"
+#include "path.h"
 #include "print_ants.h"
 #include "options.h"
 

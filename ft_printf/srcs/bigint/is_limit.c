@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.h                                             :+:      :+:    :+:   */
+/*   is_limit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/31 12:24:39 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 12:01:18 by apion            ###   ########.fr       */
+/*   Created: 2019/02/17 11:47:16 by apion             #+#    #+#             */
+/*   Updated: 2019/03/22 17:31:21 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PATH_H
-# define PATH_H
+#include "bigint.h"
 
-# include "env.h"
-# include "room.h"
-
-typedef struct s_path	t_path;
-struct	s_path
+int		bigint_is_null(t_bigint *a)
 {
-	t_room	*front;
-	t_room	*back;
-	t_room	*current;
-	int		length;
-	int		nb_ants_stream;
-	int		path_printed;
-};
+	if (bigint_is_overflow(a) || bigint_is_underflow(a))
+		return (0);
+	if (a->length != 1 || a->blocks[0] != 0)
+		return (0);
+	return (1);
+}
 
-int		compute_sum_path_lengths(t_room *start, t_room *current, t_env *env,
-						int *lengths);
-int		create_paths_array(t_env *env, int nb_path);
-int		fill_paths_array(t_env *env);
+int		bigint_is_overflow(t_bigint *a)
+{
+	return (a->blocks[BIGINT_N_BLOCKS] == BIGINT_OVERFLOW);
+}
 
-#endif
+int		bigint_is_underflow(t_bigint *a)
+{
+	return (a->blocks[BIGINT_N_BLOCKS] == BIGINT_UNDERFLOW);
+}

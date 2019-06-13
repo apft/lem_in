@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests.h                                            :+:      :+:    :+:   */
+/*   float_hexa.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/10 18:57:03 by apion             #+#    #+#             */
-/*   Updated: 2019/06/10 19:00:15 by apion            ###   ########.fr       */
+/*   Created: 2019/03/20 19:47:49 by apion             #+#    #+#             */
+/*   Updated: 2019/03/25 13:43:01 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TESTS_H
-# define TESTS_H
+#ifndef FLOAT_HEXA_H
+# define FLOAT_HEXA_H
 
-# include "env.h"
+# include "float_pf.h"
 
-void	test_flow(t_env *env);
-void	test_cost(t_room *current);
+unsigned int	float_hexa_extract_byte(unsigned long n, int byte_index);
+int				float_hexa_round(t_field *fields, char *base, char *str,
+								int precision);
 
 #endif

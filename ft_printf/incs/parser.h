@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.h                                             :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/31 12:24:39 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 12:01:18 by apion            ###   ########.fr       */
+/*   Created: 2019/01/29 11:02:20 by apion             #+#    #+#             */
+/*   Updated: 2019/01/29 19:55:20 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PATH_H
-# define PATH_H
+#ifndef PARSER_H
+# define PARSER_H
 
-# include "env.h"
-# include "room.h"
+# include <stdarg.h>
+# include "utils.h"
+# include "extractor.h"
 
-typedef struct s_path	t_path;
-struct	s_path
+typedef struct	s_parser
 {
-	t_room	*front;
-	t_room	*back;
-	t_room	*current;
-	int		length;
-	int		nb_ants_stream;
-	int		path_printed;
-};
+	char	type;
+	int		flag;
+	int		(*f)(va_list ap, t_specs *specs, char *str);
+}				t_parser;
 
-int		compute_sum_path_lengths(t_room *start, t_room *current, t_env *env,
-						int *lengths);
-int		create_paths_array(t_env *env, int nb_path);
-int		fill_paths_array(t_env *env);
+int				parse_specs(const char **f, t_specs *s, va_list ap, char *str);
 
 #endif

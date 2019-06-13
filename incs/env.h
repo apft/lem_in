@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:03:28 by apion             #+#    #+#             */
-/*   Updated: 2019/06/10 21:10:36 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/12 12:49:02 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ struct	s_env
 	int			**matrix;
 	int			nb_paths;
 	t_path		**paths_array;
+	int			nb_lines;
 };
 
 #endif

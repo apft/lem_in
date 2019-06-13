@@ -6,13 +6,15 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 12:08:05 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/10 19:16:22 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 12:02:53 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "path_utils.h"
+#include "env.h"
 #include "generic_merge_sort.h"
 #include "error.h"
+#include "ft_printf.h"
+#include "output.h"
 
 static void	compute_streams(t_env *env)
 {
@@ -20,7 +22,7 @@ static void	compute_streams(t_env *env)
 	int		j;
 
 	i = 0;
-	env->paths_array[i]->nb_ants_stream = env->paths_array[i]->length;
+	env->paths_array[i]->nb_ants_stream = 1;
 	while (++i < env->nb_paths)
 	{
 		j = i;
@@ -69,7 +71,7 @@ static void	update_paths_links(t_env *env)
 	}
 }
 
-int			fill_paths_array(t_env *env, int update_links)
+int			fill_paths_array(t_env *env)
 {
 	int		status;
 
@@ -80,7 +82,6 @@ int			fill_paths_array(t_env *env, int update_links)
 	if (status != SUCCESS)
 		return (status);
 	compute_streams(env);
-	if (update_links)
-		update_paths_links(env);
+	update_paths_links(env);
 	return (SUCCESS);
 }
