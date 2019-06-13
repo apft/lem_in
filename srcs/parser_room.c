@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:20:57 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 17:50:05 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 09:32:47 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static int	extract_room_info(char *line, t_room *room, t_env *env)
 	room->name = ft_strndup(line, end - line);
 	if (!room->name)
 		return (errno);
+	if (ft_strchr(room->name, '-'))
+		return (free_room_and_return((void *)room, ERR_ROOM_INVALID_NAME));
 	if (is_room_duplicate(room->name, env))
 		return (free_room_and_return((void *)room, ERR_ROOM_DUPLICATED));
 	return (SUCCESS);
