@@ -6,12 +6,12 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 09:56:24 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 12:03:03 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bfs.h"
-#include "path_utils.h"
+#include "path.h"
 #include "cleaner.h"
 #include "augmenting_path.h"
 #include "error.h"
@@ -57,23 +57,20 @@ static void	initialize(t_env *env, t_queue *queue)
 	apply_foreach_room_linked_to_ref(env->start, env, 0, &set_room_dst);
 }
 
-static int	compute_max_stream(int *max_stream, t_env *env)
+void		compute_nb_lines(t_env *env)
 {
-	int		status;
+	int		sum_path_lengths;
 
-	status = fill_paths_array(env, NO_UPDATE_LINKS);
-	if (status != SUCCESS)
-		return (status);
-	*max_stream = env->paths_array[env->nb_paths - 1]->nb_ants_stream;
-	free_ptr_array_to_index((void ***)&env->paths_array, env->nb_paths);
-	return (status);
+	sum_path_lengths = 0;
+	apply_foreach_room_linked_to_ref(env->start, env, &sum_path_lengths,
+			&compute_sum_path_lengths);
+	env->nb_lines = ((sum_path_lengths + env->nb_ants) / env->nb_paths) - 1;
+	env->nb_lines += !!((sum_path_lengths + env->nb_ants) % env->nb_paths);
 }
 
 static int	has_augmenting_path(t_env *env)
 {
 	t_queue	queue;
-	int		max_stream;
-	int		status;
 	int		prev_nb_lines;
 
 	initialize(env, &queue);
@@ -82,12 +79,10 @@ static int	has_augmenting_path(t_env *env)
 		return (ERROR);
 	save_augmenting_path(env);
 	if (env->nb_paths == 1)
-		prev_nb_lines = 99999999;
+		prev_nb_lines = INT_MAX;
 	else
 		prev_nb_lines = env->nb_lines;
-	status = compute_max_stream(&max_stream, env);
-	if (status != SUCCESS)
-		return (status);
+	compute_nb_lines(env);
 	if (prev_nb_lines <= env->nb_lines)
 	{
 		if (env->nb_paths > 1)

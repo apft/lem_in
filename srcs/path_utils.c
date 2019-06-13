@@ -6,30 +6,15 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 12:08:05 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/12 17:28:21 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/13 12:02:53 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "path_utils.h"
+#include "env.h"
 #include "generic_merge_sort.h"
 #include "error.h"
 #include "ft_printf.h"
 #include "output.h"
-
-void		compute_nb_lines(t_env *env)
-{
-	int		i;
-	int		sum_path_lenghts;
-
-	i = 0;
-	sum_path_lenghts = 0;
-	while (i < env->nb_paths)
-	{
-		sum_path_lenghts += env->paths_array[i]->length;
-		i++;
-	}
-	env->nb_lines = ((sum_path_lenghts + env->nb_ants) / env->nb_paths) - 1;
-}
 
 static void	compute_streams(t_env *env)
 {
@@ -37,7 +22,7 @@ static void	compute_streams(t_env *env)
 	int		j;
 
 	i = 0;
-	env->paths_array[i]->nb_ants_stream = 0;
+	env->paths_array[i]->nb_ants_stream = 1;
 	while (++i < env->nb_paths)
 	{
 		j = i;
@@ -86,7 +71,7 @@ static void	update_paths_links(t_env *env)
 	}
 }
 
-int			fill_paths_array(t_env *env, int update_links)
+int			fill_paths_array(t_env *env)
 {
 	int		status;
 
@@ -97,8 +82,6 @@ int			fill_paths_array(t_env *env, int update_links)
 	if (status != SUCCESS)
 		return (status);
 	compute_streams(env);
-	compute_nb_lines(env);
-	if (update_links)
-		update_paths_links(env);
+	update_paths_links(env);
 	return (SUCCESS);
 }

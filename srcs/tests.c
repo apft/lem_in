@@ -6,11 +6,12 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 18:48:18 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 18:45:19 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 11:59:23 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "path.h"
 #include "error.h"
 #include "ft_printf.h"
 #include <stdlib.h>
@@ -22,36 +23,12 @@
 		exit (1); \
 	} while (0)
 
-static int	compute_path_length(t_room *current)
-{
-	int             length;
-
-	length = 0;
-	while (current)
-	{
-		current = current->next;
-		++length;
-	}
-	return (length);
-}
-
-static int	add_path_length(t_room *start, t_room *current,
-				t_env *env, int *flow)
-{
-	(void)start;
-	(void)env;
-	if (!is_closed_path(current))
-		return (LOOP_CONTINUE);
-	*flow += compute_path_length(current);
-	return (LOOP_SUCCESS);
-}
-
 static int	compute_flow(t_env *env)
 {
-	int             flow;
+	int		flow;
 
 	flow = 0;
-	apply_foreach_room_linked_to_ref(env->start, env, &flow, &add_path_length);
+	apply_foreach_room_linked_to_ref(env->start, env, &flow, &compute_sum_path_lengths);
 	return (flow);
 }
 

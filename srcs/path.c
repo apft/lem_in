@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:19:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 14:59:01 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 11:58:16 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,19 @@ static int	compute_path_length(t_room *current)
 	return (length);
 }
 
+int			compute_sum_path_lengths(t_room *start, t_room *current, t_env *env,
+						int *lengths)
+{
+	(void)start;
+	(void)env;
+	if (!is_closed_path(current))
+		return (LOOP_CONTINUE);
+	*lengths += compute_path_length(current);
+	return (LOOP_SUCCESS);
+}
+
 static int	add_path_to_array(t_room *start, t_room *current, t_env *env,
-								int *index)
+						int *index)
 {
 	int		length;
 

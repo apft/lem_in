@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:24:39 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 12:40:29 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/13 12:01:18 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ struct	s_path
 	int		path_printed;
 };
 
+int		compute_sum_path_lengths(t_room *start, t_room *current, t_env *env,
+						int *lengths);
 int		create_paths_array(t_env *env, int nb_path);
+int		fill_paths_array(t_env *env);
 
 #endif
