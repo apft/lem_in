@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:36:56 by jkettani          #+#    #+#             */
-/*   Updated: 2019/04/25 18:11:48 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/13 12:17:46 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*ft_bsearch(void *ref, void *array, size_t array_size, int (*cmp)())
 			return (pivot);
 		if (result > 0)
 		{
-			array = pivot + 1;	
+			array = pivot + 1;
 			--array_size;
 		}
 		array_size >>= 1;
