@@ -1,0 +1,17 @@
+# binary file
+lem-in
+
+# swap files
+*.swo
+*.swp
+*.swq
+
+# bin
+*.out
+*.bin
+
+# libs
+*.a
+
+# .obj dirs
+.obj/
