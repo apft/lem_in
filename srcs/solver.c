@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 12:03:03 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 12:08:50 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "augmenting_path.h"
 #include "error.h"
 #include "output.h"
-#include "tests.h"
 
 #define MAX_FLOW_REACHED 42
 
@@ -96,9 +95,7 @@ static int	has_augmenting_path(t_env *env)
 int			solver(t_env *env)
 {
 	while (has_augmenting_path(env) == SUCCESS)
-	{
-		test_flow(env);
-	}
+		;
 	if (!env->nb_paths)
 		return (ERR_ENV_NO_PATH_FROM_START_TO_END);
 	return (SUCCESS);

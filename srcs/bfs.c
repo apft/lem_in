@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:51:36 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 16:40:21 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 12:08:39 by apion            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "tube.h"
 #include "customlibft.h"
 #include "error.h"
-#include "tests.h"
 
 static void	initialize(t_env *env, t_queue *queue)
 {
@@ -54,6 +53,5 @@ void		bfs_max_flow(t_env *env, t_queue *queue)
 		current->visited = VISITED_AS_CURRENT;
 		apply_foreach_room_linked_to_ref(current, env,
 				queue, &search_for_valid_neighbour);
-		test_cost(current);
 	}
 }
