@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 15:56:10 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:15:37 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,16 @@ static int	get_cmd(char *line)
 		return (CMD_UNDEF);
 }
 
-static int	get_number_ants(t_env *env)
+static int	get_number_ants(char *line, t_env *env, unsigned int *cmd_flag)
 {
-	char	*line;
-	int		len;
-	int		eol_had_newline;
 	int		status;
 
-	line = NULL;
-	eol_had_newline = 0;
-	len = get_next_line(STDIN_FILENO, &line, &eol_had_newline);
-	if (len == GNL_ERROR)
-		return (ft_strdel_ret(&line, ERR_ANTS_READ));
-	if (!eol_had_newline)
-		return (ft_strdel_ret(&line, ERR_ANTS_EOL_NO_NEWLINE));
+	*cmd_flag ^= BLK_ANTS | BLK_ROOM;
 	status = atoi_pos(line, &(env->nb_ants), ATOI_NBR_AND_SPACES_ONLY);
 	if (status != SUCCESS)
-		return (ft_strdel_ret(&line, ERR_ANTS_ATOI));
+		return (ERR_ANTS_ATOI);
 	if (env->nb_ants < 0)
-		return (ft_strdel_ret(&line, ERR_ANTS_NEG_NB));
-	status = list_line_add_first(&env->lines, line);
-	if (status != SUCCESS)
-		return (ERR_ANTS_ADD_LINE);
+		return (ERR_ANTS_NEG_NB);
 	return (SUCCESS);
 }
 
@@ -82,9 +70,15 @@ int			parse_and_save_line(char *line, t_env *env, unsigned int *cmd_flag)
 			return (ERR_ENV_WRONG_CMD_START_OR_END);
 		*cmd_flag |= get_cmd(line + 2);
 	}
-	if (line[0] != '#'
-			&& (status = handle_room_or_tube(line, env, cmd_flag)) != SUCCESS)
-		return (status);
+	if (line[0] != '#')
+	{
+		if (*cmd_flag & BLK_ANTS)
+			status = get_number_ants(line, env, cmd_flag);
+		else
+			status = handle_room_or_tube(line, env, cmd_flag);
+		if (status != SUCCESS)
+			return (status);
+	}
 	if ((status = list_line_add_first(&env->lines, line)) != SUCCESS)
 		return (ERR_PARSER_ADD_LINE);
 	return (SUCCESS);
@@ -98,9 +92,7 @@ int			parser(t_env *env)
 	int				status;
 	unsigned int	cmd_flag;
 
-	if ((status = get_number_ants(env)) != SUCCESS)
-		return (status);
-	cmd_flag = CMD_UNDEF | BLK_ROOM;
+	cmd_flag = CMD_UNDEF | BLK_ANTS;
 	line = NULL;
 	eol_had_newline = 0;
 	while ((len = get_next_line(STDIN_FILENO, &line, &eol_had_newline)) >= 0)

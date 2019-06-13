@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:26:34 by apion             #+#    #+#             */
-/*   Updated: 2019/06/11 15:54:36 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:08:58 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 # define CMD_UNDEF 0x0
 # define CMD_START 0x1
 # define CMD_END 0x2
-# define BLK_ROOM 0x4
-# define BLK_TUBE 0x8
+# define BLK_ANTS 0x4
+# define BLK_ROOM 0x8
+# define BLK_TUBE 0x10
 
 int		parser(t_env *env);
 int		handle_room(char *line, t_env *env, unsigned int *cmd_flag);
