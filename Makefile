@@ -6,7 +6,7 @@
 #    By: apion <apion@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 11:28:44 by apion             #+#    #+#              #
-#    Updated: 2019/06/13 12:12:43 by apion            ###   ########.fr        #
+#    Updated: 2019/06/13 14:40:27 by jkettani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ C_FILES		:= \
 	srcs/generic_merge_sort.c
 O_FILES		:= $(C_FILES:%.c=%.o)
 D_FILES		:= $(C_FILES:%.c=%.d)
-O_TREE		= $(shell find $(O_DIR) -type d -print 2> /dev/null | tail -r)
+O_TREE		= $(shell find $(O_DIR) -type d -print 2> /dev/null | sort -r)
 
 .SECONDEXPANSION:
 
