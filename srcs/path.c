@@ -36,9 +36,9 @@ int			compute_sum_path_lengths(t_room *start, t_room *current, t_env *env,
 	(void)start;
 	(void)env;
 	if (!is_closed_path(current))
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	*lengths += compute_path_length(current);
-	return (LOOP_SUCCESS);
+	return (loop_success);
 }
 
 static int	add_path_to_array(t_room *start, t_room *current, t_env *env,
@@ -48,7 +48,7 @@ static int	add_path_to_array(t_room *start, t_room *current, t_env *env,
 
 	(void)start;
 	if (!is_closed_path(current))
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	env->paths_array[*index] = (t_path *)malloc(sizeof(t_path));
 	if (!env->paths_array[*index])
 	{
@@ -59,7 +59,7 @@ static int	add_path_to_array(t_room *start, t_room *current, t_env *env,
 	*env->paths_array[*index] = (t_path){current, current, current, length, 0,
 		0};
 	++(*index);
-	return (LOOP_SUCCESS);
+	return (loop_success);
 }
 
 int			create_paths_array(t_env *env, int nb_path)

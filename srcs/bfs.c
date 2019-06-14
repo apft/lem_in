@@ -46,7 +46,7 @@ int			bfs_remove_dead_end_path(t_env *env)
 	{
 		current = (t_room *)dequeue(&queue);
 		if (!current)
-			return (ERR_NULL_POINTER);
+			return (err_null_pointer);
 		apply_foreach_room_linked_to_ref(current, env,
 			&queue, &search_for_dead_end);
 	}
@@ -62,7 +62,7 @@ int			bfs_max_flow(t_env *env, t_queue *queue)
 	{
 		current = (t_room *)dequeue(queue);
 		if (!current)
-			return (ERR_NULL_POINTER);
+			return (err_null_pointer);
 		current->visited = VISITED_AS_CURRENT;
 		status = apply_foreach_room_linked_to_ref(current, env,
 					queue, &search_for_valid_neighbour);

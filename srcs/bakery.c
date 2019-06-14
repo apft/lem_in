@@ -60,9 +60,9 @@ static int	create_adjacency_matrix(t_env *env)
 
 int			check_environment(t_env *env, int status)
 {
-	if ((status > ERR_ANTS_BEGIN && status < ERR_ANTS_END)
-		|| (status > ERR_ROOM_BEGIN && status < ERR_ROOM_END)
-		|| (status > ERR_ENV_BEGIN && status < ERR_ENV_END)
+	if ((status > err_ants_begin && status < err_ants_end)
+		|| (status > err_room_begin && status < err_room_end)
+		|| (status > err_env_begin && status < err_env_end)
 		|| !env->rooms_array || !env->matrix)
 		return (status);
 	return (SUCCESS);
@@ -72,14 +72,14 @@ int			bake_environment(t_env *env, unsigned int *cmd_flag)
 {
 	*cmd_flag ^= BLK_ROOM | BLK_TUBE;
 	if (!env->rooms_tree)
-		return (ERR_ENV_EMPTY);
+		return (err_env_empty);
 	if (!env->start)
-		return (ERR_ENV_EMPTY_START);
+		return (err_env_empty_start);
 	if (!env->end)
-		return (ERR_ENV_EMPTY_END);
+		return (err_env_empty_end);
 	if (tree_to_array(env) != SUCCESS)
-		return (ERR_ENV_LST_TO_ARRAY);
+		return (err_env_lst_to_array);
 	if (create_adjacency_matrix(env) != SUCCESS)
-		return (ERR_ENV_ADJACENCY_MATRIX);
+		return (err_env_adjacency_matrix);
 	return (SUCCESS);
 }

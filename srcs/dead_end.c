@@ -68,7 +68,7 @@ int			search_for_dead_end(t_room *current, t_room *neighbour,
 	int		status;
 
 	if (neighbour->visited || neighbour == env->end)
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	neighbour->visited = 1;
 	neighbour->from = current;
 	if (is_dead_end(current, neighbour, env))
@@ -79,5 +79,5 @@ int			search_for_dead_end(t_room *current, t_room *neighbour,
 		if (status != SUCCESS)
 			return (status);
 	}
-	return (LOOP_SUCCESS);
+	return (loop_success);
 }

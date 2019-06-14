@@ -62,8 +62,8 @@ static void		repair_tree_red_parent_black_uncle(t_rb_node **root,
 		node = node->right;
 	}
 	parent = node->parent;
-	parent->color = RB_BLACK;
-	parent->parent->color = RB_RED;
+	parent->color = rb_black;
+	parent->parent->color = rb_red;
 	if (node == parent->left)
 		rotate(root, parent->parent, ROTATE_RIGHT);
 	else
@@ -76,15 +76,15 @@ static void		repair_tree(t_rb_node **root, t_rb_node *node)
 	t_rb_node	*u;
 
 	if (!(p = node->parent))
-		node->color = RB_BLACK;
-	else if (p->color == RB_BLACK)
+		node->color = rb_black;
+	else if (p->color == rb_black)
 		return ;
 	else if ((u = (p == p->parent->left) ? p->parent->right : p->parent->left)
-		&& u->color == RB_RED)
+		&& u->color == rb_red)
 	{
-		p->color = RB_BLACK;
-		u->color = RB_BLACK;
-		p->parent->color = RB_RED;
+		p->color = rb_black;
+		u->color = rb_black;
+		p->parent->color = rb_red;
 		repair_tree(root, p->parent);
 	}
 	else
@@ -124,11 +124,11 @@ int				rb_insert(t_rb_node **root, void *data,
 	t_rb_node	*node;
 
 	if (!root || !cmp)
-		return (ERR_NULL_POINTER);
+		return (err_null_pointer);
 	node = (t_rb_node *)malloc(sizeof(*node));
 	if (!node)
 		return (errno);
-	*node = (t_rb_node){0, 0, 0, data, RB_RED};
+	*node = (t_rb_node){0, 0, 0, data, rb_red};
 	if (!*root)
 		*root = node;
 	else

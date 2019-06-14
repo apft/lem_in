@@ -44,9 +44,9 @@ static int	extract_start_or_end(t_room *room, t_env *env,
 				unsigned int *cmd_flag)
 {
 	if (env->start && (*cmd_flag & CMD_START))
-		return (ERR_ROOM_START_ALREADY_DEFINED);
+		return (err_room_start_already_defined);
 	if (env->end && (*cmd_flag & CMD_END))
-		return (ERR_ROOM_END_ALREADY_DEFINED);
+		return (err_room_end_already_defined);
 	if (*cmd_flag & CMD_START)
 	{
 		env->start = room;
@@ -66,19 +66,19 @@ static int	extract_room_info(char *line, t_room *room, t_env *env)
 
 	end = ft_strchr(line, '\0') - 1;
 	if (extract_coord(&end, &room->y) != SUCCESS)
-		return (ERR_ROOM_INVALID_Y_COORD);
+		return (err_room_invalid_y_coord);
 	--end;
 	if (extract_coord(&end, &room->x) != SUCCESS)
-		return (ERR_ROOM_INVALID_X_COORD);
+		return (err_room_invalid_x_coord);
 	if (!ft_is_print_str(line, end))
-		return (ERR_ROOM_INVALID_NAME);
+		return (err_room_invalid_name);
 	room->name = ft_strndup(line, end - line);
 	if (!room->name)
 		return (errno);
 	if (ft_strchr(room->name, '-'))
-		return (ERR_ROOM_INVALID_NAME);
+		return (err_room_invalid_name);
 	if (is_room_duplicate(room->name, env))
-		return (ERR_ROOM_DUPLICATED);
+		return (err_room_duplicated);
 	return (SUCCESS);
 }
 
@@ -88,9 +88,9 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 	t_room		*room;
 
 	if (*cmd_flag & BLK_TUBE)
-		return (ERR_TUBE_HAS_SPACES);
+		return (err_tube_has_spaces);
 	if (ft_nchar(line, ' ') != 2)
-		return (ERR_ROOM_INVALID_NB_ARG);
+		return (err_room_invalid_nb_arg);
 	room = create_empty_room();
 	if (!room)
 		return (errno);
@@ -98,7 +98,7 @@ int			handle_room(char *line, t_env *env, unsigned int *cmd_flag)
 		return (free_room_and_return((void *)room, status));
 	status = rb_insert(&env->rooms_tree, (void *)room, &cmp_room_name);
 	if (status != SUCCESS)
-		return (ERR_ROOM_TREE_FAILED);
+		return (err_room_tree_failed);
 	++env->nb_rooms;
 	if (*cmd_flag & (CMD_START | CMD_END))
 	{

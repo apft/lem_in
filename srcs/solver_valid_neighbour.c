@@ -20,12 +20,12 @@ static int	check_neighbour_with_closed_current(t_room *current,
 	int		cost;
 
 	if (neighbour == current->next)
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	if (is_linked_on_same_path(current, neighbour))
 	{
 		cost = ft_min(external_cost(current), internal_cost(current)) - 1;
 		if (internal_cost(neighbour) <= cost)
-			return (LOOP_CONTINUE);
+			return (loop_continue);
 		neighbour->cost[1] = cost;
 		if (internal_cost(neighbour) < external_cost(neighbour))
 			neighbour->from_junction = 0;
@@ -33,12 +33,12 @@ static int	check_neighbour_with_closed_current(t_room *current,
 	else
 	{
 		if (is_closed_room_as_junction(current))
-			return (LOOP_CONTINUE);
+			return (loop_continue);
 		cost = internal_cost(current) + 1;
 		if (external_cost(neighbour) <= cost
 			|| internal_cost(neighbour) <= cost
 			|| (is_closed_path(neighbour) && (neighbour->dst > cost)))
-			return (LOOP_CONTINUE);
+			return (loop_continue);
 		neighbour->cost[0] = cost;
 	}
 	return (SUCCESS);
@@ -52,13 +52,13 @@ static int	check_neighbour_with_open_current(t_room *current,
 	cost = external_cost(current) + 1;
 	if (is_closed_path(neighbour)
 		&& has_oriented_tube_between_rooms(env->start, neighbour, env))
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	if (external_cost(neighbour) <= cost || internal_cost(neighbour) <= cost)
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	if (is_closed_path(neighbour))
 	{
 		if (neighbour->dst > cost)
-			return (LOOP_CONTINUE);
+			return (loop_continue);
 	}
 	neighbour->cost[0] = cost;
 	return (SUCCESS);
@@ -99,9 +99,9 @@ int			search_for_valid_neighbour(t_room *current, t_room *neighbour,
 	int		status;
 
 	if (neighbour == current->from || neighbour == current->from_junction)
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	if (current == env->start && is_closed_path(neighbour))
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	if (is_closed_path(current))
 	{
 		status = check_neighbour_with_closed_current(current, neighbour);
@@ -118,5 +118,5 @@ int			search_for_valid_neighbour(t_room *current, t_room *neighbour,
 	status = add_neighbour_to_queue(neighbour, queue);
 	if (status != SUCCESS)
 		return (status);
-	return (LOOP_SUCCESS);
+	return (loop_success);
 }

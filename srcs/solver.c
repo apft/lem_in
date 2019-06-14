@@ -26,14 +26,14 @@ static int	set_room_dst(t_room *start, t_room *current, t_env *env)
 	(void)start;
 	i = 1;
 	if (!is_closed_path(current))
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	while (current != env->end)
 	{
 		current->dst = i;
 		++i;
 		current = current->next;
 	}
-	return (LOOP_SUCCESS);
+	return (loop_success);
 }
 
 static int	initialize(t_env *env, t_queue *queue)
@@ -104,6 +104,6 @@ int			solver(t_env *env)
 	while (has_augmenting_path(env) == SUCCESS)
 		;
 	if (!env->nb_paths)
-		return (ERR_ENV_NO_PATH_FROM_START_TO_END);
+		return (err_env_no_path_from_start_to_end);
 	return (SUCCESS);
 }

@@ -35,9 +35,9 @@ static int	get_number_ants(char *line, t_env *env, unsigned int *cmd_flag)
 	*cmd_flag ^= BLK_ANTS | BLK_ROOM;
 	status = atoi_pos(line, &(env->nb_ants), ATOI_NBR_AND_SPACES_ONLY);
 	if (status != SUCCESS)
-		return (ERR_ANTS_ATOI);
+		return (err_ants_atoi);
 	if (env->nb_ants < 0)
-		return (ERR_ANTS_NEG_NB);
+		return (err_ants_neg_nb);
 	return (SUCCESS);
 }
 
@@ -61,13 +61,13 @@ int			parse_and_save_line(char *line, t_env *env, unsigned int *cmd_flag)
 	int		status;
 
 	if (!*line)
-		return (ERR_PARSER_EMPTY_LINE);
+		return (err_parser_empty_line);
 	if (line[0] == 'L')
-		return (ERR_PARSER_L_BEGIN);
+		return (err_parser_l_begin);
 	if (line[0] == '#' && line[1] == '#')
 	{
 		if (*cmd_flag & (CMD_START | CMD_END))
-			return (ERR_ENV_WRONG_CMD_START_OR_END);
+			return (err_env_wrong_cmd_start_or_end);
 		*cmd_flag |= get_cmd(line + 2);
 	}
 	if (line[0] != '#')
@@ -80,7 +80,7 @@ int			parse_and_save_line(char *line, t_env *env, unsigned int *cmd_flag)
 			return (status);
 	}
 	if ((status = list_line_add_first(&env->lines, line)) != SUCCESS)
-		return (ERR_PARSER_ADD_LINE);
+		return (err_parser_add_line);
 	return (SUCCESS);
 }
 
@@ -98,15 +98,15 @@ int			parser(t_env *env)
 	while ((len = get_next_line(STDIN_FILENO, &line, &eol_had_newline)) >= 0)
 	{
 		if (!eol_had_newline)
-			return (ft_strdel_ret(&line, ERR_PARSER_EOL_NO_NEWLINE));
+			return (ft_strdel_ret(&line, err_parser_eol_no_newline));
 		if ((status = parse_and_save_line(line, env, &cmd_flag)) != SUCCESS)
 			return (ft_strdel_ret(&line, status));
 	}
 	if (len == GNL_ERROR)
 		return (errno);
 	if (!eol_had_newline)
-		return (ERR_PARSER_EOF_NO_NEWLINE);
+		return (err_parser_eof_no_newline);
 	if (!(cmd_flag & BLK_TUBE))
-		return (ERR_ENV_NO_TUBE);
+		return (err_env_no_tube);
 	return (SUCCESS);
 }

@@ -30,11 +30,11 @@ int		apply_foreach_room_linked_to_ref(t_room *ref, t_env *env,
 				status = fct(ref, neighbour, env, data);
 			else
 				status = fct(ref, neighbour, env);
-			if (status == LOOP_CONTINUE)
+			if (status == loop_continue)
 				continue ;
-			else if (status == LOOP_BREAK)
+			else if (status == loop_break)
 				break ;
-			else if (status != LOOP_SUCCESS)
+			else if (status != loop_success)
 				return (status);
 		}
 	}
