@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 20:06:34 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/06 13:24:15 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:11:13 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int		merge(t_array_args *a, int left, int mid, int right)
 	while (p.left <= mid && p.right <= right)
 	{
 		if ((*(a->cmp))(a->arr + p.left * scale,
-					a->arr + p.right * scale) < 0)
+				a->arr + p.right * scale) < 0)
 			assign(tmp_arr + p.cur++ * scale, a->arr + p.left++ * scale, a);
 		else
 			assign(tmp_arr + p.cur++ * scale, a->arr + p.right++ * scale, a);
@@ -56,8 +56,8 @@ static int		merge_sort(t_array_args *a, int left, int right)
 		return (SUCCESS);
 	mid = (left + right) / 2;
 	return (merge_sort(a, left, mid) != SUCCESS
-			|| merge_sort(a, mid + 1, right) != SUCCESS
-			|| merge(a, left, mid, right) != SUCCESS);
+		|| merge_sort(a, mid + 1, right) != SUCCESS
+		|| merge(a, left, mid, right) != SUCCESS);
 }
 
 int				array_merge_sort(t_array_args *a)

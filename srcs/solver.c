@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 12:08:50 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:19:59 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,20 @@ static int	set_room_dst(t_room *start, t_room *current, t_env *env)
 	(void)start;
 	i = 1;
 	if (!is_closed_path(current))
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	while (current != env->end)
 	{
 		current->dst = i;
 		++i;
 		current = current->next;
 	}
-	return (LOOP_SUCCESS);
+	return (loop_success);
 }
 
-static void	initialize(t_env *env, t_queue *queue)
+static int	initialize(t_env *env, t_queue *queue)
 {
 	int		i;
+	int		status;
 
 	i = 0;
 	while (i < env->nb_rooms)
@@ -52,8 +53,11 @@ static void	initialize(t_env *env, t_queue *queue)
 	}
 	env->start->cost[0] = 0;
 	*queue = (t_queue){0, 0};
-	enqueue(queue, (void *)env->start);
+	status = enqueue(queue, (void *)env->start);
+	if (status != SUCCESS)
+		return (status);
 	apply_foreach_room_linked_to_ref(env->start, env, 0, &set_room_dst);
+	return (SUCCESS);
 }
 
 void		compute_nb_lines(t_env *env)
@@ -62,7 +66,7 @@ void		compute_nb_lines(t_env *env)
 
 	sum_path_lengths = 0;
 	apply_foreach_room_linked_to_ref(env->start, env, &sum_path_lengths,
-			&compute_sum_path_lengths);
+		&compute_sum_path_lengths);
 	env->nb_lines = ((sum_path_lengths + env->nb_ants) / env->nb_paths) - 1;
 	env->nb_lines += !!((sum_path_lengths + env->nb_ants) % env->nb_paths);
 }
@@ -71,9 +75,12 @@ static int	has_augmenting_path(t_env *env)
 {
 	t_queue	queue;
 	int		prev_nb_lines;
+	int		status;
 
-	initialize(env, &queue);
-	bfs_max_flow(env, &queue);
+	if ((status = initialize(env, &queue)) != SUCCESS)
+		return (status);
+	if ((status = bfs_max_flow(env, &queue)) != SUCCESS)
+		return (status);
 	if (external_cost(env->end) == COST_INF)
 		return (ERROR);
 	save_augmenting_path(env);
@@ -97,6 +104,6 @@ int			solver(t_env *env)
 	while (has_augmenting_path(env) == SUCCESS)
 		;
 	if (!env->nb_paths)
-		return (ERR_ENV_NO_PATH_FROM_START_TO_END);
+		return (err_env_no_path_from_start_to_end);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 16:08:28 by apion             #+#    #+#             */
-/*   Updated: 2019/04/03 17:40:59 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 12:13:26 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static ssize_t	extract_temp(t_gnl *gnl)
 
 	temp_copy = gnl->temp;
 	gnl->temp = memjoin(gnl->temp, gnl->temp_size, gnl->buff + gnl->index_start,
-			gnl->buff_read - gnl->index_start);
+		gnl->buff_read - gnl->index_start);
 	free(temp_copy);
 	if (!gnl->temp)
 	{
@@ -79,7 +79,7 @@ static ssize_t	extract_line(char **line, t_gnl *gnl, int had_newline)
 	size_in_buff = had_newline ? gnl->index_eol - gnl->index_start : 0;
 	if (had_newline)
 		*line = memjoin(gnl->temp, gnl->temp_size,
-				gnl->buff + gnl->index_start, size_in_buff);
+			gnl->buff + gnl->index_start, size_in_buff);
 	else
 		*line = memjoin(gnl->temp, gnl->temp_size, 0, size_in_buff);
 	ret = gnl->temp_size + size_in_buff;
@@ -91,9 +91,9 @@ static ssize_t	extract_line(char **line, t_gnl *gnl, int had_newline)
 	if (!*line)
 		return (GNL_ERROR);
 	if (gnl->index_start < gnl->buff_read
-			&& CHAR_NOT_FOUND == memsearch(gnl->buff + gnl->index_start,
-				gnl->buff_read - gnl->index_start)
-			&& extract_temp(gnl) < 0)
+		&& CHAR_NOT_FOUND == memsearch(gnl->buff + gnl->index_start,
+			gnl->buff_read - gnl->index_start)
+		&& extract_temp(gnl) < 0)
 		return (GNL_ERROR);
 	return (ret);
 }
@@ -104,10 +104,10 @@ ssize_t			get_next_line(const int fd, char **line, int *eol_had_newline)
 
 	if (fd < 0 || !line)
 		return (GNL_ERROR);
-	if ((gnl.index_eol = gnl.index_start + memsearch(
-					gnl.buff + gnl.index_start,
-					gnl.buff_read - gnl.index_start + 1))
-			>= gnl.index_start)
+	if ((gnl.index_eol = gnl.index_start
+			+ memsearch(gnl.buff + gnl.index_start, gnl.buff_read
+					- gnl.index_start + 1))
+		>= gnl.index_start)
 		return (extract_line(line, &gnl, (*eol_had_newline = 1)));
 	while ((gnl.buff_read = read(fd, gnl.buff, BUFF_SIZE)) > 0)
 	{

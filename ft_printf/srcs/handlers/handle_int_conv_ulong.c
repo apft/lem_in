@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 19:00:17 by apion             #+#    #+#             */
-/*   Updated: 2019/03/28 11:11:04 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:38:10 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ int				handle_int_conv_ulong(unsigned long value, t_specs *specs,
 	base = get_base(specs->type);
 	specs->width_arg = get_size(value, base);
 	if (!value && (specs->flags & PREFIX) && !(specs->type & POINTER)
-			&& is_hexa_or_bin_conversion(specs->type))
+		&& is_hexa_or_bin_conversion(specs->type))
 		specs->flags ^= PREFIX;
 	if (!value && (((specs->flags & PRECISION) && !specs->precision)
-				|| ((specs->type & OCTAL) && (specs->flags & PREFIX))))
+			|| ((specs->type & OCTAL) && (specs->flags & PREFIX))))
 		specs->width_arg = 0;
 	filter_specs(specs);
 	if (str)

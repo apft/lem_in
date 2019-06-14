@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 12:19:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 11:58:16 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:17:25 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int			compute_sum_path_lengths(t_room *start, t_room *current, t_env *env,
 	(void)start;
 	(void)env;
 	if (!is_closed_path(current))
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	*lengths += compute_path_length(current);
-	return (LOOP_SUCCESS);
+	return (loop_success);
 }
 
 static int	add_path_to_array(t_room *start, t_room *current, t_env *env,
@@ -48,7 +48,7 @@ static int	add_path_to_array(t_room *start, t_room *current, t_env *env,
 
 	(void)start;
 	if (!is_closed_path(current))
-		return (LOOP_CONTINUE);
+		return (loop_continue);
 	env->paths_array[*index] = (t_path *)malloc(sizeof(t_path));
 	if (!env->paths_array[*index])
 	{
@@ -57,9 +57,9 @@ static int	add_path_to_array(t_room *start, t_room *current, t_env *env,
 	}
 	length = compute_path_length(current);
 	*env->paths_array[*index] = (t_path){current, current, current, length, 0,
-											0};
+		0};
 	++(*index);
-	return (LOOP_SUCCESS);
+	return (loop_success);
 }
 
 int			create_paths_array(t_env *env, int nb_path)
@@ -72,7 +72,7 @@ int			create_paths_array(t_env *env, int nb_path)
 		return (errno);
 	i = 0;
 	status = apply_foreach_room_linked_to_ref(env->start, env, &i,
-			&add_path_to_array);
+		&add_path_to_array);
 	if (status != SUCCESS)
 		return (status);
 	return (SUCCESS);

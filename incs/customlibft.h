@@ -6,7 +6,7 @@
 /*   By: apion <pion@student.42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 11:59:24 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 17:33:06 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 18:27:31 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ struct	s_queue
 	t_list	*tail;
 };
 
-void	prequeue(t_queue *queue, void *content);
-void	enqueue(t_queue *queue, void *content);
+int		prequeue(t_queue *queue, void *content);
+int		enqueue(t_queue *queue, void *content);
 void	*dequeue(t_queue *queue);
 
 typedef struct s_bfs	t_bfs;

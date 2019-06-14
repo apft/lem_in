@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 20:22:07 by apion             #+#    #+#             */
-/*   Updated: 2019/03/26 12:05:47 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:27:01 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int		fill_prefix(char *str, t_specs *specs)
 	if (specs->flags & SPACE)
 		*(str + i++) = ' ';
 	if (specs->flags & PREFIX && !(is_type(specs, OCTAL) && specs->width_arg
-				&& specs->width_arg < specs->precision))
+		&& specs->width_arg < specs->precision))
 		*(str + i++) = '0';
 	if ((specs->flags & PREFIX) && is_type(specs, HEXA | FLOAT_HEXA))
 		*(str + i++) = 'x';
@@ -46,7 +46,7 @@ static int		fill_start_left(char *str, t_specs *specs)
 	i = fill_prefix(str, specs);
 	if ((specs->flags & PAD) || (specs->flags & PRECISION))
 		i += fill_char(str + i, is_type(specs, PERCENT) ? ' ' : '0',
-				specs->precision - specs->width_arg);
+			specs->precision - specs->width_arg);
 	return (i);
 }
 
@@ -74,7 +74,7 @@ static int		fill_start_normal(char *str, t_specs *specs)
 		if (is_type(specs, STRING) && (specs->flags & PRECISION))
 			i += fill_char(str + i, ' ', specs->width - specs->precision);
 		else if (is_type(specs, FLOAT_HEXA | FLOAT_HEXA_C)
-				&& !is_type(specs, STRING))
+			&& !is_type(specs, STRING))
 			i += fill_char(str + i, ' ', specs->width - specs->width_arg);
 		else
 			i += fill_char(str + i, ' ', specs->width - specs->width_prefix
@@ -84,7 +84,7 @@ static int		fill_start_normal(char *str, t_specs *specs)
 			i += fill_char(str + i, ' ', pf_min(specs->width, specs->precision)
 					- specs->width_arg);
 		if (!(specs->type & (STRING | PERCENT | FLOAT_HEXA | FLOAT_HEXA_C))
-				&& (specs->flags & PRECISION))
+			&& (specs->flags & PRECISION))
 			i += fill_char(str + i, '0', specs->precision - specs->width_arg);
 	}
 	return (i);
@@ -95,7 +95,7 @@ int				filler(char *str, t_specs *specs, int start)
 	if (start == FILL_START)
 	{
 		if ((specs->flags & LEFT)
-				&& (specs->type & STRING) && !is_float_conversion(specs->type))
+			&& (specs->type & STRING) && !is_float_conversion(specs->type))
 			return (0);
 		if (specs->flags & LEFT)
 			return (fill_start_left(str, specs));

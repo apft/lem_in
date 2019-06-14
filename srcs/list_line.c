@@ -32,7 +32,7 @@ int					list_line_add_first(t_list_line **head, char *line)
 	t_list_line	*node;
 
 	if (!head)
-		return (ERR_NULL_POINTER);
+		return (err_null_pointer);
 	node = create_list_line(line);
 	if (!node)
 		return (errno);
@@ -78,7 +78,7 @@ int					list_line_del_all(t_list_line **head)
 	t_list_line	*tmp;
 
 	if (!head)
-		return (ERR_NULL_POINTER);
+		return (err_null_pointer);
 	while (*head)
 	{
 		tmp = *head;

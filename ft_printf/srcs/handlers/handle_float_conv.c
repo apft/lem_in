@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 17:50:11 by apion             #+#    #+#             */
-/*   Updated: 2019/04/24 20:09:26 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:36:36 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,19 @@ static void	fill_str(union u_double *value, char *str, t_specs *specs)
 
 	pow_ten = float_compute_pow_ten(value, specs->flags & MOD_LD);
 	generate_bigints_num_den(value, pow_ten,
-			(t_frac){&numerator, &denominator}, specs->flags & MOD_LD);
+		(t_frac){&numerator, &denominator}, specs->flags & MOD_LD);
 	i = filler(str, specs, FILL_START);
 	if ((specs->flags & FLOAT_ROUND_TEN) && pow_ten >= -1)
 		*(str + i++) = '1';
 	i += float_fill_floor_part(str + i, pow_ten, specs->flags & FLOAT_ROUND_TEN,
-			(t_frac){&numerator, &denominator});
+		(t_frac){&numerator, &denominator});
 	if (specs->precision || (specs->flags & FLOAT_FORCE_POINT))
 		*(str + i++) = '.';
 	decimal_length = i;
 	i += float_fill_decimal_part(str + i, pow_ten, specs->precision,
-								(t_frac){&numerator, &denominator});
+		(t_frac){&numerator, &denominator});
 	float_apply_rounding_if_needed(str + i - 1, pow_ten, specs->precision,
-								(t_frac){&numerator, &denominator});
+		(t_frac){&numerator, &denominator});
 	float_fill_after(str, i, decimal_length, specs);
 }
 
@@ -53,13 +53,13 @@ static int	compute_width_arg_float(union u_double *value, t_specs *specs)
 	if (pow_ten > 0)
 		width_arg += pow_ten;
 	if (pow_ten >= -1 && float_will_round_to_ten(value, pow_ten,
-									specs->precision, specs->flags & MOD_LD))
+			specs->precision, specs->flags & MOD_LD))
 	{
 		specs->flags |= FLOAT_ROUND_TEN;
 		width_arg += (pow_ten >= 0) ? 1 : 0;
 	}
 	if ((specs->flags & PRECISION)
-			&& (specs->precision || (specs->flags & FLOAT_FORCE_POINT)))
+		&& (specs->precision || (specs->flags & FLOAT_FORCE_POINT)))
 		width_arg += 1;
 	width_arg += specs->precision;
 	return (width_arg);

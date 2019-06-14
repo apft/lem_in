@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 22:36:48 by jkettani          #+#    #+#             */
-/*   Updated: 2019/03/18 12:25:42 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:42:48 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ t_bigint		*ft_bigint_subst(const t_bigint *bigint1,
 	{
 		tmp = (t_ulint)large_nb->blocks[i] - carry;
 		carry = (((large_nb->blocks[i] > 0) || (!large_nb->blocks[i] && !carry))
-					&& (tmp >= (t_ulint)small_nb->blocks[i])) ? 0UL : 1UL;
+				&& (tmp >= (t_ulint)small_nb->blocks[i])) ? 0UL : 1UL;
 		result->blocks[i] = (t_uint)((tmp + ((carry) ? (1UL << 32) : 0UL)
-					- (t_ulint)small_nb->blocks[i]) & 0xFFFFFFFFUL);
+			- (t_ulint)small_nb->blocks[i]) & 0xFFFFFFFFUL);
 		i++;
 	}
 	result->length = ft_bigint_size(result);

@@ -51,9 +51,9 @@ struct	s_room
 
 enum	e_loop_foreach
 {
-	LOOP_BREAK = -2,
-	LOOP_CONTINUE = -1,
-	LOOP_SUCCESS = SUCCESS,
+	loop_break = -2,
+	loop_continue = -1,
+	loop_success = SUCCESS,
 };
 
 typedef struct s_env	t_env;

@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 14:59:01 by apion             #+#    #+#             */
-/*   Updated: 2019/06/12 17:21:45 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:19:12 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@ t_room	*create_empty_room(void)
 	if (!room)
 		return (0);
 	*room = (t_room){
-			(void *)0,
-			ROOM_UNDEF_VALUE,
-			ROOM_UNDEF_VALUE,
-			ROOM_UNDEF_VALUE,
-			(void *)0,
-			(void *)0,
-			(void *)0,
-			VISITED_EMPTY,
-			{COST_INF, COST_INF},
-			ROOM_EMPTY_VALUE,
-			ROOM_EMPTY_VALUE,
-			ROOM_EMPTY_VALUE};
+		(void *)0,
+		ROOM_UNDEF_VALUE,
+		ROOM_UNDEF_VALUE,
+		ROOM_UNDEF_VALUE,
+		(void *)0,
+		(void *)0,
+		(void *)0,
+		VISITED_EMPTY,
+		{COST_INF, COST_INF},
+		ROOM_EMPTY_VALUE,
+		ROOM_EMPTY_VALUE,
+		ROOM_EMPTY_VALUE};
 	return (room);
 }
 
@@ -54,8 +54,8 @@ int		get_room_id_by_name(char *str, t_env *env, int (*cmp)())
 {
 	t_array_args	array_args;
 
-	array_args = (t_array_args)
-			{env->rooms_array, sizeof(t_room *), env->nb_rooms};
+	array_args = (t_array_args){env->rooms_array, sizeof(t_room *),
+		env->nb_rooms};
 	return (ft_bsearch_id(str, &array_args, cmp));
 }
 

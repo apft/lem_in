@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 16:38:01 by apion             #+#    #+#             */
-/*   Updated: 2019/06/06 16:24:51 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 10:47:49 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,20 @@ int			atoi_pos(char *str, int *n, unsigned int context)
 	sign = 1;
 	str += jump_spaces(str);
 	if (!*str)
-		return (ERR_ATOI_EMPTY);
+		return (err_atoi_empty);
 	if (ft_issign(*str))
 		sign = *str++ == '-' ? -1 : 1;
 	if (!*str || (*str && !ft_isdigit(*str)))
-		return (ERR_ATOI_NO_DIGITS);
+		return (err_atoi_no_digits);
 	while (ft_isdigit(*str))
 	{
 		tmp = 10 * tmp + *str++ - '0';
 		if ((sign > 0 && tmp > ATOI_MAX_POS)
-				|| (sign < 0 && tmp > ATOI_MAX_NEG))
-			return (ERR_ATOI_OVERFLOW);
+			|| (sign < 0 && tmp > ATOI_MAX_NEG))
+			return (err_atoi_overflow);
 	}
 	if (!is_valid_part_after_nb(str, context))
-		return (ERR_ATOI_INVALID_CHAR);
+		return (err_atoi_invalid_char);
 	*n = (int)(sign * tmp);
 	return (SUCCESS);
 }

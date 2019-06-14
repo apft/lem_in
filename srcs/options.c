@@ -33,7 +33,7 @@ static int	update_flag(char c, t_uint *options)
 			return (SUCCESS);
 		}
 	}
-	return (ERR_INVALID_OPTION);
+	return (err_invalid_option);
 }
 
 int			get_options(int ac, char **av, t_env *env)
@@ -47,14 +47,14 @@ int			get_options(int ac, char **av, t_env *env)
 		if (av[i][0] == '-')
 		{
 			if (!av[i][1])
-				return (ERR_INVALID_OPTION);
+				return (err_invalid_option);
 			j = 0;
 			while (av[i][++j])
 				if (update_flag(av[i][j], &env->options))
-					return (ERR_INVALID_OPTION);
+					return (err_invalid_option);
 		}
 		else
-			return (ERR_INVALID_OPTION);
+			return (err_invalid_option);
 		++i;
 	}
 	return (SUCCESS);

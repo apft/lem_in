@@ -6,17 +6,16 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 18:06:53 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 12:03:19 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/13 16:22:56 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "output.h"
 #include "env.h"
-#include "libft.h"
-#include "ft_printf.h"
 #include "path.h"
 #include "print_ants.h"
 #include "options.h"
+#include "ft_printf.h"
 
 static void	print_path(t_env *env, t_room *start)
 {
@@ -79,18 +78,18 @@ void		print_output(t_env *env)
 {
 	print_lines(env->lines);
 	ft_putchar('\n');
-	if (!(env->start->flag & FL_DIRECT_TO_END))
+	if (env->start->flag & FL_DIRECT_TO_END)
+		print_ants_move_start_end(env);
+	else
 	{
+		print_all_lines_of_ants_moves(env);
 		if (env->options & OP_DEBUG)
 		{
-			ft_printf("Paths found:\n");
+			ft_printf("\nNb of ants: %d\n", env->nb_ants);
+			ft_printf("\nPaths found:\n");
 			print_paths(env);
 			ft_printf("\nPaths ordered:\n");
 			print_paths_array(env);
-			ft_printf("\nNb of ants: %d\n", env->nb_ants);
 		}
-		print_all_lines_of_ants_moves(env);
 	}
-	else
-		print_ants_move_start_end(env);
 }

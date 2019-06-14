@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/06 12:24:38 by apion             #+#    #+#             */
-/*   Updated: 2019/03/21 12:58:46 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:32:04 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			float_will_round_to_ten(union u_double *value, int pow_ten,
 	int			digit_after;
 
 	generate_bigints_num_den(value, pow_ten,
-			(t_frac){&numerator, &denominator}, flag);
+		(t_frac){&numerator, &denominator}, flag);
 	digit = get_quotient_and_substract(&numerator, &denominator);
 	pow_ten *= (pow_ten < 0) ? -1 : 1;
 	if (digit != 9)
@@ -32,14 +32,14 @@ int			float_will_round_to_ten(union u_double *value, int pow_ten,
 	digit_after = get_quotient_and_substract(&numerator, &denominator);
 	i = 0;
 	while (digit_after == 9 && i < (pow_ten + precision)
-			&& !bigint_is_null(&numerator))
+		&& !bigint_is_null(&numerator))
 	{
 		bigint_mult_int(&numerator, &numerator, 10);
 		digit_after = get_quotient_and_substract(&numerator, &denominator);
 		++i;
 	}
 	return ((digit_after >= 5 && i == (pow_ten + precision))
-			|| (digit_after > 5 && bigint_is_null(&numerator)));
+		|| (digit_after > 5 && bigint_is_null(&numerator)));
 }
 
 static int	propagate_rounding(char *str, int limit, int is_integer_part,
