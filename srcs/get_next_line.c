@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/28 16:08:28 by apion             #+#    #+#             */
-/*   Updated: 2019/06/14 11:13:16 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 12:13:26 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ ssize_t			get_next_line(const int fd, char **line, int *eol_had_newline)
 
 	if (fd < 0 || !line)
 		return (GNL_ERROR);
-	if ((gnl.index_eol = gnl.index_start 
+	if ((gnl.index_eol = gnl.index_start
 			+ memsearch(gnl.buff + gnl.index_start, gnl.buff_read
 					- gnl.index_start + 1))
 		>= gnl.index_start)
