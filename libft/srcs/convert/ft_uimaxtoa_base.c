@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 17:37:30 by jkettani          #+#    #+#             */
-/*   Updated: 2019/02/24 10:15:05 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:43:43 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char		*ft_uimaxtoa_base(uintmax_t nb, char const *base)
 		return (NULL);
 	radix = ft_strlen(base);
 	if ((digits = ft_udigits_base(nb, radix)) < 0
-			|| !(str = (char *)ft_strnew(digits)))
+		|| !(str = (char *)ft_strnew(digits)))
 		return (NULL);
 	while (digits > 0)
 	{

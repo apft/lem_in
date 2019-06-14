@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 22:47:49 by jkettani          #+#    #+#             */
-/*   Updated: 2019/03/19 10:15:52 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:42:19 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_bigint		*ft_bigint_shiftleft(t_bigint *result, t_uint shift)
 	{
 		while (--i >= (shift / block_size + 1))
 			result->blocks[i] = (result->blocks[i - (shift / block_size + 1)]
-				>> (block_size - (shift % block_size)))
+					>> (block_size - (shift % block_size)))
 				| (result->blocks[i - shift / block_size]
 					<< (shift % block_size));
 		result->blocks[i] = result->blocks[i - shift / block_size]

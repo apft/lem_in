@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/16 18:19:35 by apion             #+#    #+#             */
-/*   Updated: 2019/03/20 15:23:59 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:35:11 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static unsigned int	compute_substraction(unsigned long alpha,
 	else
 	{
 		result = (unsigned int)(
-				(1UL << BIGINT_SIZE_BLOCK) + alpha - beta - *carry);
+			(1UL << BIGINT_SIZE_BLOCK) + alpha - beta - *carry);
 		*carry = 1;
 	}
 	return (result);
@@ -71,7 +71,7 @@ void				bigint_sub(t_bigint *result, t_bigint *a, t_bigint *b)
 	t_bigint		temp;
 
 	if (bigint_is_underflow(a) || bigint_is_underflow(b)
-			|| bigint_cmp(a, b) < 0)
+		|| bigint_cmp(a, b) < 0)
 		result->blocks[BIGINT_N_BLOCKS] = BIGINT_UNDERFLOW;
 	else
 	{

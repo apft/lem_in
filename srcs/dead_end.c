@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 12:35:14 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 18:23:17 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:08:43 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	is_dead_end(t_room *current, t_room *neighbour, t_env *env)
 	while (i < env->nb_rooms)
 	{
 		if (i != current->id
-				&& has_oriented_tube_between_rooms_by_id(neighbour->id, i, env))
+			&& has_oriented_tube_between_rooms_by_id(neighbour->id, i, env))
 			return (0);
 		++i;
 	}

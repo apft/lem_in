@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 11:37:13 by apion             #+#    #+#             */
-/*   Updated: 2019/03/28 10:49:11 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:29:22 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static int	compute_width(t_specs *specs)
 	if ((specs->flags & PREFIX) && is_hexa_or_bin_conversion(specs->type))
 		specs->width_prefix += 1;
 	if (is_type(specs, OCTAL) && (specs->flags & PREFIX)
-			&& (!specs->width_arg || ((specs->flags & PRECISION)
-					&& specs->width_arg < specs->precision)))
+		&& (!specs->width_arg || ((specs->flags & PRECISION)
+				&& specs->width_arg < specs->precision)))
 	{
 		clear_flags(specs, PREFIX);
 		specs->width_prefix = 0;

@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 16:48:58 by apion             #+#    #+#             */
-/*   Updated: 2019/04/28 16:24:14 by pion             ###   ########.fr       */
+/*   Updated: 2019/06/14 11:25:03 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static int	effect_match(const char **effect, char *expected)
 	if (!effect || !*effect || !expected)
 		return (0);
 	while (**effect && *(*effect + i) != '}' && *expected
-			&& *(*effect + i) == *expected++)
+		&& *(*effect + i) == *expected++)
 		++i;
 	if (*(*effect + i) == '}' && !*expected)
 	{

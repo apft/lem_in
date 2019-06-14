@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 17:51:36 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 18:27:53 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:08:21 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int			bfs_remove_dead_end_path(t_env *env)
 		if (!current)
 			return (ERR_NULL_POINTER);
 		apply_foreach_room_linked_to_ref(current, env,
-				&queue, &search_for_dead_end);
+			&queue, &search_for_dead_end);
 	}
 	return (SUCCESS);
 }
@@ -65,7 +65,7 @@ int			bfs_max_flow(t_env *env, t_queue *queue)
 			return (ERR_NULL_POINTER);
 		current->visited = VISITED_AS_CURRENT;
 		status = apply_foreach_room_linked_to_ref(current, env,
-				queue, &search_for_valid_neighbour);
+					queue, &search_for_valid_neighbour);
 		if (status != SUCCESS)
 			return (status);
 	}

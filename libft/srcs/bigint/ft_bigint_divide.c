@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 12:04:39 by jkettani          #+#    #+#             */
-/*   Updated: 2019/03/19 10:13:45 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:40:51 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ int				ft_bigint_divide(const t_bigint *dividend,
 	if (ft_bigint_comp(dividend, &bigint_tmp) > 0)
 	{
 		while (ft_bigint_comp(dividend, ft_bigint_add(&bigint_tmp, divisor,
-														&bigint_tmp)) > 0)
+				&bigint_tmp)) > 0)
 			++res;
 		return (!ft_bigint_comp(dividend, &bigint_tmp) ? res + 1 : res);
 	}
 	if (ft_bigint_comp(dividend, &bigint_tmp) < 0)
 	{
 		while (ft_bigint_comp(dividend, ft_bigint_subst(&bigint_tmp, divisor,
-														&bigint_tmp)) < 0)
+				&bigint_tmp)) < 0)
 			--res;
 		return (res - 1);
 	}

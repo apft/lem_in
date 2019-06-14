@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 16:39:19 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 18:36:33 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:20:29 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static int	check_neighbour_with_closed_current(t_room *current,
 			return (LOOP_CONTINUE);
 		cost = internal_cost(current) + 1;
 		if (external_cost(neighbour) <= cost
-				|| internal_cost(neighbour) <= cost
-				|| (is_closed_path(neighbour) && (neighbour->dst > cost)))
+			|| internal_cost(neighbour) <= cost
+			|| (is_closed_path(neighbour) && (neighbour->dst > cost)))
 			return (LOOP_CONTINUE);
 		neighbour->cost[0] = cost;
 	}
@@ -51,7 +51,7 @@ static int	check_neighbour_with_open_current(t_room *current,
 
 	cost = external_cost(current) + 1;
 	if (is_closed_path(neighbour)
-			&& has_oriented_tube_between_rooms(env->start, neighbour, env))
+		&& has_oriented_tube_between_rooms(env->start, neighbour, env))
 		return (LOOP_CONTINUE);
 	if (external_cost(neighbour) <= cost || internal_cost(neighbour) <= cost)
 		return (LOOP_CONTINUE);
@@ -67,7 +67,7 @@ static int	check_neighbour_with_open_current(t_room *current,
 static void	update_neighbour_froms(t_room *current, t_room *neighbour)
 {
 	if (is_closed_path(neighbour)
-			&& !is_linked_on_same_path(current, neighbour))
+		&& !is_linked_on_same_path(current, neighbour))
 		neighbour->from_junction = current;
 	neighbour->from = current;
 }

@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 13:43:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 18:39:39 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:19:59 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void		compute_nb_lines(t_env *env)
 
 	sum_path_lengths = 0;
 	apply_foreach_room_linked_to_ref(env->start, env, &sum_path_lengths,
-			&compute_sum_path_lengths);
+		&compute_sum_path_lengths);
 	env->nb_lines = ((sum_path_lengths + env->nb_ants) / env->nb_paths) - 1;
 	env->nb_lines += !!((sum_path_lengths + env->nb_ants) % env->nb_paths);
 }

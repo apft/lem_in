@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 12:08:05 by jkettani          #+#    #+#             */
-/*   Updated: 2019/06/13 12:02:53 by apion            ###   ########.fr       */
+/*   Updated: 2019/06/14 11:18:19 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	sort_paths_array(t_env *env)
 	int				status;
 
 	args = (t_array_args){env->paths_array, sizeof(t_path *), env->nb_paths,
-				&cmp_array_lengths};
+		&cmp_array_lengths};
 	status = array_merge_sort(&args);
 	if (status != SUCCESS)
 		return (status);

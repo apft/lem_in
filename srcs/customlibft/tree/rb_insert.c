@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 12:11:55 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 18:29:35 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:22:59 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ static void		rotate(t_rb_node **root, t_rb_node *n, int rotation)
 	tmp->parent = n->parent;
 	if (rotation & ROTATE_LEFT)
 	{
-		*n = (t_rb_node){
-			tmp, n->left, tmp->left, n->data, n->color};
+		*n = (t_rb_node){tmp, n->left, tmp->left, n->data, n->color};
 		tmp->left = n;
 		if (n->right)
 			n->right->parent = n;
@@ -81,7 +80,7 @@ static void		repair_tree(t_rb_node **root, t_rb_node *node)
 	else if (p->color == RB_BLACK)
 		return ;
 	else if ((u = (p == p->parent->left) ? p->parent->right : p->parent->left)
-				&& u->color == RB_RED)
+		&& u->color == RB_RED)
 	{
 		p->color = RB_BLACK;
 		u->color = RB_BLACK;

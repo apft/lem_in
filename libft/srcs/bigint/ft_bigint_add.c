@@ -6,7 +6,7 @@
 /*   By: jkettani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 22:32:10 by jkettani          #+#    #+#             */
-/*   Updated: 2019/03/18 12:24:07 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:40:01 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_bigint		*ft_bigint_add(const t_bigint *bigint1, const t_bigint *bigint2,
 	while (i < max_len)
 	{
 		sum = carry + (t_ulint)bigint1->blocks[i]
-					+ (t_ulint)bigint2->blocks[i];
+			+ (t_ulint)bigint2->blocks[i];
 		result->blocks[i] = (t_uint)(sum & 0xFFFFFFFFUL);
 		carry = sum >> BIGINT_BLOCK_SIZE;
 		i++;

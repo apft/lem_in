@@ -6,7 +6,7 @@
 /*   By: apion <apion@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:57:48 by apion             #+#    #+#             */
-/*   Updated: 2019/06/13 16:15:37 by jkettani         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:06:29 by jkettani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	handle_room_or_tube(char *line, t_env *env, unsigned int *cmd_flag)
 	else
 	{
 		if ((*cmd_flag & BLK_ROOM)
-				&& (status = bake_environment(env, cmd_flag)) != SUCCESS)
+			&& (status = bake_environment(env, cmd_flag)) != SUCCESS)
 			return (status);
 		return (handle_tube(line, env, cmd_flag));
 	}
