@@ -58,15 +58,15 @@ function	run()
 			time=`grep real $tmp_out | cut -f2`
 			time_nb=`echo $time | cut -c3-7 | bc -l`
 			[ ${#@} -eq 1 ] && sum_time=`scale=3; echo "$sum_time + $time_nb" | bc -l`
-			if [ ${#bin} -lt 19 ]; then
-				printf "%4d (%+3d) %s  "  $usr $((usr-max)) $time
 			local diff=$((usr-max))
+			if [ ${#bin} -lt 19 ]; then
+				printf "%4d (%+3d) %s  "  $usr $diff $time
+			else
+				printf "%*s%4d (%+3d) %s  " $((${#bin} - 19)) "" $usr $diff $time
+			fi
 			[ ${#@} -eq 1 ] && [ "$diff" -lt "$MIN_DIFF_LINES" ] && MIN_DIFF_LINES="$diff"
 			[ ${#@} -eq 1 ] && [ "$diff" -gt "$MAX_DIFF_LINES" ] && MAX_DIFF_LINES="$diff"
 			[ ${#@} -eq 1 ] && sum_diff_lines=$((sum_diff_lines + diff))
-			else
-				printf "%*s%4d (%+3d) %s  " $((${#bin} - 19)) "" $usr $((usr-max)) $time
-			fi
 			((j++))
 		done
 		[ ${#@} -eq 1 ] && let "COMP[$((10 + usr - max))]++"
