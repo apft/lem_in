@@ -25,6 +25,31 @@ shift
 MAP=".map"
 MAP_BFR=".map_old"
 
+# Colors
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+MAGENTA='\033[1;35m'
+UNDERLINE='\033[4m'
+NC='\033[39m'
+RESET='\033[0m'
+
+function initialize_arrays()
+{
+	local i=1
+	for bin in $@
+	do
+		COMP_DIFF[$i]=0
+		COMP_NB_LINES[$i]=0
+		COMP_TIME[$i]=0
+		COMP_WIN_DIFF[$i]=0
+		COMP_BIN[$i]="$bin"
+		((i++))
+	done
+
+}
+
 function initialize_array_comp()
 {
 	for i in {0..20}
@@ -45,12 +70,69 @@ function generate_new_map()
 
 function print_header()
 {
-	printf "        exp  "
+	printf "${UNDERLINE}        exp ${NC}"
 	for bin in $@
 	do
-		printf "%*s  " 19 $bin
+		printf "${UNDERLINE}%*s  ${RESET}" 19 $bin
 	done
 	printf "\n"
+}
+
+function get_value_winner_diff()
+{
+	local min="${COMP_DIFF[1]}"
+
+	for i in `seq ${#@}`
+	do
+		if [ "${COMP_DIFF[$i]}" -lt "$min" ];then
+			min="${COMP_DIFF[$i]}"
+		fi
+	done
+	printf "%d" $min
+}
+
+function get_value_winner_time()
+{
+	local min="${COMP_TIME[1]}"
+
+	for i in `seq ${#@}`
+	do
+		local compare=`echo "${COMP_TIME[$i]} < $min" | bc -l`
+		if  [ $compare -eq 1 ];then
+			min="${COMP_TIME[$i]}"
+		fi
+	done
+	printf "%.3f" $min
+}
+
+function print_result_line()
+{
+	[ ${#@} -gt 1 ] && local value_winner_diff=`get_value_winner_diff $@`
+	[ ${#@} -gt 1 ] && local value_winner_time=`get_value_winner_time $@`
+
+	for i in `seq ${#@}`
+	do
+		if [ "${COMP_DIFF[$i]}" -gt 0 ]; then
+			marker_diff=${RED}
+		elif [ ${#@} -gt 1 ] && [ "${COMP_DIFF[$i]}" -eq "$value_winner_diff" ]; then
+			marker_diff=${GREEN}
+			((COMP_WIN_DIFF[$i]++))
+		else
+			marker_diff=${NC}
+		fi
+		[ ${#@} -gt 1 ] && local compare_time=`echo "${COMP_TIME[$i]} == $value_winner_time" | bc -l`
+		if [ ${#@} -gt 1 ] && [ $compare_time -eq 1 ]; then
+			marker_time=${GREEN}
+		else
+			marker_time=${NC}
+		fi
+		if [ ${#COMP_BIN[$i]} -lt 19 ]; then
+			printf "%4d ${marker_diff}(%+3d)${NC} ${marker_time}0m%.3fs${NC}  "  ${COMP_NB_LINES[$i]} ${COMP_DIFF[$i]} ${COMP_TIME[$i]}
+		else
+			printf "%*s%4d ${marker_diff}(%+3d)${NC} ${marker_time}0m%.3fs${NC}  " $((${#COMP_BIN[$i]} - 19)) "" ${COMP_NB_LINES[$i]} ${COMP_DIFF[$i]} ${COMP_TIME[$i]}
+		fi
+		printf "${NC}"
+	done
 }
 
 function	run()
@@ -67,7 +149,8 @@ function	run()
 		generate_new_map
 		max=`tail -n 1 $MAP | cut -d ':' -f 2 | bc`
 		printf "%4d : %4d  " $i $max
-		j=0
+		j=1
+		COMP_NB_LINES[0]=$max
 		for bin in $@
 		do
 			{ time $bin < $MAP; } > $tmp_out 2>&1
@@ -75,18 +158,17 @@ function	run()
 			time=`grep real $tmp_out | cut -f2`
 			time_nb=`echo $time | cut -c3-7 | bc -l`
 			[ ${#@} -eq 1 ] && sum_time=`scale=3; echo "$sum_time + $time_nb" | bc -l`
-			if [ ${#bin} -lt 19 ]; then
-				printf "%4d (%+3d) %s  "  $usr $((usr-max)) $time
 			local diff=$((usr-max))
+			COMP_DIFF[$j]="$diff"
+			COMP_NB_LINES[$j]="$usr"
+			COMP_TIME[$j]="$time_nb"
 			[ ${#@} -eq 1 ] && [ "$diff" -lt "$MIN_DIFF_LINES" ] && MIN_DIFF_LINES="$diff"
 			[ ${#@} -eq 1 ] && [ "$diff" -gt "$MAX_DIFF_LINES" ] && MAX_DIFF_LINES="$diff"
 			[ ${#@} -eq 1 ] && sum_diff_lines=$((sum_diff_lines + diff))
-			else
-				printf "%*s%4d (%+3d) %s  " $((${#bin} - 19)) "" $usr $((usr-max)) $time
-			fi
 			((j++))
 		done
 		[ ${#@} -eq 1 ] && let "COMP[$((10 + usr - max))]++"
+		print_result_line $@
 		mv $MAP ${MAP_BFR}
 		printf "\n"
 	done
@@ -125,6 +207,59 @@ function	print_axis()
 	printf "\n"
 }
 
+function	get_value_winner()
+{
+	local max="${COMP_WIN_DIFF[1]}"
+	for i in `seq ${#@}`
+	do
+		if [ "${COMP_WIN_DIFF[$i]}" -gt "$max" ]; then
+			max="${COMP_WIN_DIFF[$i]}"
+		fi
+	done
+	printf "%d" $max
+}
+
+function	print_winners()
+{
+	local	value_winner=`get_value_winner $@`
+	local	is_tie=`is_this_a_tie $value_winner $@`
+
+	printf "\n"
+	if [ $is_tie -eq 1 ]; then
+		printf "🏆  THIS IS A TIE! THE WINNERS ARE "
+	else
+		printf "🏆  THE WINNER IS"
+	fi
+	for i in `seq ${#@}`
+	do
+		if [ "${COMP_WIN_DIFF[$i]}" -eq "$value_winner" ];then
+			printf " ${GREEN}%s${NC}" "${COMP_BIN[$i]}"
+			if [ $is_tie -eq 0 ]; then
+				break
+			fi
+		fi
+	done
+	printf " 🏆 \n"
+}
+
+function	is_this_a_tie()
+{
+	local	value_winner=$1
+	local	nb_occur=0
+	shift
+	for i in `seq ${#@}`
+	do
+		if [ "${COMP_WIN_DIFF[$i]}" -eq "$value_winner" ];then
+			((nb_occur++))
+		fi
+		if [ $nb_occur -gt 1 ]; then
+			printf "%d" 1
+			return
+		fi
+	done
+	printf "%d" 0
+}
+
 function	print_summary()
 {
 	print_graph
@@ -140,7 +275,6 @@ function	print_summary()
 touch $MAP ${MAP_BFR}
 
 initialize_array_comp
+initialize_arrays $@
 run $@
-[ ${#@} -eq 1 ] && print_summary
-
-rm ${MAP_BFR}
+[ ${#@} -eq 1 ] && print_summary || print_winners $@
