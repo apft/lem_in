@@ -125,3 +125,8 @@ ERROR: (-230) [env] no start defined
 - Elements of **graph theory**: maximum flow problems, graph search algorithms
 - **Red-black trees**: we use them during the parsing to reduce the time complexity when checking for errors such as duplicated rooms
 - **Binary search** algorithm
+
+## References
+
+- https://cp-algorithms.com/
+- Max flow problem and augmenting path algorithm: http://www.ifp.illinois.edu/~angelia/ge330fall09_maxflowl20.pdf
