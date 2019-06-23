@@ -22,6 +22,7 @@ connections
 - __*Connections*__: `room_name_1-room_name_2`
 
 __*Comments*__ can be added. They start with the character `#`.
+
 __Special commands__ that characterize the following line start with `##`. For example, the `##start` command indicates the entrance room and the `##end` command the exit room.
 
 Example:
@@ -41,6 +42,7 @@ room_B-room_D
 room_C-room_D
 ```
 This represents the following graph:
+
 ![Visu graph example](images/graph_example.png)
 
 ### Rules
@@ -48,7 +50,7 @@ This represents the following graph:
 - Unkown commands are ignored.
 - A room name cannot start with the letter `L`
 - If a wrongly formated line is found, the parsing stops and the solver is launched with the available data.
-- If there is not enought data to find a solution, the program should print `ERROR`.
+- If there is not enough data to find a solution, the program should print `ERROR`.
 - Each room can contain **only one ant**
 
 ### Output
@@ -60,6 +62,8 @@ rooms
 connections
 
 Lx-room_A Ly-room_B Lz-room_C
+...
+...
 ```
 Where x, y and z are ants numbers (from 1 to *number_of_ants*).
 
