@@ -4,6 +4,10 @@ The __*lem-in*__ project at [42](https://www.42.fr/) consists in writing a progr
 
 It serves as an introduction to graph theory and maximum flow problems.
 
+###### Keywords: *`graph theory` `max flow` `red black tree` `binary search` `optimization`*
+
+[42]: https://www.42.fr/
+
 ## Compiling
 Run `make`. An executable named **_lem-in_** will be compiled.
 
